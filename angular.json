@@ -90,6 +90,32 @@
           "defaultConfiguration": "development"
         }
       }
+    },
+    "infra": {
+      "projectType": "library",
+      "root": "projects/infra",
+      "sourceRoot": "projects/infra/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/infra/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/infra/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/infra/tsconfig.spec.json"
+          }
+        }
+      }
     }
   }
 }

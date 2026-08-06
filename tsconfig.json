@@ -5,6 +5,9 @@
   "compilerOptions": {
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
+    "paths": {
+      "infra": ["./dist/infra"]
+    },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
@@ -23,6 +26,12 @@
   "references": [
     {
       "path": "./projects/process-app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/infra/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/infra/tsconfig.spec.json"
     }
   ]
 }
