@@ -1,0 +1,1 @@
+export type UntilStep = 'DECISION' | 'APPROVAL_AUTHORITY';

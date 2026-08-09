@@ -1,0 +1,13 @@
+export type TaskName =
+    'CLERK' | 
+    'APPROVAL' | 
+    'SUSPENDED_MASAV' | 
+    'CANCELED' | 
+    'COMPLETED' | 
+    'LOAN_PROCESS_CLOSING_TASK' |
+    'CLAIM_DETAILS' |
+    'DOCTOR_DECISION' |
+    'REFERANT' |
+    'APPROVAL_PROCESSING' |
+    'SUSPENDED_DOCS_REFERANT' | 
+    'CONSULTING';
