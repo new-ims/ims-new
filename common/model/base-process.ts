@@ -31,8 +31,10 @@ export interface BaseProcess {
   readonly agent: Agent; // extends Person
   readonly transmission: Model.Transmission;
   readonly digitalMessagesStatuList: Model.DigitalMessagesStatus[];
+  readonly rejection: Model.Rejection;
+  readonly insured: Model.Insured | null;
+
   
-  readonly insured: Insured;
   readonly documentsPackage: DocumentsPackage;
   readonly creatorId: ScaledNumber;
   readonly clerkSerialNum: ScaledNumber;

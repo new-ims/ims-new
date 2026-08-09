@@ -4,6 +4,9 @@ import { NursingClaimProcess } from './nursing-claim-process';
 export type { Transmission } from './transmission';
 export type { DigitalMessagesStatus } from './digital-messages-status';
 export type { Company } from './company';
+export type { RejectionCode } from './rejection-code';
+export type { Rejection } from './rejection';
+export type { IdentityType } from './identity-type';
 
 export type { Address } from './address';
 export type { Agent } from './agent';
