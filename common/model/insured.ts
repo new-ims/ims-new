@@ -33,6 +33,18 @@ export interface Insured {
   readonly electronicMailingCodeDescription: string;
   readonly address: Model.Address;
   readonly fatcaInfo: Model.FATCAInfo;
+  readonly selfEmployedCode: number;
+  readonly selfEmployedCodeDate: number;
+  readonly statusCode: number;
+  readonly statusDescription: string;
+  readonly statusDate: number;
+  readonly ageProof: string;
+  readonly fatherName: string;
+  readonly title: string;
+  readonly healthMaintenanceOrganizationCode: number;
+  readonly healthMaintenanceOrganizationDescription: string;
+  readonly previousLastName: string;
+  
 
   readonly company: string;
   readonly digitalConnectionAgreement: number;
@@ -43,5 +55,4 @@ export interface Insured {
   readonly sendingMarketingEmail: number;
   readonly sendingMarketingMail: number;
   readonly seniorCitizen: boolean;
-  readonly statusCode: number;
 }
