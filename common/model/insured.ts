@@ -31,11 +31,11 @@ export interface Insured {
   readonly email2: string;
   readonly electronicMailingCode: boolean;
   readonly electronicMailingCodeDescription: string;
+  readonly address: Model.Address;
+  readonly fatcaInfo: Model.FATCAInfo;
 
-  readonly address: Address;
   readonly company: string;
   readonly digitalConnectionAgreement: number;
-  readonly fatcaInfo: FATCAInfo;
   readonly isGovBirthDateMissing: boolean;
   readonly joseCitizen: number;
   readonly missing: boolean;
