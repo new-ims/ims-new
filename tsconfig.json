@@ -6,7 +6,15 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "infra": ["./dist/infra"]
+      "@common/api" : [
+        "./projects/common/api"
+      ], 
+      "@common/models" : [
+        "./projects/common/models"
+      ], 
+      "@common/utils" : [
+        "./projects/common/utils"
+      ]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
