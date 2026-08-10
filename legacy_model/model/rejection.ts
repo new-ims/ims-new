@@ -1,4 +1,4 @@
-import { Model } from '../model';
+import { Model } from '.';
 
 export interface Rejection {
   readonly rejectionReason: string | null;
