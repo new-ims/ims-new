@@ -1,1 +1,2 @@
-export * from './external-login.api';
+import * as Api from './_types';
+export { Api };

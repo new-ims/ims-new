@@ -4,7 +4,7 @@ export interface ExternalLoginInput {
   readonly sessionManagerId: string;
 }
 
-export interface ExternalLoginOutput<MAPPER extends ProcessMapper, Key extends ProcessTypeKeys<MAPPER>> {
-  readonly processType: Key;
+export interface ExternalLoginOutput<MAPPER extends ProcessMapper> {
+  readonly processType: ProcessTypeKeys<MAPPER>;
   readonly processKey: string;
 }

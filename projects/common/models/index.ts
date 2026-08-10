@@ -1,1 +1,2 @@
-export * from './core.types';
+import * as Model from './_types';
+export { Model };
