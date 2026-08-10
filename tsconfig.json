@@ -8,7 +8,9 @@
     "paths": {
       "@common/api": ["./projects/common/api"],
       "@common/models": ["./projects/common/models"],
-      "@common/utils": ["./projects/common/utils"]
+      "@common/utils": ["./projects/common/utils"], 
+      "@infra": ["./projects/infra"],
+      "@fake-models": ["./projects/fake-models"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

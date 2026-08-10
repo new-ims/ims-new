@@ -3,6 +3,6 @@ import { HolidayProcess } from "./holiday-process";
 import { RadiantHealthProcess } from "./radiant-health-process";
 
 
-export type Processes = [HolidayProcess, RadiantHealthProcess];
+export type FakeProcesses = [HolidayProcess, RadiantHealthProcess];
 
-export type ProcessTypeKey = Model.ProcessTypeKeys<Processes>;
+export type FakeProcessTypeKey = Model.ProcessTypeKeys<FakeProcesses>;
