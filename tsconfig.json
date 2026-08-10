@@ -30,8 +30,5 @@
     {
       "path": "./projects/infra/tsconfig.lib.json"
     },
-    {
-      "path": "./projects/infra/tsconfig.spec.json"
-    }
   ]
 }
