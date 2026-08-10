@@ -1,9 +1,8 @@
-import { ProcessTypeKeys } from "@common/models";
-import { BrokenLegsProcess } from "./broken-legs-process";
-import { TornLigamentsProcess } from "./torn-ligaments-process";
-import type { ExternalLoginOutput } from "@common/api";
+import { Model } from "@common/models";
+import { HolidayProcess } from "./holiday-process";
+import { RadiantHealthProcess } from "./radiant-health-process";
 
 
-export type Processes = [BrokenLegsProcess, TornLigamentsProcess];
+export type Processes = [HolidayProcess, RadiantHealthProcess];
 
-export type ProcessTypeKey = ProcessTypeKeys<Processes>;
+export type ProcessTypeKey = Model.ProcessTypeKeys<Processes>;
