@@ -6,15 +6,9 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "@common/api" : [
-        "./projects/common/api"
-      ], 
-      "@common/models" : [
-        "./projects/common/models"
-      ], 
-      "@common/utils" : [
-        "./projects/common/utils"
-      ]
+      "@common/api": ["./projects/common/api"],
+      "@common/models": ["./projects/common/models"],
+      "@common/utils": ["./projects/common/utils"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -28,7 +22,8 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   },
   "files": [],
   "references": [
