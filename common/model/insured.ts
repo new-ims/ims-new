@@ -46,13 +46,13 @@ export interface Insured {
   readonly previousLastName: string;
   
 
-  readonly company: string;
-  readonly digitalConnectionAgreement: number;
-  readonly isGovBirthDateMissing: boolean;
-  readonly joseCitizen: number;
-  readonly missing: boolean;
-  readonly position: CodeValue | null;
-  readonly sendingMarketingEmail: number;
-  readonly sendingMarketingMail: number;
-  readonly seniorCitizen: boolean;
+  // readonly company: string;
+  // readonly digitalConnectionAgreement: number;
+  // readonly isGovBirthDateMissing: boolean;
+  // readonly joseCitizen: number;
+  // readonly missing: boolean;
+  // readonly position: CodeValue | null;
+  // readonly sendingMarketingEmail: number;
+  // readonly sendingMarketingMail: number;
+  // readonly seniorCitizen: boolean;
 }

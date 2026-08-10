@@ -28,22 +28,22 @@ export interface BaseProcess {
   readonly taskNamePrevious: TaskName;
   readonly selectedTab: string;
   readonly requestDate: number;
-  readonly agent: Agent; // extends Person
+  // readonly agent: Agent; // extends Person
   readonly transmission: Model.Transmission;
   readonly digitalMessagesStatuList: Model.DigitalMessagesStatus[];
   readonly rejection: Model.Rejection;
   readonly insured: Model.Insured | null;
 
   
-  readonly documentsPackage: DocumentsPackage;
-  readonly creatorId: ScaledNumber;
-  readonly clerkSerialNum: ScaledNumber;
-  readonly clerkId: ScaledNumber;
-  readonly messages: Model.Message[];
-  readonly kycIncomeSourceRequired: boolean;
-  readonly kycIndirect: boolean;
-  readonly kycRequired: boolean;
-  readonly isInsuredVerified: boolean;
-  readonly isDocoumentArrived: boolean;
-  readonly superClaim: BaseSuperClaim;
+  // readonly documentsPackage: DocumentsPackage;
+  // readonly creatorId: ScaledNumber;
+  // readonly clerkSerialNum: ScaledNumber;
+  // readonly clerkId: ScaledNumber;
+  // readonly messages: Model.Message[];
+  // readonly kycIncomeSourceRequired: boolean;
+  // readonly kycIndirect: boolean;
+  // readonly kycRequired: boolean;
+  // readonly isInsuredVerified: boolean;
+  // readonly isDocoumentArrived: boolean;
+  // readonly superClaim: BaseSuperClaim;
 }
