@@ -9,8 +9,8 @@
       "@common/api": ["./projects/common/api"],
       "@common/models": ["./projects/common/models"],
       "@common/utils": ["./projects/common/utils"], 
-      "@infra": ["./projects/infra"],
-      "@fake-models": ["./projects/fake-models"]
+      "@infra": ["./projects/infra/src/public-api.ts"],
+      "@fake-models": ["./projects/fake-models/models"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
