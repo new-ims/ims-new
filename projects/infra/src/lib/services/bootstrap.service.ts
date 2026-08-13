@@ -15,6 +15,9 @@ export class BootstrapService {
 
     const config = await this.loadConfig(loginOutput.processType);
     console.log('config', config);
+
+    const processOutput = await this.loadProcess(loginOutput.processType, loginOutput.processKey);
+    console.log('processOutput', processOutput);
   }
 
   async login() {
@@ -29,5 +32,13 @@ export class BootstrapService {
     const configFactory = await this.#registry[processType]();
     const config = await configFactory();
     return config;
+  }
+
+  async loadProcess(processType: string, processKey: string) {
+    const processOutput = await this.#api.getProcess({
+      processType,
+      processKey,
+    });
+    return processOutput;
   }
 }
