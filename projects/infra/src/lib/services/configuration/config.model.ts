@@ -36,8 +36,9 @@ export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.Proces
 export type ProcessConfigFactory<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> = 
     () => ProcessConfig<MAPPER, Key>;
 
-export type ConfigRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMapper> =
-    <Key extends Model.ProcessTypeKeys<MAPPER>>(processType: Key) 
-        => Promise<ProcessConfigFactory<MAPPER, Key>>;
+// define ConfigRegistry as a mapping of processType to ProcessConfigFactory
+export type ConfigRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMapper> = {
+    [K in Model.ProcessTypeKeys<MAPPER>]: () => Promise<ProcessConfigFactory<MAPPER, K>>;
+};
 
-export const REGISTRY_TOKEN = new InjectionToken<ConfigRegistry>('REGISTRY_TOKEN');
+export const CONFIG_REGISTRY_TOKEN = new InjectionToken<ConfigRegistry>('CONFIG_REGISTRY_TOKEN');

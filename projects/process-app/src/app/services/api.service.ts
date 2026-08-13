@@ -11,7 +11,7 @@ export class ApiService implements ApiServiceBase<FakeModels.FakeProcesses> {
     async login(input: Api.LoginInput): Promise<Api.LoginOutput<FakeModels.FakeProcesses>> {
         await delay(1000); // Simulate network delay
         const processes = MOCK_PROCESSES;
-        const key = input.params['processKey'];
+        const key = input.params['key'];
         const process = processes.find(p => p.processKey === key) ?? processes[0];
         return {
             processKey: process.processKey,
