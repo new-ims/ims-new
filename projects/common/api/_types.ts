@@ -1,1 +1,1 @@
-export type { ExternalLoginInput, ExternalLoginOutput } from "./external-login.api";
+export * from './login.api';

@@ -6,10 +6,10 @@ import { Api } from "@common/api";
 
 @Service() 
 export class ApiService implements ApiServiceBase<FakeModels.FakeProcesses> {
-    async externalLogin(input: Api.ExternalLoginInput): Promise<Api.ExternalLoginOutput<FakeModels.FakeProcesses>> {
+    async login(input: Api.LoginInput): Promise<Api.LoginOutput<FakeModels.FakeProcesses>> {
         console.log("ApiService.externalLogin called with input:", input);
         return {
-            processKey: 'blablabla', 
+            processKey: '501275', 
             processType: 'holiday'
         }
     }
