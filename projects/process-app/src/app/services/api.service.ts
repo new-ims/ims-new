@@ -3,7 +3,7 @@ import { ApiServiceBase } from '@infra';
 import { FakeModels } from '@fake-models';
 import { Api } from '@common/api';
 import { delay } from '@common/utils';
-import { MOCK_PROCESSES } from '../../mock/processes';
+import { MOCK_PROCESSES } from '../../mock-data/processes';
 
 @Service()
 export class ApiService implements ApiServiceBase<FakeModels.FakeProcesses> {

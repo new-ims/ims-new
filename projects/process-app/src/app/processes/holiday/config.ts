@@ -1,9 +1,7 @@
-import { FakeModels } from "@fake-models";
-import { ProcessConfig } from "@infra";
+import { fakes } from "../../../processes-models";
 
-export const config: () => ProcessConfig<FakeModels.FakeProcesses, 'holiday'> = () => ({
-    processType: 'holiday',
+export const holidayConfig = fakes.config('holiday', () => ({
     processName: 'Holiday Process',
     steps: [], 
     infos: []
-});
+}));

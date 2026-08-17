@@ -8,8 +8,8 @@ export const appConfig: ApplicationConfig = {
     provideInfra(
       withApi(ApiService), 
       withConfigs({
-        'holiday': () => import('./processes/holiday/config').then(m => m.config),
-        'radiant-health': () => import('./processes/radiant-health/config').then(m => m.config)
+        'holiday': () => import('./processes/holiday/config').then(m => m.holidayConfig),
+        'radiant-health': () => import('./processes/radiant-health/config').then(m => m.radiantHealthConfig)
       })
     ),
   ],

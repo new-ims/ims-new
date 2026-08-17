@@ -29,8 +29,7 @@ export class BootstrapService {
   }
 
   async loadConfig(processType: string): Promise<ProcessConfig> {
-    const configFactory = await this.#registry[processType]();
-    const config = await configFactory();
+    const config = await this.#registry[processType]();
     return config;
   }
 
