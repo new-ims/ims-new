@@ -34,12 +34,12 @@
   }, 
     "overrides": {
     "@ngrx/signals": {
-      "@angular/common": "22.1.0",
-      "@angular/core": "22.1.0"
+      "@angular/common": "^22.1.0",
+      "@angular/core": "^22.1.0"
     },
     "@angular-architects/ngrx-toolkit": {
-      "@angular/common": "22.1.0",
-      "@angular/core": "22.1.0"
+      "@angular/common": "^22.1.0",
+      "@angular/core": "^22.1.0"
     }
   }
 
