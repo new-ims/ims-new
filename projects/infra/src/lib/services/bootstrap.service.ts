@@ -2,11 +2,13 @@ import { inject, Service } from '@angular/core';
 import { API_SERVICE_TOKEN } from './injected/api';
 import { getUrlParams } from '@common/utils';
 import { ProcessConfig, CONFIG_REGISTRY_TOKEN } from './configuration/config.model';
+import { ConfigStore } from '../stores/config/config.store';
 
 @Service()
 export class BootstrapService {
   readonly #api = inject(API_SERVICE_TOKEN);
   readonly #registry = inject(CONFIG_REGISTRY_TOKEN);
+  readonly #configStore = inject(ConfigStore);
 
     
   async start() {
@@ -18,6 +20,9 @@ export class BootstrapService {
 
     const processOutput = await this.loadProcess(loginOutput.processType, loginOutput.processKey);
     console.log('processOutput', processOutput);
+
+    // set the stores
+    this.#configStore.setConfig(config, false);
   }
 
   async login() {

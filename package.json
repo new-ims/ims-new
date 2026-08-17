@@ -17,6 +17,8 @@
     "@angular/forms": "^22.1.0",
     "@angular/platform-browser": "^22.1.0",
     "@angular/router": "^22.1.0",
+    "@ngrx/signals": "^21.1.1",
+    "@angular-architects/ngrx-toolkit": "^21.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -29,5 +31,16 @@
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
+  }, 
+    "overrides": {
+    "@ngrx/signals": {
+      "@angular/common": "22.1.0",
+      "@angular/core": "22.1.0"
+    },
+    "@angular-architects/ngrx-toolkit": {
+      "@angular/common": "22.1.0",
+      "@angular/core": "22.1.0"
+    }
   }
+
 }

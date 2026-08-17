@@ -21,6 +21,7 @@ export interface ProcessStep<MAPPER extends Model.ProcessMapper, Key extends Mod
     readonly id: number;
     readonly name: string;
     readonly label: string;
+    readonly alwaysEnabled?: boolean;
     readonly component: Type<any>;
     readonly onEnter?: OnEnterHook<MAPPER, Key>;
     readonly onComplete?: OnCompleteHook<MAPPER, Key>;

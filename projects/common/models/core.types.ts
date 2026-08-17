@@ -11,4 +11,4 @@ export type ProcessOf<MAPPER extends ProcessMapper, Key extends ProcessTypeKeys<
   { processType: Key }
 >;
 
-export type ProcessType<T extends BaseProcess> = T['processType'];
+export type ProcessType<T extends BaseProcess = BaseProcess> = T['processType'];
