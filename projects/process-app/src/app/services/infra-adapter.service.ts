@@ -1,13 +1,13 @@
 import { Service } from '@angular/core';
-import { ApiServiceBase } from '@infra';
 import { FakeModels } from '@fake-models';
-import { Api } from '@common/api';
 import { delay } from '@common/utils';
 import { MOCK_PROCESSES } from '../../mock-data/processes';
+import type { InfraAdapterBase } from '@infra';
+import { Adapter } from '@common/adapter';
 
 @Service()
-export class ApiService implements ApiServiceBase<FakeModels.FakeProcesses> {
-  async login(input: Api.LoginInput): Promise<Api.LoginOutput<FakeModels.FakeProcesses>> {
+export class InfraAdapterService implements InfraAdapterBase<FakeModels.FakeProcesses> {
+  async login(input: Adapter.LoginInput): Promise<Adapter.LoginOutput<FakeModels.FakeProcesses>> {
     await delay(1000); // Simulate network delay
     const processes = MOCK_PROCESSES;
     const key = input.params['key'];
@@ -19,8 +19,8 @@ export class ApiService implements ApiServiceBase<FakeModels.FakeProcesses> {
   }
 
   async getProcess(
-    input: Api.GetProcessInput<FakeModels.FakeProcesses>,
-  ): Promise<Api.GetProcessOutput<FakeModels.FakeProcesses>> {
+    input: Adapter.GetProcessInput<FakeModels.FakeProcesses>,
+  ): Promise<Adapter.GetProcessOutput<FakeModels.FakeProcesses>> {
     const process = MOCK_PROCESSES.find((p) => p.processType === input.processType && p.processKey === input.processKey);
     if (!process) {
       throw new Error(`Process not found for type: ${input.processType} and key: ${input.processKey}`);

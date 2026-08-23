@@ -1,12 +1,12 @@
 import { inject, Service } from '@angular/core';
-import { API_SERVICE_TOKEN } from './injected/api';
 import { getUrlParams } from '@common/utils';
 import { ProcessConfig, CONFIG_REGISTRY_TOKEN } from './configuration/config.model';
 import { ConfigStore } from '../stores/config/config.store';
+import { INFRA_ADAPTER_TOKEN } from './injected/infra-adapter';
 
 @Service()
-export class BootstrapService {
-  readonly #api = inject(API_SERVICE_TOKEN);
+  export class BootstrapService {
+  readonly #adapter = inject(INFRA_ADAPTER_TOKEN);
   readonly #registry = inject(CONFIG_REGISTRY_TOKEN);
   readonly #configStore = inject(ConfigStore);
 
@@ -27,7 +27,7 @@ export class BootstrapService {
 
   async login() {
     const params = getUrlParams();
-    const login = await this.#api.login({
+    const login = await this.#adapter.login({
       params,
     });
     return login;
@@ -39,7 +39,7 @@ export class BootstrapService {
   }
 
   async loadProcess(processType: string, processKey: string) {
-    const processOutput = await this.#api.getProcess({
+    const processOutput = await this.#adapter.getProcess({
       processType,
       processKey,
     });

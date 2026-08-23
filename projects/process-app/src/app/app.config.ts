@@ -1,12 +1,12 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideInfra, withApi, withConfigs } from '@infra';
-import { ApiService } from './services/api.service';
+import { provideInfra, withAdapter, withConfigs } from '@infra';
+import { InfraAdapterService } from './services/infra-adapter.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(), 
     provideInfra(
-      withApi(ApiService), 
+      withAdapter(InfraAdapterService), 
       withConfigs({
         'holiday': () => import('./processes/holiday/config').then(m => m.holidayConfig),
         'radiant-health': () => import('./processes/radiant-health/config').then(m => m.radiantHealthConfig)
@@ -14,12 +14,3 @@ export const appConfig: ApplicationConfig = {
     ),
   ],
 };
-
-
-// provideInfra<FakeProcesses>(
-//   withApi(ApiService), 
-//   withConfigs({
-//      'holiday': () => import('./processes/holiday/config').then(m => m.config), 
-//      'radiant-health': () => import('./processes/radiant-health/config').then(m => m.config)
-//   })
-// )

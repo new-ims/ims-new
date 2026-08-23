@@ -6,7 +6,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "@common/api": ["./projects/common/api"],
+      "@common/adapter": ["./projects/common/adapter"],
       "@common/models": ["./projects/common/models"],
       "@common/utils": ["./projects/common/utils"], 
       "@infra": ["./projects/infra/src/public-api.ts"],
