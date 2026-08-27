@@ -2,7 +2,7 @@ import { DefaultStep } from "../../components/process/default-step/default-step"
 import { ProcessConfig } from "../../services/configuration/config.model";
 import { ConfigVm, emptyConfigVm, InfoTabVm, StepTabVm } from "./config.vm";
 
-export function configVmFromSlice(processConfig: ProcessConfig | null): Partial<ConfigVm> {
+export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm {
     if (!processConfig) return emptyConfigVm;
     
     const infoTabs: InfoTabVm[] = processConfig.infos.map(info => ({
