@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { ConfigStore } from '@infra';
+import { Component, computed } from '@angular/core';
+import { FakeModels } from '@fake-models';
+import { injectProcessStore } from '@infra';
 import { Shared } from '@infra';
 
 @Component({
@@ -9,7 +10,7 @@ import { Shared } from '@infra';
   styleUrl: './app.scss',
 })
 export class App {
-  readonly configStore = inject(ConfigStore);
+  readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>()
 
-  readonly tabs = computed(() => this.configStore.configVm().stepTabs);
+  readonly tabs = computed(() => this.#processStore.processVm().stepTabs);
 }
