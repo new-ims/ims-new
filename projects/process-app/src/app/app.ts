@@ -10,7 +10,7 @@ import { Shared } from '@infra';
   styleUrl: './app.scss',
 })
 export class App {
-  readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>()
+  readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>();
 
   readonly tabs = computed(() => this.#processStore.processVm().stepTabs);
 }
