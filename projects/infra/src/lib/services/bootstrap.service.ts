@@ -3,12 +3,14 @@ import { getUrlParams } from '@common/utils';
 import { ProcessConfig, CONFIG_REGISTRY_TOKEN } from './configuration/config.model';
 import { ConfigStore } from '../stores/config/config.store';
 import { INFRA_ADAPTER_TOKEN } from './injected/infra-adapter';
+import { ProcessStore } from '../stores/process/process.store';
 
 @Service()
   export class BootstrapService {
   readonly #adapter = inject(INFRA_ADAPTER_TOKEN);
   readonly #registry = inject(CONFIG_REGISTRY_TOKEN);
   readonly #configStore = inject(ConfigStore);
+  readonly #processStore = inject(ProcessStore);
 
     
   async start() {
@@ -23,6 +25,8 @@ import { INFRA_ADAPTER_TOKEN } from './injected/infra-adapter';
 
     // set the stores
     this.#configStore.setConfig(config);
+    const process = processOutput.process;
+    this.#processStore.resetProcess(process);
   }
 
   async login() {
