@@ -22,7 +22,7 @@ import { INFRA_ADAPTER_TOKEN } from './injected/infra-adapter';
     console.log('processOutput', processOutput);
 
     // set the stores
-    this.#configStore.setConfig(config, false);
+    this.#configStore.setConfig(config);
   }
 
   async login() {
