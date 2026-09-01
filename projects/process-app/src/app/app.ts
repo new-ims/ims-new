@@ -12,5 +12,7 @@ import { Shared } from '@infra';
 export class App {
   readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>();
 
-  readonly tabs = computed(() => this.#processStore.processVm().stepTabs);
+  readonly tabs = computed(() => 
+      this.#processStore.stepsVm());
+
 }

@@ -5,7 +5,7 @@ import { Model } from '@common/models';
 import { Override } from '@common/utils';
 import { computed, inject } from '@angular/core';
 import { ConfigStore } from '../config/config.store';
-import { buildProcessVm } from './process.vm-builder';
+import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -14,7 +14,8 @@ export const ProcessStore = signalStore(
     _configVm: inject(ConfigStore).configVm
   })),
   withComputed(store => ({
-    processVm: computed(() => buildProcessVm(store._configVm())),
+    stepsVm: computed(() => buildProcessStepsVm(
+    )),
   })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
