@@ -1,4 +1,4 @@
-import { signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
+import { DeepSignal, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
 import { initialProcessSlice } from './process.slice';
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';
@@ -14,8 +14,7 @@ export const ProcessStore = signalStore(
     _configVm: inject(ConfigStore).configVm
   })),
   withComputed(store => ({
-    stepsVm: computed(() => buildProcessStepsVm(
-    )),
+    stepsVm: computed(() => buildProcessStepsVm()),
   })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
@@ -31,7 +30,7 @@ export type KnownProcessStore<
 > = Override<
   InstanceType<typeof ProcessStore>,
   {    
-    process: Model.ProcessOf<MAPPER, Key>;
+    process: DeepSignal<Model.ProcessOf<MAPPER, Key>>;
     resetProcess: (process: Model.ProcessOf<MAPPER, Key>) => void;
   }
 >;
