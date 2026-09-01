@@ -1,6 +1,11 @@
 import { ProcessStepsVm } from "./steps.vm";
 
-export function buildProcessStepsVm(): ProcessStepsVm {
+export function buildProcessStepsVm(
+    dataFromProcess: {
+    }, 
+    dataFromConfig: {}): ProcessStepsVm {
+
+
     return {
         steps: [],
         selectedStep: null,
@@ -8,3 +13,8 @@ export function buildProcessStepsVm(): ProcessStepsVm {
         selectedStepIndex: -1,
     };
 }
+
+
+/*
+    build the logic the calculates the view model
+*/
