@@ -14,7 +14,7 @@ export const ProcessStore = signalStore(
     _configVm: inject(ConfigStore).configVm
   })),
   withComputed(store => ({
-    stepsVm: computed(() => buildProcessStepsVm({}, {})),
+    stepsVm: computed(() => buildProcessStepsVm(store.process()!, store._configVm().stepTabs)),
   })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
