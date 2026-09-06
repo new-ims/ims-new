@@ -5,15 +5,11 @@ import { isUnion } from "@common/utils";
 
 
 export function buildProcessStepsVm(
-    dataFromProcess: Model.BaseProcess<string>, 
+    dataFromProcess: {
+        stepName: string,
+        taskName: Model.TaskName,
+    }, 
     configSteps: ConfigStepTabVm[] 
-    // dataFromProcess: {
-    //     stepName: string,
-    //     taskName: string,
-    // }, 
-    // dataFromConfig: {
-    //     configSteps: StepVm[],
-    // }
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step
