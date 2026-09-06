@@ -3,6 +3,7 @@ import { ProcessStepsVm, StepVm } from "./steps.vm";
 import { ConfigStepTabVm } from "../../../config/config.vm";
 import { isUnion } from "@common/utils";
 import { StepOverides } from "../../..";
+import { Adapter } from "@common/adapter";
 
 
 export function buildProcessStepsVm(
@@ -11,7 +12,8 @@ export function buildProcessStepsVm(
         taskName: Model.TaskName,
     }, 
     configSteps: ConfigStepTabVm[], 
-    overrides: StepOverides
+    overrides: StepOverides,
+    userInfo: Adapter.UserInfo
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step

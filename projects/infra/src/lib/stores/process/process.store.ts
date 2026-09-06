@@ -6,18 +6,21 @@ import { Override } from '@common/utils';
 import { computed, inject } from '@angular/core';
 import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
+import { UserStore } from '../user/user.store';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
   withState(initialProcessSlice()),
   withProps(_ => ({
-    _configVm: inject(ConfigStore).configVm
+    _configVm: inject(ConfigStore).configVm,
+    _userInfo: inject(UserStore).userInfo,
   })),
   withComputed(store => ({
     stepsVm: computed(() => buildProcessStepsVm(
       store.process()!, 
       store._configVm().stepTabs,
-      store.overrides()
+      store.overrides(),
+      store._userInfo()!,
     )),
   })),
   withMethods((store) => ({
