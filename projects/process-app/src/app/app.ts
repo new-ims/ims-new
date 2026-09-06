@@ -20,4 +20,12 @@ export class App {
       console.log('App: process changed', s);
     });
   }
+
+  enableAllSteps() {
+    this.#processStore.enableAllSteps();
+  }
+
+  disableAllSteps() {
+    this.#processStore.disableAllSteps();
+  }
 }

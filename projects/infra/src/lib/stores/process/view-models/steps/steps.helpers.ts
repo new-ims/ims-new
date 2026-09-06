@@ -2,6 +2,7 @@ import { Model } from "@common/models";
 import { ProcessStepsVm, StepVm } from "./steps.vm";
 import { ConfigStepTabVm } from "../../../config/config.vm";
 import { isUnion } from "@common/utils";
+import { StepOverides } from "../../..";
 
 
 export function buildProcessStepsVm(
@@ -9,7 +10,8 @@ export function buildProcessStepsVm(
         stepName: string,
         taskName: Model.TaskName,
     }, 
-    configSteps: ConfigStepTabVm[] 
+    configSteps: ConfigStepTabVm[], 
+    overrides: StepOverides
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step
@@ -28,6 +30,10 @@ export function buildProcessStepsVm(
         if (index === selectedIndex) return { ...step, state: 'active' };
         if (step.alwaysEnabled) return { ...step, state: 'enabled' };
         if (!shouldBeVisible(dataFromProcess.taskName, step.name)) return null;
+        // now we need to consider the overrides
+        if (overrides === 'enable') return { ...step, state: 'enabled' };
+        if (overrides === 'disable') return { ...step, state: 'disabled' };
+
         // it's visible and not selected, so now lets decide about enabled
         if (index <= enabledIndex) return { ...step, state: 'enabled' };
         return { ...step, state: 'disabled' };

@@ -14,12 +14,22 @@ export const ProcessStore = signalStore(
     _configVm: inject(ConfigStore).configVm
   })),
   withComputed(store => ({
-    stepsVm: computed(() => buildProcessStepsVm(store.process()!, store._configVm().stepTabs)),
+    stepsVm: computed(() => buildProcessStepsVm(
+      store.process()!, 
+      store._configVm().stepTabs,
+      store.overrides()
+    )),
   })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
       updateState(store, 'Reset Process', { process });
     },
+    enableAllSteps: () => {
+      updateState(store, 'Enable All Steps', { overrides: 'enable' });
+    },
+    disableAllSteps: () => {
+      updateState(store, 'Disable All Steps', { overrides: 'disable' });
+    }
   })),
   withDevtools('ProcessStore'),
 );
