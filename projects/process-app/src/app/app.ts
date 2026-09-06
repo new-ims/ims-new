@@ -2,6 +2,8 @@ import { Component, computed, effect } from '@angular/core';
 import { FakeModels } from '@fake-models';
 import { injectProcessStore } from '@infra';
 import { Shared } from '@infra';
+import { UserStore } from '../../../infra/src/lib/stores/user/user.store';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,7 @@ import { Shared } from '@infra';
 })
 export class App {
   readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>();
+  readonly userStore = inject(UserStore);
 
   readonly tabs = computed(() => this.#processStore.stepsVm());
 

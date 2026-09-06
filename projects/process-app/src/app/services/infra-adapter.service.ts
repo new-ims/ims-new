@@ -15,6 +15,11 @@ export class InfraAdapterService implements InfraAdapterBase<FakeModels.FakeProc
     return {
       processKey: process.processKey,
       processType: process.processType,
+      userInfo: {
+        displayName: 'ישראל ישראלי',
+        isDoctor: process.processType === 'radiant-health',
+        userId: 'user-123',
+      },
     };
   }
 
