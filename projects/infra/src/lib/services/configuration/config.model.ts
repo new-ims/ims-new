@@ -45,10 +45,3 @@ export type ConfigRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMap
 };
 
 export const CONFIG_REGISTRY_TOKEN = new InjectionToken<ConfigRegistry>('CONFIG_REGISTRY_TOKEN');
-
-export const PROCESS_KNOWN = {
-  APPROVAL_STEP: 'APPROVAL_AUTHORITY',
-  APPROVAL_TASK: 'APPROVAL',
-  COMPLETED_TASK: 'COMPLETED',
-  CANCELED_TASK: 'CANCELED',
-};

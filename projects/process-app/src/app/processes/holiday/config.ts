@@ -4,19 +4,19 @@ export const holidayConfig = fakes.config('holiday', () => ({
     processName: 'Holiday Process',
     steps: [
         {
-            name: 'request',
+            name: 'REQUEST',
             label: 'טופס בקשה', 
         }, 
         {
-            name: 'schedule',
+            name: 'SCHEDULE',
             label: 'לוח זמנים', 
         }, 
         {
-            name: 'tasks-synchronize', 
+            name: 'TASKS-SYNCHRONIZE', 
             label: 'סנכרון משימות',
         }, 
         {
-            name: 'approval',
+            name: 'APPROVAL_AUTHORITY',
             label: 'אישור',
         }
     ], 

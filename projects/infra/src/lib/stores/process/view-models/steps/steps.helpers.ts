@@ -1,8 +1,8 @@
 import { Model } from "@common/models";
-import { PROCESS_KNOWN } from "../../../../services/configuration/config.model";
 import { ProcessStepsVm, StepVm } from "./steps.vm";
-import { TaskName } from "../../../../../../../common/models/_types";
-import { ConfigStepTabVm } from "../../..";
+import { ConfigStepTabVm } from "../../../config/config.vm";
+import { isUnion } from "@common/utils";
+
 
 export function buildProcessStepsVm(
     dataFromProcess: Model.BaseProcess<string>, 
@@ -50,14 +50,13 @@ export function buildProcessStepsVm(
     };
 }
 
-export function shouldBeVisible(taskName: TaskName, tabName: string): boolean {
-  // if the tab is approval, but we are not in approval task, then do not show it
-  // otherwise, show it
+export function shouldBeVisible(taskName: Model.TaskName, tabName: string): boolean {
+    const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(tabName, "APPROVAL_AUTHORITY");     
+    if (!isApprovalAuthorityTab) return true; // every non "special" tab names is visible
 
-  if (!(tabName === PROCESS_KNOWN.APPROVAL_STEP && !(taskName === PROCESS_KNOWN.APPROVAL_TASK || taskName === PROCESS_KNOWN.CANCELED_TASK || taskName === PROCESS_KNOWN.COMPLETED_TASK))) return true;
-    return false;
-
-  return true;
+    // if we got here, the tab name is definitely "APPROVAL_AUTHORITY"
+    // so we only return true if the task name is one of the allowed ones
+    return taskName === 'APPROVAL' || taskName === 'CANCELED' || taskName === 'COMPLETED';
 }
 
 
