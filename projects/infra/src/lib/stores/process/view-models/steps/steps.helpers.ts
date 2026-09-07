@@ -33,7 +33,7 @@ export function buildProcessStepsVm(
     
     const states: (StepVm | null)[] = configSteps.map((step, index) => {
         // if (isProcessClosedForEditing(dataFromProcess.taskName) || processDisabled) return { ...step, state: 'readonly' };
-        if (dataFromProcess.insuredVerified && verifyInsured) return { ...step, state: 'disabled' }; 
+        if (!dataFromProcess.insuredVerified && verifyInsured) return { ...step, state: 'disabled' }; 
         // const isDoctorTab = isUnion<Model.KnownTabName>(step.name, "DOCTOR_DECISION");     
         // if (userInfo.isDoctor && !isDoctorTab) return { ...step, state: 'readonly' }; // doctors can see all steps but they all readonly except for the doctor decision step
         if (index === selectedIndex) return { ...step, state: 'active' };
