@@ -31,6 +31,7 @@ export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.Proces
     readonly processName: string;    
     readonly steps: ProcessStep<MAPPER, Key>[];
     readonly infos: ProcessInfo[];
+    readonly verifyInsured: boolean;
 }
 
 export type ProcessConfigWithoutType<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, 

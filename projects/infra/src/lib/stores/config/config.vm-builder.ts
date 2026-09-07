@@ -22,6 +22,7 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         stepTabs,
         infoTabs,
         processType: processConfig.processType,
-        processName: processConfig.processName
+        processName: processConfig.processName,
+        verifyInsured: processConfig.verifyInsured
     };
 }

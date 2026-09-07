@@ -6,6 +6,7 @@ export interface ConfigVm {
   readonly infoTabs: ConfigInfoTabVm[];
   readonly processType: Model.ProcessType | null;
   readonly processName: string;
+  readonly verifyInsured: boolean;
 }
 
 export interface ConfigStepTabVm {
@@ -26,4 +27,5 @@ export const emptyConfigVm: ConfigVm = {
   infoTabs: [],
   processType: null,
   processName: '',
+  verifyInsured: false
 };

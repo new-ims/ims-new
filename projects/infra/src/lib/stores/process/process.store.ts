@@ -21,6 +21,8 @@ export const ProcessStore = signalStore(
       store._configVm().stepTabs,
       store.overrides(),
       store._userInfo()!,
+      store._configVm().verifyInsured,
+      store.processDisabled()
     )),
   })),
   withMethods((store) => ({
@@ -32,6 +34,9 @@ export const ProcessStore = signalStore(
     },
     disableAllSteps: () => {
       updateState(store, 'Disable All Steps', { overrides: 'disable' });
+    },
+    setProcessDisabled: (disabled: boolean) => {
+      updateState(store, 'Set Process Disabled', { processDisabled: disabled });
     }
   })),
   withDevtools('ProcessStore'),

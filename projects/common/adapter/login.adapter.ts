@@ -9,4 +9,5 @@ export interface LoginOutput<MAPPER extends ProcessMapper> {
   readonly processType: ProcessTypeKeys<MAPPER>;
   readonly processKey: string;
   readonly userInfo: UserInfo;
+  readonly processDisabled?: boolean;
 }

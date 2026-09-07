@@ -10,10 +10,13 @@ export function buildProcessStepsVm(
     dataFromProcess: {
         stepName: string,
         taskName: Model.TaskName,
+        insuredVerified: boolean
     }, 
     configSteps: ConfigStepTabVm[], 
     overrides: StepOverides,
-    userInfo: Adapter.UserInfo
+    userInfo: Adapter.UserInfo,
+    verifyInsured: boolean,
+    processDisabled: boolean
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step
@@ -29,6 +32,10 @@ export function buildProcessStepsVm(
     const selectedIndex = enabledIndex === -1 ? 0 : enabledIndex;
     
     const states: (StepVm | null)[] = configSteps.map((step, index) => {
+        // if (isProcessClosedForEditing(dataFromProcess.taskName) || processDisabled) return { ...step, state: 'readonly' };
+        if (dataFromProcess.insuredVerified && verifyInsured) return { ...step, state: 'disabled' }; 
+        // const isDoctorTab = isUnion<Model.KnownTabName>(step.name, "DOCTOR_DECISION");     
+        // if (userInfo.isDoctor && !isDoctorTab) return { ...step, state: 'readonly' }; // doctors can see all steps but they all readonly except for the doctor decision step
         if (index === selectedIndex) return { ...step, state: 'active' };
         if (step.alwaysEnabled) return { ...step, state: 'enabled' };
         if (!shouldBeVisible(dataFromProcess.taskName, step.name)) return null;
@@ -54,13 +61,17 @@ export function buildProcessStepsVm(
     };
 }
 
-export function shouldBeVisible(taskName: Model.TaskName, tabName: string): boolean {
-    const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(tabName, "APPROVAL_AUTHORITY");     
+export function shouldBeVisible(taskName: Model.TaskName, stepName: string): boolean {
+    const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(stepName, "APPROVAL_AUTHORITY");     
     if (!isApprovalAuthorityTab) return true; // every non "special" tab names is visible
 
     // if we got here, the tab name is definitely "APPROVAL_AUTHORITY"
     // so we only return true if the task name is one of the allowed ones
     return taskName === 'APPROVAL' || taskName === 'CANCELED' || taskName === 'COMPLETED';
+}
+
+export function isProcessClosedForEditing(taskName: Model.TaskName): boolean {
+    return taskName === 'CANCELED' || taskName === 'COMPLETED';
 }
 
 

@@ -28,6 +28,7 @@ import { UserStore } from '../stores/user/user.store';
     // set the stores
     this.#userStore.setUserInfo(loginOutput.userInfo);
     this.#configStore.setConfig(config);
+    if (loginOutput.processDisabled) this.#processStore.setProcessDisabled(loginOutput.processDisabled);
     const process = processOutput.process;
     this.#processStore.resetProcess(process);
   }

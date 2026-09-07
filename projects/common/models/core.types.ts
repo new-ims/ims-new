@@ -3,6 +3,7 @@ export interface BaseProcess<T extends string = string> {
   readonly processKey: string;
   readonly stepName: string;
   readonly taskName: TaskName;
+  readonly insuredVerified: boolean;
 }
 
 export type ProcessMapper = BaseProcess[];
@@ -21,6 +22,6 @@ export type Company = typeof COMPANIES[number];
 export const TASK_NAMES = ['APPROVAL', 'COMPLETED', 'CANCELED', 'CLERK'] as const;
 export type TaskName = typeof TASK_NAMES[number];
 
-export const KNOWN_TAB_NAMES = ['APPROVAL_AUTHORITY'] as const;
+export const KNOWN_TAB_NAMES = ['APPROVAL_AUTHORITY', 'DOCTOR_DECISION'] as const;
 export type KnownTabName = typeof KNOWN_TAB_NAMES[number];
   

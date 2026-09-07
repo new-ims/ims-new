@@ -3,13 +3,15 @@ export interface ProcessSlice<MAPPER extends Model.ProcessMapper,
                 Key extends Model.ProcessTypeKeys<MAPPER>> {
     readonly process: Model.ProcessOf<MAPPER, Key> | null;
     readonly overrides: StepOverides;
+    readonly processDisabled: boolean;
 }
 
 export function initialProcessSlice<MAPPER extends Model.ProcessMapper,
                 Key extends Model.ProcessTypeKeys<MAPPER>>(): ProcessSlice<MAPPER, Key> {
     return {
         process: null,
-        overrides: null
+        overrides: null,
+        processDisabled: false
     };
 }
 

@@ -2,6 +2,7 @@ import { fakes } from "../../../processes-models";
 
 export const holidayConfig = fakes.config('holiday', () => ({
     processName: 'Holiday Process',
+    verifyInsured: true,
     steps: [
         {
             name: 'REQUEST',
