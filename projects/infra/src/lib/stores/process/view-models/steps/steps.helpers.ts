@@ -16,7 +16,7 @@ export function buildProcessStepsVm(
     overrides: StepOverides,
     userInfo: Adapter.UserInfo,
     verifyInsured: boolean,
-    processDisabled: boolean
+    // processDisabled: boolean
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step
@@ -31,6 +31,23 @@ export function buildProcessStepsVm(
     const enabledIndex = configSteps.findIndex((s) => s.name === dataFromProcess.stepName);
     const selectedIndex = enabledIndex === -1 ? 0 : enabledIndex;
     
+    // TODO
+    // 1. Seperate the calculation of each aspect to a different function
+    //       - Is tab visible at all
+    //       - Is it enabled / disabled
+    //       - Is it active
+    //       - Is it read-only
+    // 2. Make all these functions pure and testable
+    // 3. We already have "enableAllSteps" and "disableAllSteps" in the store, but also need "unsetAllSteps" so that the overrides are reset
+
+
+    // The absolute truth of when a step is disabled
+    // 1. Overrides are the most powerful rule - and override, overside all other rules
+    // 2. Configuration specific for step
+    // 3. If the process must have insured verification, and it doesn't - It is disabled for sure
+    // 4. Completion based enable/disable (accordding to current step, and task)
+    // 
+
     const states: (StepVm | null)[] = configSteps.map((step, index) => {
         // if (isProcessClosedForEditing(dataFromProcess.taskName) || processDisabled) return { ...step, state: 'readonly' };
         if (!dataFromProcess.insuredVerified && verifyInsured) return { ...step, state: 'disabled' }; 

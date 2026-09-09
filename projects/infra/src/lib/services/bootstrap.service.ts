@@ -4,7 +4,7 @@ import { ProcessConfig, CONFIG_REGISTRY_TOKEN } from './configuration/config.mod
 import { ConfigStore } from '../stores/config/config.store';
 import { INFRA_ADAPTER_TOKEN } from './injected/infra-adapter';
 import { ProcessStore } from '../stores/process/process.store';
-import { UserStore } from '../stores/user/user.store';
+import { LoginStore } from '../stores/login/login.store';
 
 @Service()
   export class BootstrapService {
@@ -12,7 +12,7 @@ import { UserStore } from '../stores/user/user.store';
   readonly #registry = inject(CONFIG_REGISTRY_TOKEN);
   readonly #configStore = inject(ConfigStore);
   readonly #processStore = inject(ProcessStore);
-  readonly #userStore = inject(UserStore);
+  readonly #loginStore = inject(LoginStore);
 
     
   async start() {
@@ -26,9 +26,9 @@ import { UserStore } from '../stores/user/user.store';
     console.log('processOutput', processOutput);
 
     // set the stores
-    this.#userStore.setUserInfo(loginOutput.userInfo);
+    this.#loginStore.setUserInfo(loginOutput.userInfo);
+    this.#loginStore.setProcessDisabled(loginOutput.processDisabled ? loginOutput.processDisabled : false);
     this.#configStore.setConfig(config);
-    if (loginOutput.processDisabled) this.#processStore.setProcessDisabled(loginOutput.processDisabled);
     const process = processOutput.process;
     this.#processStore.resetProcess(process);
   }

@@ -3,7 +3,6 @@ export interface ProcessSlice<MAPPER extends Model.ProcessMapper,
                 Key extends Model.ProcessTypeKeys<MAPPER>> {
     readonly process: Model.ProcessOf<MAPPER, Key> | null;
     readonly overrides: StepOverides;
-    readonly processDisabled: boolean;
 }
 
 export function initialProcessSlice<MAPPER extends Model.ProcessMapper,
@@ -11,8 +10,11 @@ export function initialProcessSlice<MAPPER extends Model.ProcessMapper,
     return {
         process: null,
         overrides: null,
-        processDisabled: false
-    };
+        };
+}
+
+export function isProcessClosedForEditing(processDisabled: boolean, taskName: Model.TaskName): boolean {
+    return taskName === 'COMPLETED' || taskName === 'CANCELED' || processDisabled;
 }
 
 export type StepOverides = 'enable' | 'disable' | null;
