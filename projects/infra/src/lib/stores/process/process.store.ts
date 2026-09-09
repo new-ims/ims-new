@@ -23,7 +23,7 @@ export const ProcessStore = signalStore(
       store.overrides(),
       store._loginInfo.userInfo()!,
       store._configVm().verifyInsured,
-      // isProcessDisabled(),
+      isProcessDisabled(),
     ));
 
     return {
