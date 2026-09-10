@@ -105,11 +105,8 @@ export function buildStepVm(step: ConfigStepTabVm, context: StepContext): StepVm
 
 export function isStepVisible(taskName: Model.TaskName, stepName: string): boolean {
     const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(stepName, "APPROVAL_AUTHORITY");     
-    if (!isApprovalAuthorityTab) return true; // every non "special" tab names is visible
-
-    // if we got here, the tab name is definitely "APPROVAL_AUTHORITY"
-    // so we only return true if the task name is one of the allowed ones
-    return taskName === 'APPROVAL' || taskName === 'CANCELED' || taskName === 'COMPLETED';
+    if (!(isApprovalAuthorityTab && !(taskName === 'APPROVAL' || taskName === 'CANCELED' || taskName === 'COMPLETED'))) return true;
+    return false;
 }
 
 

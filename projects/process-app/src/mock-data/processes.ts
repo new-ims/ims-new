@@ -14,7 +14,7 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     processKey: 'ho000002',
     vacationType: 'adventure',
     taskName: 'CANCELED',
-    stepName: 'SCHEDULE',
+    stepName: 'APPROVAL_AUTHORITY',
     insuredVerified: false,
   },
   {
