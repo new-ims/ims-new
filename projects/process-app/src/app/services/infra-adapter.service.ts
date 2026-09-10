@@ -17,6 +17,7 @@ export class InfraAdapterService implements InfraAdapterBase<FakeModels.FakeProc
       processKey: process.processKey,
       processType: process.processType,
       processDisabled,
+      isHistorical: process.taskName === 'COMPLETED' || process.taskName === 'CANCELED',
       userInfo: {
         displayName: 'ישראל ישראלי',
         isDoctor: process.processType === 'radiant-health',

@@ -12,6 +12,9 @@ export const LoginStore = signalStore(
     },
     setProcessDisabled(disabled: boolean) {
       updateState(store, 'Set Process Disabled', { processDisabled: disabled });
+    },
+    setIsHistorical(isHistorical: boolean) {
+      updateState(store, 'Set Is Historical', { isHistorical });
     }
   })),
   withDevtools('LoginStore')

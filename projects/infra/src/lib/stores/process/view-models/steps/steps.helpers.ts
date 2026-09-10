@@ -14,6 +14,7 @@ type StepContext = {
   verifyInsured: boolean;
   overrides: StepOverides;
   userInfo: Adapter.UserInfo;
+  isHistorical: boolean;
   processDisabled: boolean;
 };
 
@@ -27,7 +28,8 @@ export function buildProcessStepsVm(
     overrides: StepOverides,
     userInfo: Adapter.UserInfo,
     verifyInsured: boolean,
-    processDisabled: boolean
+    processDisabled: boolean,
+    isHistorical: boolean
 ): ProcessStepsVm {
     // we read two important details from the process
     // stepName - the name of the latest enabled step
@@ -70,6 +72,7 @@ export function buildProcessStepsVm(
             overrides,
             userInfo,
             processDisabled,
+            isHistorical
         }
          return buildStepVm(step,context);
     });
@@ -124,6 +127,9 @@ export function isStepActive(context: StepContext): boolean {
 
 export function isStepReadonly(step: ConfigStepTabVm, context: StepContext): boolean {
   if (context.processDisabled) return true;
+
+   const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(step.name, "APPROVAL_AUTHORITY");
+   if (context.taskName === 'APPROVAL' && !isApprovalAuthorityTab || context.isHistorical) return true;
 
   const isDoctorTab = isUnion<Model.KnownTabName>(step.name,"DOCTOR_DECISION");
   return context.userInfo.isDoctor && !isDoctorTab;

@@ -10,4 +10,5 @@ export interface LoginOutput<MAPPER extends ProcessMapper> {
   readonly processKey: string;
   readonly userInfo: UserInfo;
   readonly processDisabled?: boolean;
+  readonly isHistorical?: boolean;
 }

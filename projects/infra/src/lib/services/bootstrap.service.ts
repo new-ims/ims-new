@@ -28,6 +28,7 @@ import { LoginStore } from '../stores/login/login.store';
     // set the stores
     this.#loginStore.setUserInfo(loginOutput.userInfo);
     this.#loginStore.setProcessDisabled(loginOutput.processDisabled ? loginOutput.processDisabled : false);
+    this.#loginStore.setIsHistorical(loginOutput.isHistorical ? loginOutput.isHistorical : false);
     this.#configStore.setConfig(config);
     const process = processOutput.process;
     this.#processStore.resetProcess(process);

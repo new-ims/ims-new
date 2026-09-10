@@ -24,6 +24,7 @@ export const ProcessStore = signalStore(
       store._loginInfo.userInfo()!,
       store._configVm().verifyInsured,
       isProcessDisabled(),
+      store._loginInfo.isHistorical()
     ));
 
     return {
