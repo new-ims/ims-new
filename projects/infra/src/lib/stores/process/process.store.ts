@@ -21,10 +21,11 @@ export const ProcessStore = signalStore(
       store.process()!, 
       store._configVm(),
       store.overrides(),
-      store._loginInfo.userInfo()!,
-      store._configVm().verifyInsured,
-      isProcessDisabled(),
-      store._loginInfo.isHistorical()
+      {
+        userInfo: store._loginInfo.userInfo()!,
+        processDisabled: isProcessDisabled(),
+        isHistorical: store._loginInfo.isHistorical()
+      }
     ));
 
     return {
