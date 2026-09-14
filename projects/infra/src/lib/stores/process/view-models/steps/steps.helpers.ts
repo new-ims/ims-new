@@ -5,7 +5,7 @@ import { isUnion } from "@common/utils";
 import { StepOverides } from "../../..";
 import { Adapter } from "@common/adapter";
 
-type StepContext = {
+interface StepContext {
   index: number;
   selectedIndex: number;
   enabledIndex: number;
