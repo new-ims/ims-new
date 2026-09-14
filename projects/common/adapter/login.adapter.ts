@@ -5,7 +5,7 @@ export interface LoginInput {
   readonly params: Record<string, string>;
 }
 
-export interface LoginOutput<MAPPER extends ProcessMapper> {
+export interface LoginOutput<MAPPER extends ProcessMapper = ProcessMapper> {
   readonly processType: ProcessTypeKeys<MAPPER>;
   readonly processKey: string;
   readonly userInfo: UserInfo;
