@@ -1,30 +1,37 @@
 import { DeepSignal, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
-import { initialProcessSlice } from './process.slice';
+import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';
 import { Override } from '@common/utils';
 import { computed, inject } from '@angular/core';
 import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
-import { UserStore } from '../user/user.store';
+import { LoginStore } from '../login/login.store';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
   withState(initialProcessSlice()),
   withProps(_ => ({
     _configVm: inject(ConfigStore).configVm,
-    _userInfo: inject(UserStore).userInfo,
+    _loginInfo: inject(LoginStore),
   })),
-  withComputed(store => ({
-    stepsVm: computed(() => buildProcessStepsVm(
+  withComputed((store) => {
+    const isProcessDisabled = computed(() => isProcessClosedForEditing(store._loginInfo.processDisabled(), store.process()!.taskName));
+    const stepsVm = computed(() => buildProcessStepsVm(
       store.process()!, 
       store._configVm().stepTabs,
       store.overrides(),
-      store._userInfo()!,
+      store._loginInfo.userInfo()!,
       store._configVm().verifyInsured,
-      store.processDisabled()
-    )),
-  })),
+      isProcessDisabled(),
+      store._loginInfo.isHistorical()
+    ));
+
+    return {
+      isProcessDisabled,
+      stepsVm,
+    };
+  }),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
       updateState(store, 'Reset Process', { process });
@@ -35,9 +42,6 @@ export const ProcessStore = signalStore(
     disableAllSteps: () => {
       updateState(store, 'Disable All Steps', { overrides: 'disable' });
     },
-    setProcessDisabled: (disabled: boolean) => {
-      updateState(store, 'Set Process Disabled', { processDisabled: disabled });
-    }
   })),
   withDevtools('ProcessStore'),
 );

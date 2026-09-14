@@ -12,9 +12,12 @@ export class InfraAdapterService implements InfraAdapterBase<FakeModels.FakeProc
     const processes = MOCK_PROCESSES;
     const key = input.params['key'];
     const process = processes.find((p) => p.processKey.includes(key)) ?? processes[0];
+    const processDisabled = process.taskName === 'COMPLETED' || process.taskName === 'CANCELED';
     return {
       processKey: process.processKey,
       processType: process.processType,
+      processDisabled,
+      isHistorical: process.taskName === 'COMPLETED' || process.taskName === 'CANCELED',
       userInfo: {
         displayName: 'ישראל ישראלי',
         isDoctor: process.processType === 'radiant-health',
