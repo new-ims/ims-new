@@ -8,6 +8,7 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     taskName: 'CLERK',
     stepName: 'SCHEDULE',
     insuredVerified: true,
+    isInThePast: false,
   },
   {
     processType: 'holiday',
@@ -16,14 +17,16 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     taskName: 'CANCELED',
     stepName: 'APPROVAL_AUTHORITY',
     insuredVerified: false,
+    isInThePast: true,
   },
   {
     processType: 'holiday',
     processKey: 'ho000003',
-    vacationType: 'cultural',
+    vacationType: 'business',
     taskName: 'APPROVAL',
     stepName: 'APPROVAL_AUTHORITY',
-    insuredVerified: false
+    insuredVerified: false, 
+    isInThePast: false,
   },
   {
     processType: 'radiant-health',

@@ -7,10 +7,12 @@ export const holidayConfig = fakes.config('holiday', () => ({
         {
             name: 'REQUEST',
             label: 'טופס בקשה', 
+            overrideIsEnabled: process => process.vacationType === 'business'
         }, 
         {
             name: 'SCHEDULE',
             label: 'לוח זמנים', 
+            overrideReadonly: process => process.vacationType === 'leisure'
         }, 
         {
             name: 'TASKS-SYNCHRONIZE', 
@@ -21,5 +23,8 @@ export const holidayConfig = fakes.config('holiday', () => ({
             label: 'אישור',
         }
     ], 
-    infos: []
+    infos: [], 
+    overrideIsEnabled: (process) => !process.isInThePast,
+    overrideReadonly: (process) => !process.isInThePast 
+        || process.vacationType === 'cultural'
 }));

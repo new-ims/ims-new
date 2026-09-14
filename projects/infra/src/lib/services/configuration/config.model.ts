@@ -17,13 +17,17 @@ export type OnEnterHook<MAPPER extends Model.ProcessMapper, Key extends Model.Pr
 export type OnCompleteHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
     ProcessFunction<MAPPER, Key>;
 
+export type ProcessPredicate<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
+    (process: Model.ProcessOf<MAPPER, Key>) => boolean;
+
+
 export interface ProcessStep<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> {
     readonly name: string;
     readonly label: string;
     readonly alwaysEnabled?: boolean;
     readonly component?: Type<any>;
-    readonly onEnter?: OnEnterHook<MAPPER, Key>;
-    readonly onComplete?: OnCompleteHook<MAPPER, Key>;
+    readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
+    readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
 }
 
 export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> {
@@ -32,6 +36,8 @@ export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.Proces
     readonly steps: ProcessStep<MAPPER, Key>[];
     readonly infos: ProcessInfo[];
     readonly verifyInsured: boolean;
+    readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
+    readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
 }
 
 export type ProcessConfigWithoutType<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, 
