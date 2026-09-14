@@ -19,7 +19,7 @@ export const ProcessStore = signalStore(
     const isProcessDisabled = computed(() => isProcessClosedForEditing(store._loginInfo.processDisabled(), store.process()!.taskName));
     const stepsVm = computed(() => buildProcessStepsVm(
       store.process()!, 
-      store._configVm().stepTabs,
+      store._configVm(),
       store.overrides(),
       store._loginInfo.userInfo()!,
       store._configVm().verifyInsured,
@@ -34,13 +34,13 @@ export const ProcessStore = signalStore(
   }),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
-      updateState(store, 'Reset Process', { process });
+      updateState(store, '[Process] Reset Process', { process });
     },
     enableAllSteps: () => {
-      updateState(store, 'Enable All Steps', { overrides: 'enable' });
+      updateState(store, '[Process] Enable All Steps', { overrides: 'enable' });
     },
     disableAllSteps: () => {
-      updateState(store, 'Disable All Steps', { overrides: 'disable' });
+      updateState(store, '[Process] Disable All Steps', { overrides: 'disable' });
     },
   })),
   withDevtools('ProcessStore'),

@@ -9,16 +9,16 @@ export const LoginStore = signalStore(
   withState(initialUserSlice),
   withMethods((store) => ({
     setUserInfo(userInfo: Adapter.UserInfo) {
-      updateState(store, '[User] Set User Info', setUserInfo(userInfo));
+      updateState(store, '[Login] Set User Info', setUserInfo(userInfo));
     },
     setProcessDisabled(disabled: boolean) {
-      updateState(store, 'Set Process Disabled', setProcessDisabled(disabled));
+      updateState(store, '[Login] Set Process Disabled', setProcessDisabled(disabled));
     },
     setIsHistorical(isHistorical: boolean) {
-      updateState(store, 'Set Is Historical', setIsHistorical(isHistorical));
+      updateState(store, '[Login] Set Is Historical', setIsHistorical(isHistorical));
     }, 
     setLoginData(loginData: Adapter.LoginOutput) {
-      updateState(store, 'Set Login Data', setLoginData(loginData));
+      updateState(store, '[Login] Set Login Data', setLoginData(loginData));
     }
   })),
   withDevtools('LoginStore')

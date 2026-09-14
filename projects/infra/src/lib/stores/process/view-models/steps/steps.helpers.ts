@@ -1,6 +1,6 @@
 import { Model } from "@common/models";
 import { ProcessStepsVm, StepVm } from "./steps.vm";
-import { ConfigStepTabVm } from "../../../config/config.vm";
+import { ConfigStepTabVm, ConfigVm } from "../../../config/config.vm";
 import { isUnion } from "@common/utils";
 import { StepOverides } from "../../..";
 import { Adapter } from "@common/adapter";
@@ -24,7 +24,7 @@ export function buildProcessStepsVm(
         taskName: Model.TaskName,
         insuredVerified: boolean
     }, 
-    configSteps: ConfigStepTabVm[], 
+    config: ConfigVm, 
     overrides: StepOverides,
     userInfo: Adapter.UserInfo,
     verifyInsured: boolean,
@@ -41,7 +41,7 @@ export function buildProcessStepsVm(
 
     // if (process === null) return [];
 
-    const enabledIndex = configSteps.findIndex((s) => s.name === dataFromProcess.stepName);
+    const enabledIndex = config.stepTabs.findIndex((s) => s.name === dataFromProcess.stepName);
     const selectedIndex = enabledIndex === -1 ? 0 : enabledIndex;
     
     // TODO
@@ -61,7 +61,7 @@ export function buildProcessStepsVm(
     // 4. Completion based enable/disable (accordding to current step, and task)
     // 
 
-    const states: (StepVm | null)[] = configSteps.map((step, index) => {
+    const states: (StepVm | null)[] = config.stepTabs.map((step, index) => {
         const context: StepContext = {
             index,
             selectedIndex,

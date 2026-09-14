@@ -14,7 +14,9 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         name: step.name,
         label: step.label,
         alwaysEnabled: step.alwaysEnabled || false,
-        component: step.component ?? DefaultStep
+        component: step.component ?? DefaultStep, 
+        overrideIsEnabled: step.overrideIsEnabled ?? null,
+        overrideReadonly: step.overrideReadonly ?? null,
     }));
 
  
@@ -23,6 +25,8 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         infoTabs,
         processType: processConfig.processType,
         processName: processConfig.processName,
-        verifyInsured: processConfig.verifyInsured
+        verifyInsured: processConfig.verifyInsured,
+        overrideIsEnabled: processConfig.overrideIsEnabled ?? null,
+        overrideReadonly: processConfig.overrideReadonly ?? null
     };
 }

@@ -1,19 +1,25 @@
 import { Type } from "@angular/core";
 import { Model } from "@common/models";
 
+export type ProcessPredicateVm = (process: Model.BaseProcess) => boolean;
+
 export interface ConfigVm {
   readonly stepTabs: ConfigStepTabVm[];
   readonly infoTabs: ConfigInfoTabVm[];
   readonly processType: Model.ProcessType | null;
   readonly processName: string;
   readonly verifyInsured: boolean;
+  readonly overrideIsEnabled: ProcessPredicateVm | null;
+  readonly overrideReadonly: ProcessPredicateVm | null;
 }
 
 export interface ConfigStepTabVm {
   readonly name: string;
   readonly label: string;
   readonly alwaysEnabled: boolean;
-  readonly component: Type<any>;
+  readonly component: Type<any>;  
+  readonly overrideIsEnabled: ProcessPredicateVm | null;
+  readonly overrideReadonly: ProcessPredicateVm | null;
 }
 
 export interface ConfigInfoTabVm {
@@ -27,5 +33,7 @@ export const emptyConfigVm: ConfigVm = {
   infoTabs: [],
   processType: null,
   processName: '',
-  verifyInsured: false
+  verifyInsured: false,
+  overrideIsEnabled: null,
+  overrideReadonly: null
 };
