@@ -1,7 +1,7 @@
-import { UserInfo } from "../../../../../common/adapter/_types";
+import { Adapter } from "@common/adapter";
 
 export interface UserSlice {
-    readonly userInfo: UserInfo | null;
+    readonly userInfo: Adapter.UserInfo | null;
 }
 
 export const initialUserSlice: UserSlice = {
