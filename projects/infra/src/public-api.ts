@@ -6,3 +6,4 @@ export * from './lib/services/configuration/config.lib';
 export * from './lib/stores';
 
 export * from './lib/shared';
+export * from './lib/components';
