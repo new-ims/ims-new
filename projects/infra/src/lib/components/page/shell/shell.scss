@@ -16,4 +16,23 @@
             width: 50%;
         }
     }
+
+    [ngTabs] {
+        overflow: hidden;        
+    }
+
+    [ngTabList] {
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid var(--p-600);
+    }
+
+    [ngTab] {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+
+        &[aria-selected="true"] {
+            border-bottom: 2px solid var(--p-600);
+        }
+    }
 }
