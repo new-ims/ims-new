@@ -73,6 +73,7 @@ export function buildProcessStepsVm(
     };
 
     function isVisible(): boolean {
+      // A step is invisible if the step name is 'approval...' and also the process task name is one of 'APPROVAL', 'CANCELED', 'COMPLETED'
       if (!isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY')) return true;
       return ['APPROVAL', 'CANCELED', 'COMPLETED'].includes(process.taskName);
     }
@@ -104,13 +105,13 @@ export function buildProcessStepsVm(
 
     function isReadonly(): boolean {
       if (login.processDisabled) return true;
+      if (login.isHistorical) return true;
 
       // general logic
-      const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY');
-      if (process.taskName === 'APPROVAL' && !isApprovalAuthorityTab) return true;
-      if (login.isHistorical) return true;
       const isDoctorTab = isUnion<Model.KnownTabName>(step.name, 'DOCTOR_DECISION');
       if  (login.userInfo.isDoctor && !isDoctorTab) return true;
+      const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY');
+      if (process.taskName === 'APPROVAL' && !isApprovalAuthorityTab) return true;
 
 
       // step overrides

@@ -17,6 +17,7 @@ export const holidayConfig = fakes.config('holiday', () => ({
         {
             name: 'TASKS-SYNCHRONIZE', 
             label: 'סנכרון משימות',
+            overrideReadonly: process => process.vacationType === 'adventure'
         }, 
         {
             name: 'APPROVAL_AUTHORITY',
