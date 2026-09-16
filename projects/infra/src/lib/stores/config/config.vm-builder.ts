@@ -8,7 +8,9 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
     const infoTabs: ConfigInfoTabVm[] = processConfig.infos.map(info => ({
         id: info.id,
         label: info.label,
-        component: info.component
+        component: info.component, 
+        overrideIsEnabled: info.overrideIsEnabled ?? null,
+        overrideIsVisible: info.overrideIsVisible ?? null
     }));
     const stepTabs: ConfigStepTabVm[] = processConfig.steps.map(step => ({
         name: step.name,

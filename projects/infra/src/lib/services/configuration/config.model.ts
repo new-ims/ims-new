@@ -6,7 +6,7 @@ import { Adapter } from "@common/adapter";
 export interface ProcessInfo<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> {
     readonly id: string;
     readonly label: string;
-    readonly component: Type<any>;
+    readonly component?: Type<any>;
     readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
     readonly overrideIsVisible?: ProcessPredicate<MAPPER, Key>;
 }

@@ -7,6 +7,7 @@ import { computed, inject } from '@angular/core';
 import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
+import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -28,9 +29,16 @@ export const ProcessStore = signalStore(
       }
     ));
 
+    const infosVm = computed(() => buildProcessInfosVm(
+      store.process()!,
+      store._configVm(),
+      store._loginInfo.userInfo()!
+    ));
+
     return {
       isProcessDisabled,
       stepsVm,
+      infosVm
     };
   }),
   withMethods((store) => ({

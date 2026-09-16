@@ -26,7 +26,9 @@ export interface ConfigStepTabVm {
 export interface ConfigInfoTabVm {
   readonly id: string;
   readonly label: string;
-  readonly component: Type<any>;
+  readonly component?: Type<any>;
+  readonly overrideIsEnabled: ProcessPredicateVm | null;
+  readonly overrideIsVisible: ProcessPredicateVm | null;
 }
 
 export const emptyConfigVm: ConfigVm = {

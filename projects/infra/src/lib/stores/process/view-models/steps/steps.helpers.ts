@@ -45,10 +45,10 @@ export function buildProcessStepsVm(
   // 4. Completion based enable/disable (accordding to current step, and task)
   //
 
-  const states: (StepVm | null)[] = config.stepTabs.map((step, index) => {
-    return buildStepVm(step, index);
-  });
-
+  const states: (StepVm | null)[] = config
+    .stepTabs
+    .map((step, index) => buildStepVm(step, index));
+  
   const steps = states.filter((s) => s !== null);
   const activeStep = steps.find((s) => s.isActive);
   const selectedStep = activeStep ? activeStep : steps[0];

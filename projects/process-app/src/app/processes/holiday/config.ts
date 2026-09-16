@@ -6,25 +6,36 @@ export const holidayConfig = fakes.config('holiday', () => ({
     steps: [
         {
             name: 'REQUEST',
-            label: 'טופס בקשה', 
+            label: 'טופס בקשה',
             overrideIsEnabled: process => [process.vacationType === 'business', 'vacation type must be business']
-        }, 
+        },
         {
             name: 'SCHEDULE',
-            label: 'לוח זמנים', 
+            label: 'לוח זמנים',
             overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure']
-        }, 
+        },
         {
-            name: 'TASKS-SYNCHRONIZE', 
+            name: 'TASKS-SYNCHRONIZE',
             label: 'סנכרון משימות',
             overrideReadonly: process => [process.vacationType === 'adventure', 'vacation type must be adventure']
-        }, 
+        },
         {
             name: 'APPROVAL_AUTHORITY',
             label: 'אישור',
         }
-    ], 
-    infos: [], 
+    ],
+    infos: [
+        {
+            id: 'INFO-1',
+            label: 'מידע נוסף',
+            overrideIsEnabled: (process) => [process.vacationType !== 'adventure', 'vacation type must not be cultural'],
+            overrideIsVisible: (process) => [process.vacationType !== 'adventure', 'vacation type must not be cultural']
+        },
+        {
+            id: 'INFO-2',
+            label: 'מידע נוסף 2',
+        }
+    ],
     overrideIsEnabled: (process) => [!process.isInThePast, 'Process must not be in the past'],
     overrideReadonly: (process) => {
         if (!process.isInThePast) return [true, 'Process must not be in the past'];

@@ -15,13 +15,15 @@ export class App {
   readonly #processStore = injectProcessStore<FakeModels.FakeProcesses>();
   readonly userStore = inject(LoginStore);
 
-  readonly tabs = computed(() => this.#processStore.stepsVm());
+  readonly steps = computed(() => this.#processStore.stepsVm());
+  readonly infos = computed(() => this.#processStore.infosVm());
 
   constructor() {
     effect(() => {
       const s = this.#processStore.process();
       console.log('App: process changed', s);
       console.log('App: process stepsVm', this.#processStore.isProcessDisabled());
+      console.log('App: process infosVm', this.#processStore.infosVm());
     });
   }
 
