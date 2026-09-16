@@ -5,6 +5,8 @@ import { isUnion } from '@common/utils';
 import { StepOverides } from '../../..';
 import { Adapter } from '@common/adapter';
 
+type CommentedPredicate = [boolean, string];
+
 export function buildProcessStepsVm(
   process: Model.BaseProcess,
   config: ConfigVm,
@@ -61,72 +63,82 @@ export function buildProcessStepsVm(
   };
 
   function buildStepVm(step: ConfigStepTabVm, index: number): StepVm | null {
-    if (!isVisible()) {
+    const [isVisibleResult, isVisibleComment] = isVisible();
+
+    if (!isVisibleResult) {
       return null;
     }
 
+    const [isEnabledResult, isEnabledComment] = getIsEnabled();
+    const [isReadonlyResult, isReadonlyComment] = isReadonly();
+
     return {
       ...step,
-      isEnabled: getIsEnabled(),
+      isEnabled: isEnabledResult,
       isActive: isActive(),
-      isReadonly: isReadonly(),
+      isReadonly: isReadonlyResult,
+      debugComments: {
+        isEnabled: isEnabledComment,
+        isReadonly: isReadonlyComment
+      }
     };
 
-    function isVisible(): boolean {
+    function isVisible(): CommentedPredicate {
       // A step is invisible if the step name is 'approval...' and also the process task name is one of 'APPROVAL', 'CANCELED', 'COMPLETED'
-      if (!isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY')) return true;
-      return ['APPROVAL', 'CANCELED', 'COMPLETED'].includes(process.taskName);
+      if (!isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY')) return [true, ''];
+      if (!['APPROVAL', 'CANCELED', 'COMPLETED'].includes(process.taskName)) return [false, 'Step is "APPROVAL_AUTHORITY" but the process task is not in approval/canceled/completed'];
+      return [true, ''];
     }
 
-    function getIsEnabled(): boolean {
+    function getIsEnabled(): CommentedPredicate {
       // general logic
-      if (step.alwaysEnabled) return true;
-      if (!process.insuredVerified && config.verifyInsured) return false;
+      if (step.alwaysEnabled) return [true, 'Step is always enabled'];
+      if (!process.insuredVerified && config.verifyInsured) return [false, 'Process requires insured verification but it is not verified'];
 
       // force overrides
-      if (overrides === 'enable') return true;
-      if (overrides === 'disable') return false;
+      if (overrides === 'enable') return [true, 'Force enabled by override'];
+      if (overrides === 'disable') return [false, 'Force disabled by override'];
 
       // step overrides
       if (step.overrideIsEnabled !== null) {
-        const isEnabledOverride = step.overrideIsEnabled(process);
-        return isEnabledOverride;
+        const [isEnabledOverride, isEnabledComment] = step.overrideIsEnabled(process);
+        return [isEnabledOverride, "step config override: " + isEnabledComment];
       }
 
       // process overrides
       if (config.overrideIsEnabled !== null) {
-        const isEnabledOverride = config.overrideIsEnabled(process);
-        return isEnabledOverride;
+        const [isEnabledOverride, isEnabledComment] = config.overrideIsEnabled(process);
+        return [isEnabledOverride, "process config override: " + isEnabledComment];
       }
 
       // by index
-      return index <= enabledIndex;
+      return [index <= enabledIndex, 'Step is enabled by index'];
     }
 
-    function isReadonly(): boolean {
-      if (login.processDisabled) return true;
-      if (login.isHistorical) return true;
+    function isReadonly(): CommentedPredicate {
+      if (login.processDisabled) return [true, 'Process is disabled for the current login'];
+      if (login.isHistorical) return [true, 'Process is historical for the current login'];
 
       // general logic
       const isDoctorTab = isUnion<Model.KnownTabName>(step.name, 'DOCTOR_DECISION');
-      if  (login.userInfo.isDoctor && !isDoctorTab) return true;
+      if  (login.userInfo.isDoctor && !isDoctorTab) return [true, 'User is a doctor but the tab is not the doctor tab'];
       const isApprovalAuthorityTab = isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY');
-      if (process.taskName === 'APPROVAL' && !isApprovalAuthorityTab) return true;
+      if (process.taskName === 'APPROVAL' && !isApprovalAuthorityTab) return [true, 'Process task is APPROVAL but the tab is not the approval authority tab'];
 
 
       // step overrides
       if (step.overrideReadonly !== null) {
-        const isReadonlyOverride = step.overrideReadonly(process);
-        return isReadonlyOverride;
+        const [isReadonlyOverride, isReadonlyComment] = step.overrideReadonly(process);
+        return [isReadonlyOverride, "step config override: " + isReadonlyComment];
       }
 
       // process overrides
       if (config.overrideReadonly !== null) {
-        const isReadonlyOverride = config.overrideReadonly(process);
-        return isReadonlyOverride;
+        const [isReadonlyOverride, isReadonlyComment] = config.overrideReadonly(process);
+        return [isReadonlyOverride, "process config override: " + isReadonlyComment];
       }
 
-      return false;
+      return [false, 'Step is not readonly by any condition'];
     }
 
     function isActive(): boolean {

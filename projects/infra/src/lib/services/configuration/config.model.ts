@@ -18,7 +18,7 @@ export type OnCompleteHook<MAPPER extends Model.ProcessMapper, Key extends Model
     ProcessFunction<MAPPER, Key>;
 
 export type ProcessPredicate<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
-    (process: Model.ProcessOf<MAPPER, Key>) => boolean;
+    (process: Model.ProcessOf<MAPPER, Key>) => [boolean, string];
 
 
 export interface ProcessStep<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> {

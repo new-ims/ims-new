@@ -1,7 +1,7 @@
 import { Type } from "@angular/core";
 import { Model } from "@common/models";
 
-export type ProcessPredicateVm = (process: Model.BaseProcess) => boolean;
+export type ProcessPredicateVm = (process: Model.BaseProcess) => [boolean, string];
 
 export interface ConfigVm {
   readonly stepTabs: ConfigStepTabVm[];

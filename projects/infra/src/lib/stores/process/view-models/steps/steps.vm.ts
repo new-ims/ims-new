@@ -7,6 +7,7 @@ export interface StepVm {
     readonly isEnabled: boolean;
     readonly isActive: boolean;
     readonly isReadonly: boolean;
+    readonly debugComments: Record<string, string>;
 }
 
 export interface ProcessStepsVm {
@@ -14,4 +15,5 @@ export interface ProcessStepsVm {
     readonly selectedStep: StepVm | null;
     readonly selectedStepName: string;
     readonly selectedStepIndex: number;
+
 }
