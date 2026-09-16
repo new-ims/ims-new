@@ -1,4 +1,5 @@
 import { fakes } from "../../../processes-models";
+import { isRemoteUser } from "../../services/common-predicates";
 
 export const holidayConfig = fakes.config('holiday', () => ({
     processName: 'Holiday Process',
@@ -34,6 +35,12 @@ export const holidayConfig = fakes.config('holiday', () => ({
         {
             id: 'INFO-2',
             label: 'מידע נוסף 2',
+            overrideIsEnabled: (p,l) => isRemoteUser(p,l)
+        }, 
+        {
+            id: 'INFO-3',
+            label: 'מידע נוסף 3',
+            overrideIsEnabled: (p,l) => isRemoteUser(p,l)
         }
     ],
     overrideIsEnabled: (process) => [!process.isInThePast, 'Process must not be in the past'],

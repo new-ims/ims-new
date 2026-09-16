@@ -49,7 +49,6 @@ export function buildProcessInfosVm(
             component: infoTab.component,
             isEnabled: isEnabledResult,
             debugComments: {
-                isVisible: isVisibleComment,
                 isEnabled: isEnabledComment
             }
         };
