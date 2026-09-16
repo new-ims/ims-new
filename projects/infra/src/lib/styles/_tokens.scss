@@ -1,0 +1,45 @@
+@mixin go() {
+    @if (& == null) {
+        :root {
+            @include _add_tokens();
+        }
+    } @else {
+        @include _add_tokens();
+    }
+}
+
+@mixin _add_tokens() {
+    /* Primary family */
+    --p-900: #00005c;
+    --p-800: #0a247e;
+    --p-700: #101488;
+    --p-600: #173b87;
+    --p-500: #1b4393;
+    --p-400: #2b3b8f;
+    --p-300: #3d4ea1;
+    --p-200: #5b68b8;
+    --p-100: #9ca8ea;
+
+    /* Accent family */
+    --a-900: #4278f4;
+    --a-800: #4e9eff;
+    --a-700: #5ea8ff;
+    --a-600: #6aa8ee;
+    --a-500: #7bbfff;
+    --a-400: #93d3ff;
+    --a-300: #9edcff;
+    --a-200: #b5c3ff;
+    --a-100: #e6fefa;
+
+    /* Neutral family */
+    --n-900: #2b2b2b;
+    --n-800: #4b4b4b;
+    --n-700: #6b6b6b;
+    --n-600: #8a8a8a;
+    --n-500: #a6a6a6;
+    --n-400: #c5c5c5;
+    --n-300: #d8d8d8;
+    --n-200: #eaeaea;
+    --n-100: #f2f2f2;
+
+}

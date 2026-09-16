@@ -46,13 +46,20 @@
             "browser": "projects/process-app/src/main.ts",
             "tsConfig": "projects/process-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/infra/src/lib/styles"                
+              ]
+            },
             "assets": [
               {
                 "glob": "**/*",
                 "input": "projects/process-app/public"
               }
             ],
-            "styles": ["projects/process-app/src/styles.scss"]
+            "styles": [
+              "projects/process-app/src/styles.scss", 
+            ]
           },
           "configurations": {
             "production": {
