@@ -1,7 +1,8 @@
 import { Type } from "@angular/core";
 import { Model } from "@common/models";
+import { ProcessPredicate } from "../../services/configuration/config.model";
 
-export type ProcessPredicateVm = (process: Model.BaseProcess) => [boolean, string];
+export type ProcessPredicateVm = ProcessPredicate
 
 export interface ConfigVm {
   readonly stepTabs: ConfigStepTabVm[];

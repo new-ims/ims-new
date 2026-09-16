@@ -4,8 +4,7 @@ import { ConfigStepTabVm, ConfigVm } from '../../../config/config.vm';
 import { isUnion } from '@common/utils';
 import { StepOverides } from '../../..';
 import { Adapter } from '@common/adapter';
-
-type CommentedPredicate = [boolean, string];
+import { CommentedPredicateResult } from '../../../../services/configuration/config.model';
 
 export function buildProcessStepsVm(
   process: Model.BaseProcess,
@@ -83,14 +82,14 @@ export function buildProcessStepsVm(
       }
     };
 
-    function isVisible(): CommentedPredicate {
+    function isVisible(): CommentedPredicateResult {
       // A step is invisible if the step name is 'approval...' and also the process task name is one of 'APPROVAL', 'CANCELED', 'COMPLETED'
       if (!isUnion<Model.KnownTabName>(step.name, 'APPROVAL_AUTHORITY')) return [true, ''];
       if (!['APPROVAL', 'CANCELED', 'COMPLETED'].includes(process.taskName)) return [false, 'Step is "APPROVAL_AUTHORITY" but the process task is not in approval/canceled/completed'];
       return [true, ''];
     }
 
-    function getIsEnabled(): CommentedPredicate {
+    function getIsEnabled(): CommentedPredicateResult {
       // general logic
       if (step.alwaysEnabled) return [true, 'Step is always enabled'];
       if (!process.insuredVerified && config.verifyInsured) return [false, 'Process requires insured verification but it is not verified'];
@@ -101,13 +100,13 @@ export function buildProcessStepsVm(
 
       // step overrides
       if (step.overrideIsEnabled !== null) {
-        const [isEnabledOverride, isEnabledComment] = step.overrideIsEnabled(process);
+        const [isEnabledOverride, isEnabledComment] = step.overrideIsEnabled(process, login.userInfo);
         return [isEnabledOverride, "step config override: " + isEnabledComment];
       }
 
       // process overrides
       if (config.overrideIsEnabled !== null) {
-        const [isEnabledOverride, isEnabledComment] = config.overrideIsEnabled(process);
+        const [isEnabledOverride, isEnabledComment] = config.overrideIsEnabled(process, login.userInfo);
         return [isEnabledOverride, "process config override: " + isEnabledComment];
       }
 
@@ -115,7 +114,7 @@ export function buildProcessStepsVm(
       return [index <= enabledIndex, 'Step is enabled by index'];
     }
 
-    function isReadonly(): CommentedPredicate {
+    function isReadonly(): CommentedPredicateResult {
       if (login.processDisabled) return [true, 'Process is disabled for the current login'];
       if (login.isHistorical) return [true, 'Process is historical for the current login'];
 
@@ -128,13 +127,13 @@ export function buildProcessStepsVm(
 
       // step overrides
       if (step.overrideReadonly !== null) {
-        const [isReadonlyOverride, isReadonlyComment] = step.overrideReadonly(process);
+        const [isReadonlyOverride, isReadonlyComment] = step.overrideReadonly(process, login.userInfo);
         return [isReadonlyOverride, "step config override: " + isReadonlyComment];
       }
 
       // process overrides
       if (config.overrideReadonly !== null) {
-        const [isReadonlyOverride, isReadonlyComment] = config.overrideReadonly(process);
+        const [isReadonlyOverride, isReadonlyComment] = config.overrideReadonly(process, login.userInfo);
         return [isReadonlyOverride, "process config override: " + isReadonlyComment];
       }
 

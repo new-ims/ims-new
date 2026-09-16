@@ -15,5 +15,4 @@ export interface ProcessStepsVm {
     readonly selectedStep: StepVm | null;
     readonly selectedStepName: string;
     readonly selectedStepIndex: number;
-
 }

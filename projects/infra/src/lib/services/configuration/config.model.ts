@@ -1,11 +1,14 @@
 import { Model } from "@common/models";
 import { InjectionToken, Type } from '@angular/core';
 import { MaybePromise } from "@common/utils";
+import { Adapter } from "@common/adapter";
 
-export interface ProcessInfo {
+export interface ProcessInfo<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> {
     readonly id: string;
     readonly label: string;
     readonly component: Type<any>;
+    readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
+    readonly overrideIsVisible?: ProcessPredicate<MAPPER, Key>;
 }
 
 export type ProcessFunction<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
@@ -17,8 +20,11 @@ export type OnEnterHook<MAPPER extends Model.ProcessMapper, Key extends Model.Pr
 export type OnCompleteHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
     ProcessFunction<MAPPER, Key>;
 
-export type ProcessPredicate<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
-    (process: Model.ProcessOf<MAPPER, Key>) => [boolean, string];
+export type CommentedPredicateResult = [boolean, string];
+
+
+export type ProcessPredicate<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> =
+    (process: Model.ProcessOf<MAPPER, Key>, login: Adapter.UserInfo) => CommentedPredicateResult;
 
 
 export interface ProcessStep<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> {
@@ -34,7 +40,7 @@ export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.Proces
     readonly processType: Key;
     readonly processName: string;    
     readonly steps: ProcessStep<MAPPER, Key>[];
-    readonly infos: ProcessInfo[];
+    readonly infos: ProcessInfo<MAPPER, Key>[];
     readonly verifyInsured: boolean;
     readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
     readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;

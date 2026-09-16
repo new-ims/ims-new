@@ -12,7 +12,7 @@ export const holidayConfig = fakes.config('holiday', () => ({
         {
             name: 'SCHEDULE',
             label: 'לוח זמנים', 
-            overrideReadonly: process => [process.vacationType === 'leisure', 'vacation type must be leisure']
+            overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure']
         }, 
         {
             name: 'TASKS-SYNCHRONIZE', 
