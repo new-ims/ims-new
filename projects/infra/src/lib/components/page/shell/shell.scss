@@ -2,4 +2,18 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+
+    .main-area {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+
+        .step-tabs {
+            width: 50%;
+        }
+
+        .info-tabs {
+            width: 50%;
+        }
+    }
 }
