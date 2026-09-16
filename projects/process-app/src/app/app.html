@@ -7,6 +7,9 @@
 <button (click)="disableAllSteps()">Disable All Steps</button>
 <h1>Infos:</h1>
 <pre>
+    Active Info ID: {{activeInfo()?.id}}
+</pre>
+<pre>
     {{infos() | json}}
 </pre>
 <h1>Steps:</h1>

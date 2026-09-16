@@ -14,8 +14,13 @@ export function buildProcessInfosVm(
     .map((infoTab) => buildInfoVm(infoTab))
     .filter((infoVm) => infoVm !== null) as InfoVm[];
 
+    const activeInfo = infosVm.find((infoVm) => infoVm.id === process.stepName) 
+        || infosVm[0] 
+        || null;
+
     return {
-        infos: infosVm
+        infos: infosVm,
+        activeInfo
     };
     
     function buildInfoVm(infoTab: ConfigInfoTabVm): InfoVm | null {

@@ -10,4 +10,5 @@ export interface InfoVm {
 
 export interface ProcessInfosVm {
     readonly infos: InfoVm[];
+    readonly activeInfo: InfoVm | null;
 }

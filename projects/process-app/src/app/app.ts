@@ -17,6 +17,7 @@ export class App {
 
   readonly steps = computed(() => this.#processStore.stepsVm());
   readonly infos = computed(() => this.#processStore.infosVm());
+  readonly activeInfo = computed(() => this.#processStore.infosVm().activeInfo);
 
   constructor() {
     effect(() => {

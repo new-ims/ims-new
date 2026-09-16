@@ -8,6 +8,7 @@ import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
+import { selectInfo } from './process.updaters';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -51,6 +52,9 @@ export const ProcessStore = signalStore(
     disableAllSteps: () => {
       updateState(store, '[Process] Disable All Steps', { overrides: 'disable' });
     },
+    selectInfo: (infoId: string) => {
+      updateState(store, '[Process] Select Info', selectInfo(infoId));
+    }
   })),
   withDevtools('ProcessStore'),
 );
