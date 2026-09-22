@@ -9,30 +9,61 @@
         flex-direction: row;
 
         .step-tabs {
-            width: 50%;
+            width: 80%;
         }
 
         .info-tabs {
-            width: 50%;
+            width: 20%;
         }
     }
 
     [ngTabs] {
-        overflow: hidden;        
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        .tab-content {
+            flex-grow: 1;
+            border: 1px solid var(--n-400);
+            border-radius: 4px;
+            border-top: 2px solid var(--a-900);
+            position: relative;
+
+        }        
     }
 
     [ngTabList] {
         display: flex;
         flex-direction: row;
-        border-bottom: 1px solid var(--p-600);
+        gap: 3px;
+    }
+
+    [ngTabPanel] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 1rem;
     }
 
     [ngTab] {
         padding: 0.5rem 1rem;
         cursor: pointer;
+        border: 1px solid var(--n-400);
+        border-bottom: 0px none;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 8px 8px 0px 0px;
+        color: var(--n-700);
+        white-space: nowrap;
+        
+
 
         &[aria-selected="true"] {
-            border-bottom: 2px solid var(--p-600);
+            border-color: var(--a-500);
+            color: var(--a-900);
+            background-color: var(--a-100);
+
         }
     }
 }

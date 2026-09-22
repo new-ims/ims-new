@@ -1,14 +1,35 @@
 <ng-content select="ims-top-bar"></ng-content>
 <ng-content select="ims-insured-header"></ng-content>
 <div class="main-area">
-    <div class="step-tabs" ngTabs>
-        <div ngTabList selectionModel="follow">
-            <div ngTab value="first">ראשון</div>
-            <div ngTab value="second">שני</div>
-            <div ngTab value="third">שלישי</div>
-        </div>
+  <div class="step-tabs" ngTabs>
+    <div ngTabList>
+      <div ngTab value="first">פרטי התביעה</div>
+      <div ngTab value="second">מסמכים / מכתבים</div>
+      <div ngTab value="third">בקשות המבוטח</div>
+      <div ngTab value="fourth">פוליסות</div>
+      <div ngTab value="fifth">החלטה</div>
+      <div ngTab value="sixth">תשלומים</div>
     </div>
-    <div class="info-tabs">
-        
+    <div class="tab-content">
+      <div ngTabPanel value="first">
+        <ng-template ngTabContent> פה יופיע תוכן פרטי התביעה </ng-template>
+      </div>
+      <div ngTabPanel value="second">
+        <ng-template ngTabContent> פה יופיע תוכן מסמכים / מכתבים </ng-template>
+      </div>
+      <div ngTabPanel value="third">
+        <ng-template ngTabContent> פה יופיע תוכן בקשות המבוטח </ng-template>
+      </div>
+      <div ngTabPanel value="fourth">
+        <ng-template ngTabContent> פה יופיע תוכן פוליסות </ng-template>
+      </div>
+      <div ngTabPanel value="fifth">
+        <ng-template ngTabContent> פה יופיע תוכן החלטה </ng-template>
+      </div>
+      <div ngTabPanel value="sixth">
+        <ng-template ngTabContent> פה יופיע תוכן תשלומים </ng-template>
+      </div>
     </div>
+  </div>
+  <div class="info-tabs"></div>
 </div>
