@@ -1,5 +1,31 @@
 <ng-content select="ims-top-bar"></ng-content>
 <ng-content select="ims-insured-header"></ng-content>
+<lib-tabs>
+  <lib-tab value="first">
+    <lib-tab-label>פרטי התביעה</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן פרטי התביעה </div>
+  </lib-tab>
+  <lib-tab value="second">
+    <lib-tab-label>מסמכים / מכתבים</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן מסמכים / מכתבים </div>
+  </lib-tab>
+  <lib-tab value="third">
+    <lib-tab-label>בקשות המבוטח</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן בקשות המבוטח </div>
+  </lib-tab>
+  <lib-tab value="fourth">
+    <lib-tab-label>פוליסות</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן פוליסות </div>
+  </lib-tab>
+  <lib-tab value="fifth">
+    <lib-tab-label>החלטה</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן החלטה </div>
+  </lib-tab>
+  <lib-tab value="sixth">
+    <lib-tab-label>תשלומים</lib-tab-label>
+    <div *libTabContent> פה יופיע תוכן תשלומים </div>
+  </lib-tab>
+</lib-tabs>
 <div class="main-area">
   <div class="step-tabs" ngTabs>
     <div ngTabList>
