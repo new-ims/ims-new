@@ -22,6 +22,7 @@ export class InfraAdapterService implements InfraAdapterBase<FakeModels.FakeProc
         displayName: 'רחוק ישראלי',
         isDoctor: process.processType === 'radiant-health',
         userId: 'user-123',
+        loginResultCode: 0,
       },
     };
   }
