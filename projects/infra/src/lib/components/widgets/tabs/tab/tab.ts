@@ -6,13 +6,6 @@ import { Component, input } from '@angular/core';
   imports: [],
   templateUrl: './tab.html',
   styleUrl: './tab.scss',
-  hostDirectives: [
-    {
-      directive: Tab,
-      inputs: [
-        'value'
-      ]
-    }],
 })
 export class TabComponent {
   readonly value = input.required<string>();

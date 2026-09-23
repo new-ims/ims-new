@@ -8,5 +8,5 @@ export * from './process/default-step/default-step';
 export * from './widgets/widgets';
 export * from './widgets/tabs/tabs';
 export * from './widgets/tabs/tab/tab';
-export * from './widgets/tabs/tab-label/tab-label';
+export * from './widgets/tabs/tab-label';
 export * from './widgets/tabs/tab-content';
