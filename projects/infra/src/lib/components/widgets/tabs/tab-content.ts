@@ -1,6 +1,8 @@
-import { Directive } from '@angular/core';
+import { Directive, inject, TemplateRef } from '@angular/core';
 
 @Directive({
   selector: '[libTabContent]',
 })
-export class TabContentDirective {}
+export class TabContentDirective {
+  readonly template = inject(TemplateRef);
+}

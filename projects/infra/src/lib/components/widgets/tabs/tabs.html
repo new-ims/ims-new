@@ -1,5 +1,18 @@
 <div ngTabs>
-    <div ngTabList>
-        <ng-content select="lib-tab"/>
-    </div>
+  <div ngTabList>
+    @for (tab of tabs(); track $index) {
+      <div ngTab [value]="tab.value()">
+        <ng-container *ngTemplateOutlet="tab.labelDirective()!.template!" />
+      </div>
+    }
+  </div>
+  <div class="tab-content">
+    @for (tab of tabs(); track $index) {
+      <div ngTabPanel [value]="tab.value()">
+        <ng-template ngTabContent>
+          <ng-container *ngTemplateOutlet="tab.contentDirective()!.template!" />
+        </ng-template>
+      </div>
+    }
+  </div>
 </div>

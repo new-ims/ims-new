@@ -1,5 +1,6 @@
-import { Tab } from '@angular/aria/tabs';
-import { Component, input } from '@angular/core';
+import { Component, contentChild, input } from '@angular/core';
+import { TabLabelDirective } from '../tab-label';
+import { TabContentDirective } from '../tab-content';
 
 @Component({
   selector: 'lib-tab',
@@ -9,4 +10,6 @@ import { Component, input } from '@angular/core';
 })
 export class TabComponent {
   readonly value = input.required<string>();
+  readonly labelDirective = contentChild(TabLabelDirective);
+  readonly contentDirective = contentChild(TabContentDirective);
 }
