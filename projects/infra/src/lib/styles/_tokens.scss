@@ -1,45 +1,135 @@
 @mixin go() {
     @if (& == null) {
         :root {
-            @include _add_tokens();
+            @include _consistent_tokens();
         }
     } @else {
-        @include _add_tokens();
+        @include _consistent_tokens();
     }
 }
 
-@mixin _add_tokens() {
-    /* Primary family */
-    --p-900: #00005c;
-    --p-800: #0a247e;
-    --p-700: #101488;
-    --p-600: #173b87;
-    --p-500: #1b4393;
-    --p-400: #2b3b8f;
-    --p-300: #3d4ea1;
-    --p-200: #5b68b8;
-    --p-100: #9ca8ea;
+@mixin _styleguide_tokens() {
+    // these tokens come from the original styleguide
+    // Neutral (Grey)
+    --ne-050: #ececec;
+    --ne-075: #b1b1b1;
+    --ne-100: #909090;
+    --ne-200: #606060;
+    --ne-300: #404040;
+    --ne-400: #2d2d2d;
+    --ne-500: #272727;
 
-    /* Accent family */
-    --a-900: #4278f4;
-    --a-800: #4e9eff;
-    --a-700: #5ea8ff;
-    --a-600: #6aa8ee;
-    --a-500: #7bbfff;
-    --a-400: #93d3ff;
-    --a-300: #9edcff;
-    --a-200: #b5c3ff;
-    --a-100: #e6fefa;
+    // Primary (Dark Blue)
+    --pr-050: #e6e6ec;
+    --pr-075: #9898b1;
+    --pr-100: #6d6d91;
+    --pr-200: #2f2e61;
+    --pr-300: #020140;
+    --pr-400: #03022e;
+    --pr-500: #020228;
 
-    /* Neutral family */
-    --n-900: #2b2b2b;
-    --n-800: #4b4b4b;
-    --n-700: #6b6b6b;
-    --n-600: #8a8a8a;
-    --n-500: #a6a6a6;
-    --n-400: #c5c5c5;
-    --n-300: #d8d8d8;
-    --n-200: #eaeaea;
-    --n-100: #f2f2f2;
+    // Tertiary (Blue)
+    --te-050: #ebf0fc;
+    --te-075: #afc0f4;
+    --te-100: #8da6ef;
+    --te-200: #5c7fe9;
+    --te-300: #3c65e3;
+    --te-400: #2947a0;
+    --te-500: #243e8b;
 
+    // Accent (Light Blue)
+    --ac-050: #f8fbfd;
+    --ac-075: #e4edf7;
+    --ac-100: #d9e5f3;
+    --ac-200: #c8daee;
+    --ac-300: #bdd2eb;
+    --ac-400: #8493a5;
+    --ac-500: #73808f;
+
+    // Success (Green)
+    --su-050: #f6fdf5;
+    --su-075: #d9f7d5;
+    --su-100: #c9f3c4;
+    --su-200: #b2eeaa;
+    --su-300: #a2eb9a;
+    --su-400: #71a56b;
+    --su-500: #638f5d;
+}
+
+@mixin _consistent_tokens() {
+    // Shared lightness ramp across all families: 98 96 93 85 76 67 58 49 40 31 23 16
+
+    // Neutral (Grey) — hue 89.88, chroma 0
+    --n-000: white;
+    --n-050: oklch(98% 0.000 89.88);
+    --n-075: oklch(96% 0.000 89.88);
+    --n-100: oklch(93% 0.000 89.88);
+    --n-200: oklch(85% 0.000 89.88);
+    --n-300: oklch(76% 0.000 89.88);
+    --n-400: oklch(67% 0.000 89.88);
+    --n-500: oklch(58% 0.000 89.88);
+    --n-600: oklch(49% 0.000 89.88);
+    --n-700: oklch(40% 0.000 89.88);
+    --n-800: oklch(31% 0.000 89.88);
+    --n-900: oklch(23% 0.000 89.88);
+    --n-950: oklch(16% 0.000 89.88);
+    --n-999: black;
+
+    // Primary (Dark Blue) — hue 275, peak chroma 0.11
+    --p-050: oklch(98% 0.011 275);
+    --p-075: oklch(96% 0.018 275);
+    --p-100: oklch(93% 0.028 275);
+    --p-200: oklch(85% 0.050 275);
+    --p-300: oklch(76% 0.072 275);
+    --p-400: oklch(67% 0.094 275);
+    --p-500: oklch(58% 0.110 275);
+    --p-600: oklch(49% 0.107 275);
+    --p-700: oklch(40% 0.097 275);
+    --p-800: oklch(31% 0.079 275);
+    --p-900: oklch(23% 0.061 275);
+    --p-950: oklch(16% 0.046 275);
+
+    // Tertiary (Blue) — hue 267, peak chroma 0.19
+    --t-050: oklch(98% 0.019 267);
+    --t-075: oklch(96% 0.030 267);
+    --t-100: oklch(93% 0.048 267);
+    --t-200: oklch(85% 0.086 267);
+    --t-300: oklch(76% 0.124 267);
+    --t-400: oklch(67% 0.162 267);
+    --t-500: oklch(58% 0.190 267);
+    --t-600: oklch(49% 0.184 267);
+    --t-700: oklch(40% 0.167 267);
+    --t-800: oklch(31% 0.137 267);
+    --t-900: oklch(23% 0.105 267);
+    --t-950: oklch(16% 0.080 267);
+
+    // Accent (Light Blue) — hue 252, peak chroma 0.045
+    --a-050: oklch(98% 0.005 252);
+    --a-075: oklch(96% 0.007 252);
+    --a-100: oklch(93% 0.011 252);
+    --a-200: oklch(85% 0.020 252);
+    --a-300: oklch(76% 0.029 252);
+    --a-400: oklch(67% 0.038 252);
+    --a-500: oklch(58% 0.045 252);
+    --a-600: oklch(49% 0.044 252);
+    --a-700: oklch(40% 0.040 252);
+    --a-800: oklch(31% 0.032 252);
+    --a-900: oklch(23% 0.025 252);
+    --a-950: oklch(16% 0.019 252);
+
+    // Success (Green) — hue 142, peak chroma 0.13
+    --s-050: oklch(98% 0.013 142);
+    --s-075: oklch(96% 0.021 142);
+    --s-100: oklch(93% 0.033 142);
+    --s-200: oklch(85% 0.059 142);
+    --s-300: oklch(76% 0.085 142);
+    --s-400: oklch(67% 0.111 142);
+    --s-500: oklch(58% 0.130 142);
+    --s-600: oklch(49% 0.126 142);
+    --s-700: oklch(40% 0.114 142);
+    --s-800: oklch(31% 0.094 142);
+    --s-900: oklch(23% 0.072 142);
+    --s-950: oklch(16% 0.055 142);
+
+    --color-surface-dark: var(--t-900);
 }
