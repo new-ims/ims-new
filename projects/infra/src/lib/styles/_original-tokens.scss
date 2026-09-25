@@ -1,0 +1,56 @@
+@mixin go() {
+    @if (& == null) {
+        :root {
+            @include _add_tokens();
+        }
+    } @else {
+        @include _add_tokens();
+    }
+}
+
+@mixin _add_tokens() {
+    // Neutral (Grey)
+    --ne-050: #ececec;
+    --ne-075: #b1b1b1;
+    --ne-100: #909090;
+    --ne-200: #606060;
+    --ne-300: #404040;
+    --ne-400: #2d2d2d;
+    --ne-500: #272727;
+
+    // Primary (Dark Blue)
+    --pr-050: #e6e6ec;
+    --pr-075: #9898b1;
+    --pr-100: #6d6d91;
+    --pr-200: #2f2e61;
+    --pr-300: #020140;
+    --pr-400: #03022e;
+    --pr-500: #020228;
+
+    // Tertiary (Blue)
+    --te-050: #ebf0fc;
+    --te-075: #afc0f4;
+    --te-100: #8da6ef;
+    --te-200: #5c7fe9;
+    --te-300: #3c65e3;
+    --te-400: #2947a0;
+    --te-500: #243e8b;
+
+    // Accent (Light Blue)
+    --ac-050: #f8fbfd;
+    --ac-075: #e4edf7;
+    --ac-100: #d9e5f3;
+    --ac-200: #c8daee;
+    --ac-300: #bdd2eb;
+    --ac-400: #8493a5;
+    --ac-500: #73808f;
+
+    // Success (Green)
+    --su-050: #f6fdf5;
+    --su-075: #d9f7d5;
+    --su-100: #c9f3c4;
+    --su-200: #b2eeaa;
+    --su-300: #a2eb9a;
+    --su-400: #71a56b;
+    --su-500: #638f5d;
+}
