@@ -10,6 +10,7 @@ import { TabContentDirective } from '../tab-content';
 })
 export class TabComponent {
   readonly value = input.required<string>();
+  readonly disabled = input(false);
   readonly labelDirective = contentChild(TabLabelDirective);
   readonly contentDirective = contentChild(TabContentDirective);
 }

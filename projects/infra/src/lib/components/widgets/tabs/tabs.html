@@ -1,7 +1,7 @@
 <div ngTabs>
-  <div ngTabList>
+  <div ngTabList [softDisabled]="false">
     @for (tab of tabs(); track $index) {
-      <div ngTab [value]="tab.value()">
+      <div ngTab [value]="tab.value()" [disabled]="tab.disabled()">
         <ng-container *ngTemplateOutlet="tab.labelDirective()!.template!" />
       </div>
     }

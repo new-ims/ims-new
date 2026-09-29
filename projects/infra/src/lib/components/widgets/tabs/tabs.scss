@@ -1,0 +1,76 @@
+:host {
+    --_lib-tabs-active-background: var(--lib-tabs-active-background, var(--p-100));
+    --_lib-tabs-active-text: var(--lib-tabs-active-text, var(--t-500));
+    --_lib-tabs-active-border: var(--lib-tabs-active-border, var(--p-200));
+
+    --_lib-tabs-background: var(--lib-tabs-background, var(--n-000));
+    --_lib-tabs-text: var(--lib-tabs-text, var(--n-600));
+    --_lib-tabs-border: var(--lib-tabs-border, var(--n-100));
+
+    --_lib-tabs-content-border: var(--lib-tabs-content-border, var(--t-500));
+
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    [ngTabs] {
+        overflow: hidden;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        [ngTabList] {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            [ngTab] {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                height: 38px; 
+                min-width: 100px;
+                padding: 15px 10px;
+                border: 2px solid var(--_lib-tabs-border);
+                border-radius: 6px 6px 0px 0px;
+                color: var(--_lib-tabs-text);
+                background: var(--_lib-tabs-background);
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                white-space: nowrap;
+
+                &[aria-selected="true"] {
+                    color: var(--_lib-tabs-active-text);
+                    background: var(--_lib-tabs-active-background);
+                    border-color: var(--_lib-tabs-active-border);
+                }
+
+                &[aria-disabled="true"] {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
+
+            }
+        }
+    }
+
+    .tab-content {
+        flex-grow: 1;
+        position: relative;
+        border-top: 2px solid var(--_lib-tabs-content-border);
+        border-radius: 4px;
+
+        [ngTabPanel] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+        }
+
+    }
+}
