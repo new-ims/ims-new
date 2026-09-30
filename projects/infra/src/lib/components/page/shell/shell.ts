@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Widgets } from '../../widgets/widgets';
-import { TabContent } from '@angular/aria/tabs';
+import { ProcessStore } from '../../../stores';
+import { Shared } from '@infra';
 
 @Component({
   selector: 'ims-shell',
-  imports: [Widgets],
+  imports: [Widgets, Shared],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
-export class Shell {}
+export class Shell {
+  readonly processStore = inject(ProcessStore);
+
+
+}

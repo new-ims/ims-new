@@ -1,7 +1,7 @@
 # Next Steps
-- [ ] Implement tabs component 
-  - [ ] Support 2 themes (primary and secondary)
+- [X] Implement tabs component 
+  - [X] Support 2 themes (primary and secondary)
   - [ ] Support Value model binding
-- [ ] Implement the Shell component and tie it to the process store
+- [X] Implement the Shell component and tie it to the process store
 
 

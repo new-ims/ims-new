@@ -3,55 +3,31 @@
 
 <div class="main-area">
   <lib-tabs class="steps-tabs">
-    <lib-tab value="first">
-      <ng-template libTabLabel>פרטי התביעה</ng-template>
-      <div *libTabContent>פה יופיע תוכן פרטי התביעה</div>
-    </lib-tab>
-    <lib-tab value="second" [disabled]="true">
-      <ng-template libTabLabel>מסמכים / מכתבים</ng-template>
-      <div *libTabContent>פה יופיע תוכן מסמכים / מכתבים</div>
-    </lib-tab>
-    <lib-tab value="third">
-      <ng-template libTabLabel>בקשות המבוטח</ng-template>
-      <div *libTabContent>פה יופיע תוכן בקשות המבוטח</div>
-    </lib-tab>
-    <lib-tab value="fourth">
-      <ng-template libTabLabel>פוליסות</ng-template>
-      <div *libTabContent>פה יופיע תוכן פוליסות</div>
-    </lib-tab>
-    <lib-tab value="fifth">
-      <ng-template libTabLabel>החלטה</ng-template>
-      <div *libTabContent>פה יופיע תוכן החלטה</div>
-    </lib-tab>
-    <lib-tab value="sixth">
-      <ng-template libTabLabel>תשלומים</ng-template>
-      <div *libTabContent>פה יופיע תוכן תשלומים</div>
-    </lib-tab>
+    @for (tab of processStore.stepsVm().steps; track tab.name) {
+      <lib-tab [value]="tab.name" [disabled]="!tab.isEnabled">
+        <ng-template libTabLabel>{{ tab.label }}</ng-template>
+        <div *libTabContent>
+          <pre>
+            <code>
+            {{processStore.stepsVm() | json}}
+            </code>
+          </pre>
+        </div>
+      </lib-tab>
+    }
   </lib-tabs>
   <lib-tabs class="info-tabs" secondary>
-    <lib-tab value="one">
-      <ng-template libTabLabel>מסמכים</ng-template>
-      <div *libTabContent>מסמכיאדה ובלאגנים</div>
-    </lib-tab>
-    <lib-tab value="two">
-      <ng-template libTabLabel>שאילתות</ng-template>
-      <div *libTabContent>פוליסות, תביעות, תקרות</div>
-    </lib-tab>
-    <lib-tab value="three">
-      <ng-template libTabLabel>פרטי מידע</ng-template>
-      <div *libTabContent>מלא דברים אחרים</div>      
-    </lib-tab>
-    <lib-tab value="four">
-      <ng-template libTabLabel>היסטוריה</ng-template>
-      <div *libTabContent>לוג של מידע מהעבר</div>      
-    </lib-tab>
-    <lib-tab value="five" [disabled]="true">
-      <ng-template libTabLabel>הערות לתביעה</ng-template>
-      <div *libTabContent>פה יופיע תוכן הערות לתביעה</div>      
-    </lib-tab>
-    <lib-tab value="six" [disabled]="true">
-      <ng-template libTabLabel>היוועצות</ng-template>
-      <div *libTabContent>פה יופיע תוכן היוועצות</div>      
-    </lib-tab>
+    @for (tab of processStore.infosVm().infos; track tab.id) {
+      <lib-tab [value]="tab.id" [disabled]="!tab.isEnabled">
+        <ng-template libTabLabel>{{ tab.label }}</ng-template>
+        <div *libTabContent>
+          <pre>
+            <code>
+            {{processStore.infosVm() | json}}
+            </code>
+          </pre>
+        </div>
+      </lib-tab>
+    }
   </lib-tabs>
 </div>
