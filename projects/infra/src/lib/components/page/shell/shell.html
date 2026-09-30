@@ -2,7 +2,7 @@
 <ng-content select="ims-insured-header"></ng-content>
 
 <div class="main-area">
-  <lib-tabs>
+  <lib-tabs class="steps-tabs">
     <lib-tab value="first">
       <ng-template libTabLabel>פרטי התביעה</ng-template>
       <div *libTabContent>פה יופיע תוכן פרטי התביעה</div>
@@ -26,6 +26,32 @@
     <lib-tab value="sixth">
       <ng-template libTabLabel>תשלומים</ng-template>
       <div *libTabContent>פה יופיע תוכן תשלומים</div>
+    </lib-tab>
+  </lib-tabs>
+  <lib-tabs class="info-tabs" secondary>
+    <lib-tab value="one">
+      <ng-template libTabLabel>מסמכים</ng-template>
+      <div *libTabContent>מסמכיאדה ובלאגנים</div>
+    </lib-tab>
+    <lib-tab value="two">
+      <ng-template libTabLabel>שאילתות</ng-template>
+      <div *libTabContent>פוליסות, תביעות, תקרות</div>
+    </lib-tab>
+    <lib-tab value="three">
+      <ng-template libTabLabel>פרטי מידע</ng-template>
+      <div *libTabContent>מלא דברים אחרים</div>      
+    </lib-tab>
+    <lib-tab value="four">
+      <ng-template libTabLabel>היסטוריה</ng-template>
+      <div *libTabContent>לוג של מידע מהעבר</div>      
+    </lib-tab>
+    <lib-tab value="five" [disabled]="true">
+      <ng-template libTabLabel>הערות לתביעה</ng-template>
+      <div *libTabContent>פה יופיע תוכן הערות לתביעה</div>      
+    </lib-tab>
+    <lib-tab value="six" [disabled]="true">
+      <ng-template libTabLabel>היוועצות</ng-template>
+      <div *libTabContent>פה יופיע תוכן היוועצות</div>      
     </lib-tab>
   </lib-tabs>
 </div>
