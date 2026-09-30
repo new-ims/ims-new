@@ -60,6 +60,7 @@
     .tab-content {
         flex-grow: 1;
         position: relative;
+        border: 1px solid var(--_lib-tabs-content-border);
         border-top: 2px solid var(--_lib-tabs-content-border);
         border-radius: 4px;
 
