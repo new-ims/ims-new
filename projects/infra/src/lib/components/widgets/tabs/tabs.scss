@@ -7,13 +7,14 @@
   --_lib-tabs-text: var(--lib-tabs-text, var(--n-600));
   --_lib-tabs-border: var(--lib-tabs-border, var(--n-100));
 
-  --_lib-tabs-content-border: var(--lib-tabs-content-border, var(--t-500));
+  --_lib-tabs-content-border: var(--lib-tabs-content-border, var(--n-200));
+  --_lib-tabs-content-border-top: var(--lib-tabs-content-border-top, var(--t-500));
 
   &[secondary] {
     --_lib-tabs-active-background: var(--lib-tabs-active-background, var(--a-200));
     --_lib-tabs-active-text: var(--lib-tabs-active-text, var(--t-900));
     --_lib-tabs-active-border: var(--lib-tabs-active-border, var(--a-300));
-    --_lib-tabs-content-border: var(--lib-tabs-content-border, var(--t-900));
+    --_lib-tabs-content-border-top: var(--lib-tabs-content-border-top, var(--t-900));
   }
 
   display: flex;
@@ -67,7 +68,7 @@
     flex-grow: 1;
     position: relative;
     border: 1px solid var(--_lib-tabs-content-border);
-    border-top: 2px solid var(--_lib-tabs-content-border);
+    border-top: 2px solid var(--_lib-tabs-content-border-top);
     border-radius: 4px;
 
     [ngTabPanel] {
