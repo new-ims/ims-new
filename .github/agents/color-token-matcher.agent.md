@@ -16,7 +16,7 @@ workspace's palette. Your ONLY job is to take a color and report the closest tok
 
 ## Source of truth
 The token ramp lives in the `_consistent_tokens()` mixin in
-[projects/infra/src/lib/styles/_tokens.scss](projects/infra/src/lib/styles/_tokens.scss).
+[projects/infra/src/lib/styles/_tokens.scss](../../projects/infra/src/lib/styles/_tokens.scss).
 Read it fresh every time — the ramp may change. Each token is an
 `oklch(L% C H)` triple (or `white`/`black` for `--n-000`/`--n-999`).
 
