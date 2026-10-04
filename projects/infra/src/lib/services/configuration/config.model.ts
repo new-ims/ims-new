@@ -11,18 +11,35 @@ export interface ProcessInfo<MAPPER extends Model.ProcessMapper, Key extends Mod
     readonly overrideIsVisible?: ProcessPredicate<MAPPER, Key>;
 }
 
-export type ProcessFunction<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
-    (process: Model.ProcessOf<MAPPER, Key>) => MaybePromise<Model.ProcessOf<MAPPER, Key>>;
+export type ProcessFunction<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>, Result = void> =
+    (process: Model.ProcessOf<MAPPER, Key>) => Result;
+
+export type ProcessMaybeAsyncFunction<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>, Result = void> =
+    ProcessFunction<MAPPER, Key, MaybePromise<Result>>;
+
+export type ProcessConverter<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
+    ProcessMaybeAsyncFunction<MAPPER, Key, Model.ProcessOf<MAPPER, Key>>;
+
+export type OnEnterResult<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> = 
+    Model.ProcessOf<MAPPER, Key>;
 
 export type OnEnterHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> = 
-    ProcessFunction<MAPPER, Key>;
+    ProcessMaybeAsyncFunction<MAPPER, Key, OnEnterResult<MAPPER, Key>>;
+
+
+export const CONTINUE_ACTIONS = ['NEXT', 'HOME', 'NEXT&HOME', 'PREVIOUS&HOME', 'STAY', 'LETTERS'] as const;
+export type ContinueAction = typeof CONTINUE_ACTIONS[number];
+
+export type OnCompleteResult = {
+    continue: ContinueAction;
+    nextStepName?: string;
+    completionMessage?: string;
+}
 
 export type OnCompleteHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
-    ProcessFunction<MAPPER, Key>;
+    ProcessMaybeAsyncFunction<MAPPER, Key, OnCompleteResult>;
 
 export type CommentedPredicateResult = [boolean, string];
-
-
 export type ProcessPredicate<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> =
     (process: Model.ProcessOf<MAPPER, Key>, login: Adapter.UserInfo) => CommentedPredicateResult;
 
@@ -59,11 +76,3 @@ export type ConfigRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMap
 
 export const CONFIG_REGISTRY_TOKEN = new InjectionToken<ConfigRegistry>('CONFIG_REGISTRY_TOKEN');
 
-export const CONTINUE_ACTIONS = ['NEXT', 'HOME', 'NEXT&HOME', 'PREVIOUS&HOME', 'STAY', 'LETTERS'] as const;
-export type ContinueAction = typeof CONTINUE_ACTIONS[number];
-
-export interface CompleteStepResolver {
-    continue: ContinueAction;
-    nextStepName?: string;
-    completionMessage?: string | null;
-}
