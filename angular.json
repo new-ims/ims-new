@@ -58,7 +58,7 @@
               }
             ],
             "styles": [
-              "projects/process-app/src/styles.scss", 
+              "projects/process-app/src/styles.scss"
             ]
           },
           "configurations": {
