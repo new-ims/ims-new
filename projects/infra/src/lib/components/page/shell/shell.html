@@ -19,7 +19,9 @@
       </lib-tab>
     }
   </lib-tabs>
-  <lib-tabs class="info-tabs" secondary [selectedId]="infoVms.selectedInfoId">
+  <lib-tabs class="info-tabs" secondary 
+    [selectedId]="infoVms.selectedInfoId"
+    (selectedIdChange)="processStore.selectInfo($event)">
     @for (tab of infoVms.infos; track tab.id) {
       <lib-tab [tabId]="tab.id" [disabled]="!tab.isEnabled">
         <ng-template libTabLabel>{{ tab.label }}</ng-template>
