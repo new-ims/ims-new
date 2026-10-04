@@ -23,7 +23,7 @@ export type ProcessConverter<MAPPER extends Model.ProcessMapper, Key extends Mod
 export type OnEnterResult<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> = 
     Model.ProcessOf<MAPPER, Key>;
 
-export type OnEnterHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> = 
+export type OnEnterHook<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> = 
     ProcessMaybeAsyncFunction<MAPPER, Key, OnEnterResult<MAPPER, Key>>;
 
 
@@ -36,7 +36,7 @@ export type OnCompleteResult = {
     completionMessage?: string;
 }
 
-export type OnCompleteHook<MAPPER extends Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER>> =
+export type OnCompleteHook<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> =
     ProcessMaybeAsyncFunction<MAPPER, Key, OnCompleteResult>;
 
 export type CommentedPredicateResult = [boolean, string];
@@ -51,6 +51,8 @@ export interface ProcessStep<MAPPER extends Model.ProcessMapper, Key extends Mod
     readonly component?: Type<any>;
     readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
     readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
+    readonly onEnter?: OnEnterHook<MAPPER, Key>;
+    readonly onComplete?: OnCompleteHook<MAPPER, Key>;
 }
 
 export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, Key extends Model.ProcessTypeKeys<MAPPER> = string> {
