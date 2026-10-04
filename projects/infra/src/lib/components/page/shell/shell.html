@@ -5,7 +5,9 @@
 @let infoVms = processStore.infosVm();
 
 <div class="main-area">
-  <lib-tabs class="steps-tabs" [selectedId]="stepVms.selectedStepName">
+  <lib-tabs class="steps-tabs" [selectedId]="stepVms.selectedStepName"
+    (selectedIdChange)="processStore.selectStep($event)"
+  >
     @for (tab of stepVms.steps; track tab.name) {
       <lib-tab [tabId]="tab.name" [disabled]="!tab.isEnabled">
         <ng-template libTabLabel>{{ tab.label }}</ng-template>

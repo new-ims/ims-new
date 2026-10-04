@@ -8,7 +8,7 @@ import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
-import { selectInfo } from './process.updaters';
+import { selectInfo, selectStep } from './process.updaters';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -55,6 +55,9 @@ export const ProcessStore = signalStore(
     },
     selectInfo: (infoId: string) => {
       updateState(store, '[Process] Select Info', selectInfo(infoId));
+    }, 
+    selectStep: (stepName: string) => {
+      updateState(store, '[Process] Select Step', selectStep(stepName, store.stepsVm().steps));
     }
   })),
   withDevtools('ProcessStore'),

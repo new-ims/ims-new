@@ -2,6 +2,8 @@ export interface BaseProcess<T extends string = string> {
   readonly processType: T;
   readonly processKey: string;
   readonly stepName: string;
+  readonly selectedTab: string;
+  readonly step: number;
   readonly taskName: TaskName;
   readonly insuredVerified: boolean;
 }

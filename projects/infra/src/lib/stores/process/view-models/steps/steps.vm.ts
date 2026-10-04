@@ -3,6 +3,7 @@ import { Type } from "@angular/core";
 export interface StepVm {
     readonly name: string;
     readonly label: string;
+    readonly stepIndex: number;
     readonly component: Type<any>;
     readonly isEnabled: boolean;
     readonly isActive: boolean;

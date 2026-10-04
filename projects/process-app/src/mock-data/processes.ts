@@ -7,6 +7,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     vacationType: 'leisure',
     taskName: 'CLERK',
     stepName: 'SCHEDULE',
+    step: 1,
+    selectedTab: 'SCHEDULE',
     insuredVerified: true,
     isInThePast: false,
   },
@@ -16,6 +18,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     vacationType: 'adventure',
     taskName: 'CANCELED',
     stepName: 'APPROVAL_AUTHORITY',
+    step: 2,
+    selectedTab: 'APPROVAL_AUTHORITY',
     insuredVerified: false,
     isInThePast: true,
   },
@@ -25,6 +29,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     vacationType: 'business',
     taskName: 'APPROVAL',
     stepName: 'APPROVAL_AUTHORITY',
+    selectedTab: 'APPROVAL_AUTHORITY',
+    step: 3,
     insuredVerified: false, 
     isInThePast: false,
   },
@@ -34,6 +40,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     degreeOfHealth: 92,
     taskName: 'APPROVAL',
     stepName: 'request',
+    step: 1,
+    selectedTab: 'request',
     insuredVerified: false
   },
   {
@@ -42,6 +50,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     degreeOfHealth: 76,
     taskName: 'APPROVAL',
     stepName: 'request',
+    step: 1,
+    selectedTab: 'request',
     insuredVerified: false
   },
   {
@@ -50,6 +60,8 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     degreeOfHealth: 58,
     taskName: 'APPROVAL',
     stepName: 'tasks-synchronize',
+    step: 1,
+    selectedTab: 'tasks-synchronize',
     insuredVerified: false
   },
 ];
