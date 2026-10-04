@@ -58,3 +58,12 @@ export type ConfigRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMap
 };
 
 export const CONFIG_REGISTRY_TOKEN = new InjectionToken<ConfigRegistry>('CONFIG_REGISTRY_TOKEN');
+
+export const CONTINUE_ACTIONS = ['NEXT', 'HOME', 'NEXT&HOME', 'PREVIOUS&HOME', 'STAY', 'LETTERS'] as const;
+export type ContinueAction = typeof CONTINUE_ACTIONS[number];
+
+export interface CompleteStepResolver {
+    continue: ContinueAction;
+    nextStepName?: string;
+    completionMessage?: string | null;
+}
