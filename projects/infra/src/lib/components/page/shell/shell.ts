@@ -1,11 +1,12 @@
 import { Component, effect, inject } from '@angular/core';
 import { Widgets } from '../../widgets/widgets';
 import { ProcessStore } from '../../../stores';
-import { Shared } from '@infra';
+import { Shared } from '../../../shared';
+import { Busy } from '../..';
 
 @Component({
   selector: 'ims-shell',
-  imports: [Widgets, Shared],
+  imports: [Widgets, Shared, Busy],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
