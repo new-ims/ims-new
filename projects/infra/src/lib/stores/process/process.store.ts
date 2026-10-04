@@ -33,7 +33,8 @@ export const ProcessStore = signalStore(
     const infosVm = computed(() => buildProcessInfosVm(
       store.process()!,
       store._configVm(),
-      store._loginInfo.userInfo()!
+      store._loginInfo.userInfo()!, 
+      store.selectedInfoId()
     ));
 
     return {

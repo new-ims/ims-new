@@ -7,20 +7,26 @@ import { CommentedPredicateResult } from "../../../../services/configuration/con
 export function buildProcessInfosVm(
     process: Model.BaseProcess,
     config: ConfigVm, 
-    userInfo: Adapter.UserInfo
+    userInfo: Adapter.UserInfo, 
+    selectedInfoId: string
 ): ProcessInfosVm {
     const infosVm = config
     .infoTabs
     .map((infoTab) => buildInfoVm(infoTab))
     .filter((infoVm) => infoVm !== null) as InfoVm[];
 
-    const activeInfo = infosVm.find((infoVm) => infoVm.id === process.stepName) 
+    const selectedInfo = infosVm.find((infoVm) => infoVm.id === selectedInfoId) 
         || infosVm[0] 
-        || null;
+        || null; 
+    const calculatedSelectedInfoId = selectedInfo ? selectedInfo.id : ''; 
+    const selectedInfoIndex = selectedInfo ? infosVm.indexOf(selectedInfo) : -1;
+
 
     return {
         infos: infosVm,
-        activeInfo
+        selectedInfo,
+        selectedInfoId: calculatedSelectedInfoId,
+        selectedInfoIndex
     };
     
     function buildInfoVm(infoTab: ConfigInfoTabVm): InfoVm | null {
