@@ -15,7 +15,7 @@ import { ConfigStore } from '../config/config.store';
 import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
-import { selectInfo, selectStep } from './process.updaters';
+import { selectInfo, selectStep, setCurrentStep } from './process.updaters';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -85,6 +85,9 @@ export const ProcessStore = signalStore(
         updateState(store, '[Process] Select Step - Completed', { isBusy: false });
       }
     },
+    setCurrentStep: (stepName: string) => {
+      updateState(store, '[Process] Set Current Step', setCurrentStep(stepName, store.stepsVm().steps));
+    }
   })),
   withDevtools('ProcessStore'),
 );
