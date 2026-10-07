@@ -1,29 +1,38 @@
+<ims-busy [if]="processStore.isBusy()"/>
+
 <ng-content select="ims-top-bar"></ng-content>
 <ng-content select="ims-insured-header"></ng-content>
 
+@let stepVms = processStore.stepsVm();
+@let infoVms = processStore.infosVm();
+
 <div class="main-area">
-  <lib-tabs class="steps-tabs">
-    @for (tab of processStore.stepsVm().steps; track tab.name) {
-      <lib-tab [value]="tab.name" [disabled]="!tab.isEnabled">
+  <lib-tabs class="steps-tabs" [selectedId]="stepVms.selectedStepName"
+    (selectedIdChange)="processStore.selectStep($event)"
+  >
+    @for (tab of stepVms.steps; track tab.name) {
+      <lib-tab [tabId]="tab.name" [disabled]="!tab.isEnabled">
         <ng-template libTabLabel>{{ tab.label }}</ng-template>
         <div *libTabContent>
           <pre>
             <code>
-            {{processStore.stepsVm() | json}}
+            {{stepVms | json}}
             </code>
           </pre>
         </div>
       </lib-tab>
     }
   </lib-tabs>
-  <lib-tabs class="info-tabs" secondary>
-    @for (tab of processStore.infosVm().infos; track tab.id) {
-      <lib-tab [value]="tab.id" [disabled]="!tab.isEnabled">
+  <lib-tabs class="info-tabs" secondary 
+    [selectedId]="infoVms.selectedInfoId"
+    (selectedIdChange)="processStore.selectInfo($event)">
+    @for (tab of infoVms.infos; track tab.id) {
+      <lib-tab [tabId]="tab.id" [disabled]="!tab.isEnabled">
         <ng-template libTabLabel>{{ tab.label }}</ng-template>
         <div *libTabContent>
           <pre>
             <code>
-            {{processStore.infosVm() | json}}
+            {{infoVms | json}}
             </code>
           </pre>
         </div>

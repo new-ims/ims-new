@@ -74,6 +74,7 @@ export function buildProcessStepsVm(
 
     return {
       ...step,
+      stepIndex: index + 1,
       isEnabled: isEnabledResult,
       isActive: isActive(),
       isReadonly: isReadonlyResult,

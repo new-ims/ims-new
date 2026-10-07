@@ -1,8 +1,14 @@
-import { Type } from "@angular/core";
-import { Model } from "@common/models";
-import { ProcessPredicate } from "../../services/configuration/config.model";
+import { Type } from '@angular/core';
+import { Model } from '@common/models';
+import {
+  OnEnterHook,
+  ProcessPredicate,
+  OnCompleteHook,
+} from '../../services/configuration/config.model';
 
-export type ProcessPredicateVm = ProcessPredicate
+export type ProcessPredicateVm = ProcessPredicate;
+export type OnEnterHookVm = OnEnterHook;
+export type OnCompleteHookVm = OnCompleteHook;
 
 export interface ConfigVm {
   readonly stepTabs: ConfigStepTabVm[];
@@ -18,9 +24,11 @@ export interface ConfigStepTabVm {
   readonly name: string;
   readonly label: string;
   readonly alwaysEnabled: boolean;
-  readonly component: Type<any>;  
+  readonly component: Type<any>;
   readonly overrideIsEnabled: ProcessPredicateVm | null;
   readonly overrideReadonly: ProcessPredicateVm | null;
+  readonly onEnter: OnEnterHookVm | null;
+  readonly onComplete: OnCompleteHookVm | null;
 }
 
 export interface ConfigInfoTabVm {
@@ -38,5 +46,5 @@ export const emptyConfigVm: ConfigVm = {
   processName: '',
   verifyInsured: false,
   overrideIsEnabled: null,
-  overrideReadonly: null
+  overrideReadonly: null,
 };

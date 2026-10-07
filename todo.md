@@ -1,15 +1,16 @@
 # Next Steps
-- [ ] Define the config model for enter step, and complete step
-  - [ ] Define an (Union) type that the complete step method returns (next step, home, go away)
+- [X] Define the config model for enter step, and complete step
+  - [X] Define an (Union) type that the complete step method returns (next step, home, go away)
   - [ ] Add Logical function - Pure function - that calculates the next step based on the current process model and the result of the complete step method
-- [ ] Add the "enter step" and "complete step" methods to the process store
+- [X] Add the "enter step" method to the process store
+- [ ] Add "complete step" methods to the process store
 - [ ] Implement the 2 scenarios in the store
-- [ ] Connect the store selected step to the Tabs Control in the Shell Component
+- [X] Connect the store selected step to the Tabs Control in the Shell Component
   
 
-- [ ] Implemement the "current Info tab" state in the process store
-- [ ] Allow to switch current Info tab by the user
-- [ ] Connect "current info" to the Tabs Control in the Shell Component
+- [X] Implemement the "current Info tab" state in the process store
+- [X] Allow to switch current Info tab by the user
+- [X] Connect "current info" to the Tabs Control in the Shell Component
 
 
 

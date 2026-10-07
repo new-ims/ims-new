@@ -1,4 +1,4 @@
-import { Component, contentChildren } from '@angular/core';
+import { Component, contentChildren, model } from '@angular/core';
 import { TabComponent } from './tab/tab';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { NgTemplateOutlet } from '@angular/common';
@@ -11,4 +11,6 @@ import { NgTemplateOutlet } from '@angular/common';
 })
 export class TabsComponent {
   readonly tabs = contentChildren(TabComponent);
+
+  readonly selectedId = model('');
 }

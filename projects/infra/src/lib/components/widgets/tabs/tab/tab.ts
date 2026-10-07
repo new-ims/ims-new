@@ -9,7 +9,7 @@ import { TabContentDirective } from '../tab-content';
   styleUrl: './tab.scss',
 })
 export class TabComponent {
-  readonly value = input.required<string>();
+  readonly tabId = input.required<string>();
   readonly disabled = input(false);
   readonly labelDirective = contentChild(TabLabelDirective);
   readonly contentDirective = contentChild(TabContentDirective);

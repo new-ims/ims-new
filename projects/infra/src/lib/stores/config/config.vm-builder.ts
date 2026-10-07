@@ -19,6 +19,8 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         component: step.component ?? DefaultStep, 
         overrideIsEnabled: step.overrideIsEnabled ?? null,
         overrideReadonly: step.overrideReadonly ?? null,
+        onEnter: step.onEnter ?? null,
+        onComplete: step.onComplete ?? null,
     }));
 
  
@@ -29,6 +31,6 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         processName: processConfig.processName,
         verifyInsured: processConfig.verifyInsured,
         overrideIsEnabled: processConfig.overrideIsEnabled ?? null,
-        overrideReadonly: processConfig.overrideReadonly ?? null
+        overrideReadonly: processConfig.overrideReadonly ?? null,
     };
 }

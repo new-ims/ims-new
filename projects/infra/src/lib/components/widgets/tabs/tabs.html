@@ -1,14 +1,14 @@
 <div ngTabs>
-  <div ngTabList [softDisabled]="false">
+  <div ngTabList [softDisabled]="false" [(selectedTab)]="selectedId">
     @for (tab of tabs(); track $index) {
-      <div ngTab [value]="tab.value()" [disabled]="tab.disabled()">
+      <div ngTab [value]="tab.tabId()" [disabled]="tab.disabled()">
         <ng-container *ngTemplateOutlet="tab.labelDirective()!.template!" />
       </div>
     }
   </div>
   <div class="tab-content">
     @for (tab of tabs(); track $index) {
-      <div ngTabPanel [value]="tab.value()">
+      <div ngTabPanel [value]="tab.tabId()">
         <ng-template ngTabContent>
           <ng-container *ngTemplateOutlet="tab.contentDirective()!.template!" />
         </ng-template>
