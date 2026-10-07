@@ -27,7 +27,8 @@ export function buildProcessStepsVm(
   // if (process === null) return [];
 
   const enabledIndex = config.stepTabs.findIndex((s) => s.name === process.stepName);
-  const selectedIndex = enabledIndex === -1 ? 0 : enabledIndex;
+  const selectedTabIndex = config.stepTabs.findIndex((s) => s.name === process.selectedTab);
+  const selectedIndex = selectedTabIndex === -1 ? (enabledIndex === -1 ? 0 : enabledIndex) : selectedTabIndex;
 
   // TODO
   // 1. Seperate the calculation of each aspect to a different function

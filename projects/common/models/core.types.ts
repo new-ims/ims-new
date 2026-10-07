@@ -3,6 +3,7 @@ export interface BaseProcess<T extends string = string> {
   readonly processKey: string;
   readonly stepName: string;
   readonly taskName: TaskName;
+  readonly selectedTab: string;
   readonly insuredVerified: boolean;
 }
 
