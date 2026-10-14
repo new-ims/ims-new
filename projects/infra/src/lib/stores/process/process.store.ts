@@ -6,7 +6,6 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
-import { Injector } from '@angular/core';
 import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';

@@ -11,6 +11,16 @@ export const holidayConfig = fakes.config('holiday', () => ({
             wasEntered: true,
         };
     },
+    lookups: {
+        days: {
+            default: [], 
+            getter: () => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        }, 
+        primes: {
+            default: [],
+            getter: () => [2, 3, 5, 7, 11, 13, 17]
+        }
+    },
     steps: [
         {
             name: 'REQUEST',
