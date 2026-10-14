@@ -2,8 +2,15 @@ import { fakes } from "../../../processes-models";
 import { isRemoteUser } from "../../services/common-predicates";
 
 export const holidayConfig = fakes.config('holiday', () => ({
-    processName: 'Holiday Process',
+    processName: 'Holiday Process',    
     verifyInsured: true,
+    onEnter: async (process) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return {
+            ...process, 
+            wasEntered: true,
+        };
+    },
     steps: [
         {
             name: 'REQUEST',

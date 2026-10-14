@@ -32,5 +32,6 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         verifyInsured: processConfig.verifyInsured,
         overrideIsEnabled: processConfig.overrideIsEnabled ?? null,
         overrideReadonly: processConfig.overrideReadonly ?? null,
+        onEnter: processConfig.onEnter ?? null,
     };
 }

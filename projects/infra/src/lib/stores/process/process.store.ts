@@ -87,6 +87,19 @@ export const ProcessStore = signalStore(
     },
     setCurrentStep: (stepName: string) => {
       updateState(store, '[Process] Set Current Step', setCurrentStep(stepName, store.stepsVm().steps));
+    },
+    enterProcess: async () => {
+      try {
+        updateState(store, '[Process] Enter Process - Started', { isBusy: true });
+        const onEnter = store._configVm().onEnter ?? (p => p);
+        const currentProcess = store.process();
+        if (!currentProcess) return;
+        const afterEnterProcess = await onEnter(currentProcess);
+        if (afterEnterProcess === currentProcess) return;
+        updateState(store, '[Process] Enter Process - Update After Enter', { process: afterEnterProcess });
+      } finally {
+        updateState(store, '[Process] Enter Process - Completed', { isBusy: false });
+      }
     }
   })),
   withDevtools('ProcessStore'),

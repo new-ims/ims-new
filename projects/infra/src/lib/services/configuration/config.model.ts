@@ -62,7 +62,8 @@ export interface ProcessConfig<MAPPER extends Model.ProcessMapper = Model.Proces
     readonly infos: ProcessInfo<MAPPER, Key>[];
     readonly verifyInsured: boolean;
     readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
-    readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
+    readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;    
+    readonly onEnter?: OnEnterHook<MAPPER, Key>;
 }
 
 export type ProcessConfigWithoutType<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, 

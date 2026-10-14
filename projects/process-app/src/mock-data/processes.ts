@@ -11,6 +11,7 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     selectedTab: 'SCHEDULE',
     insuredVerified: true,
     isInThePast: false,
+    wasEntered: false
   },
   {
     processType: 'holiday',
@@ -22,6 +23,7 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     selectedTab: 'APPROVAL_AUTHORITY',
     insuredVerified: false,
     isInThePast: true,
+    wasEntered: false,
   },
   {
     processType: 'holiday',
@@ -33,6 +35,7 @@ export const MOCK_PROCESSES: FakeModels.FakeProcesses[number][] = [
     step: 3,
     insuredVerified: false, 
     isInThePast: false,
+    wasEntered: false,
   },
   {
     processType: 'radiant-health',

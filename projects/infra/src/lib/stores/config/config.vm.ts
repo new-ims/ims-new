@@ -18,6 +18,7 @@ export interface ConfigVm {
   readonly verifyInsured: boolean;
   readonly overrideIsEnabled: ProcessPredicateVm | null;
   readonly overrideReadonly: ProcessPredicateVm | null;
+  readonly onEnter: OnEnterHookVm | null;
 }
 
 export interface ConfigStepTabVm {
@@ -47,4 +48,5 @@ export const emptyConfigVm: ConfigVm = {
   verifyInsured: false,
   overrideIsEnabled: null,
   overrideReadonly: null,
+  onEnter: null,
 };

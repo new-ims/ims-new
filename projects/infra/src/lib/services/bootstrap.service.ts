@@ -30,6 +30,9 @@ import { LoginStore } from '../stores/login/login.store';
     this.#configStore.setConfig(config);
     const process = processOutput.process;
     this.#processStore.resetProcess(process);
+
+    // start the process suqence
+    await this.#processStore.enterProcess();
   }
 
   async login() {
