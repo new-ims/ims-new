@@ -6,6 +6,7 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
+import { Injector } from '@angular/core';
 import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';
@@ -16,6 +17,7 @@ import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
 import { selectInfo, selectStep, setCurrentStep } from './process.updaters';
+import { getContextRunner } from '../../utils';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -23,6 +25,7 @@ export const ProcessStore = signalStore(
   withProps((_) => ({
     _configVm: inject(ConfigStore).configVm,
     _loginInfo: inject(LoginStore),
+    _runner: getContextRunner(),
   })),
   withComputed((store) => {
     const isProcessDisabled = computed(() =>
@@ -77,7 +80,7 @@ export const ProcessStore = signalStore(
         const onEnter = currentStep.onEnter;
         if (!onEnter) return;
 
-        const afterEnterProcess = await onEnter(currentProcess);
+        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
         if (afterEnterProcess === currentProcess) return;
         updateState(store, '[Process] Select Step - Update After Enter', { process: afterEnterProcess });
         
@@ -94,7 +97,7 @@ export const ProcessStore = signalStore(
         const onEnter = store._configVm().onEnter ?? (p => p);
         const currentProcess = store.process();
         if (!currentProcess) return;
-        const afterEnterProcess = await onEnter(currentProcess);
+        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
         if (afterEnterProcess === currentProcess) return;
         updateState(store, '[Process] Enter Process - Update After Enter', { process: afterEnterProcess });
       } finally {
