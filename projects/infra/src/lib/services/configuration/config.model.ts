@@ -85,10 +85,11 @@ export type LookupRegistry<X extends Record<string, unknown>> = {
 
 //#endregion lookups
 
-export interface ProcessStep<
+export type ProcessStep<
   MAPPER extends Model.ProcessMapper,
   Key extends Model.ProcessTypeKeys<MAPPER>,
-> {
+  Lookup extends Record<string, unknown> = Record<string, unknown>,
+> = {
   readonly name: string;
   readonly label: string;
   readonly alwaysEnabled?: boolean;
@@ -97,7 +98,9 @@ export interface ProcessStep<
   readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
   readonly onEnter?: OnEnterHook<MAPPER, Key>;
   readonly onComplete?: OnCompleteHook<MAPPER, Key>;
-}
+} & {
+  readonly requiredLookups?: (keyof Lookup)[];
+};
 
 export interface ProcessConfig<
   MAPPER extends Model.ProcessMapper = Model.ProcessMapper,
@@ -106,7 +109,7 @@ export interface ProcessConfig<
 > {
   readonly processType: Key;
   readonly processName: string;
-  readonly steps: ProcessStep<MAPPER, Key>[];
+  readonly steps: ProcessStep<MAPPER, Key, Lookup>[];
   readonly infos: ProcessInfo<MAPPER, Key>[];
   readonly verifyInsured: boolean;
   readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
