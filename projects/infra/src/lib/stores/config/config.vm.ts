@@ -4,6 +4,7 @@ import {
   OnEnterHook,
   ProcessPredicate,
   OnCompleteHook,
+  ProcessStep,
 } from '../../services/configuration/config.model';
 
 export type ProcessPredicateVm = ProcessPredicate;
@@ -22,6 +23,7 @@ export interface ConfigVm {
 }
 
 export interface ConfigStepTabVm {
+  readonly model: ProcessStep;
   readonly name: string;
   readonly label: string;
   readonly alwaysEnabled: boolean;

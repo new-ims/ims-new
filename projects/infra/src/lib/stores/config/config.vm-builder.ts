@@ -13,6 +13,7 @@ export function configVmFromSlice(processConfig: ProcessConfig | null): ConfigVm
         overrideIsVisible: info.overrideIsVisible ?? null
     }));
     const stepTabs: ConfigStepTabVm[] = processConfig.steps.map(step => ({
+        model: step,
         name: step.name,
         label: step.label,
         alwaysEnabled: step.alwaysEnabled || false,

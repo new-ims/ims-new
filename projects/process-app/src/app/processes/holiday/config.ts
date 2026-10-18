@@ -1,3 +1,4 @@
+import { getLookup } from "@infra";
 import { fakes } from "../../../processes-models";
 import { isRemoteUser } from "../../services/common-predicates";
 
@@ -32,13 +33,26 @@ export const holidayConfig = fakes.config('holiday', () => ({
             name: 'SCHEDULE',
             label: 'לוח זמנים',
             overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure'], 
-            requiredLookups: ['days', "primes"]
+            requiredLookups: ['days'], 
+            onEnter: async (process) => {
+                const days = getLookup(holidayConfig, 'days');
+                console.log('Days:',days);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                return {
+                    ...process, 
+                    isInThePast: true
+                }
+            }
         },
         {
             name: 'TASKS-SYNCHRONIZE',
             label: 'סנכרון משימות',
-            overrideReadonly: process => [process.vacationType === 'adventure', 'vacation type must be adventure'], 
+            overrideReadonly: process => [process.vacationType === 'adventure', 'vacation type must be adventure'],
+            requiredLookups: ['days', 'primes'],
             onEnter: async (process) => {
+                debugger;
+                const days = getLookup(holidayConfig, 'days');
+                console.log('Days:',days);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 return {
                     ...process, 

@@ -17,15 +17,20 @@ import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
 import { selectInfo, selectStep, setCurrentStep } from './process.updaters';
 import { getContextRunner } from '../../utils';
+import { awaitLookups } from '../../services/lookups/get-lookup';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
   withState(initialProcessSlice()),
-  withProps((_) => ({
-    _configVm: inject(ConfigStore).configVm,
-    _loginInfo: inject(LoginStore),
-    _runner: getContextRunner(),
-  })),
+  withProps((_) => {
+    const _configStore = inject(ConfigStore);
+    return {
+      _configVm: _configStore.configVm,
+      _configStore: _configStore,
+      _loginInfo: inject(LoginStore),
+      _runner: getContextRunner(),
+    };
+  }),
   withComputed((store) => {
     const isProcessDisabled = computed(() =>
       isProcessClosedForEditing(store._loginInfo.processDisabled(), store.process()!.taskName),
@@ -48,6 +53,7 @@ export const ProcessStore = signalStore(
     );
 
     return {
+      _config: computed(() => store._configStore.config()!),
       isProcessDisabled,
       stepsVm,
       infosVm,
@@ -75,6 +81,12 @@ export const ProcessStore = signalStore(
         const currentStep = store.stepsVm().selectedStep;
         const currentProcess = store.process();
         if (currentStep === null || originalStep === currentStep || currentProcess === null) return;
+
+        // take care of loading lookups for the current step
+        const lookupKeys = currentStep.model.requiredLookups ?? [];
+        if (lookupKeys.length > 0) {
+          await awaitLookups(store._config(), lookupKeys);
+        }
 
         const onEnter = currentStep.onEnter;
         if (!onEnter) return;

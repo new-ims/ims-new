@@ -27,3 +27,15 @@ export function ensureLookups<
   const lookupService = inject(LookupsService);
   return lookupService.ensureResources(config, keys);
 }
+
+export function awaitLookups<
+  MAPPER extends Model.ProcessMapper,
+  Key extends Model.ProcessTypeKeys<MAPPER>,
+  Lookup extends Record<string, unknown>,
+>(
+  config: ProcessConfig<MAPPER, Key, Lookup>,
+  keys: readonly (keyof Lookup)[],
+): Promise<void> {
+  const lookupService = inject(LookupsService);
+  return lookupService.awaitResources(config, keys);
+}

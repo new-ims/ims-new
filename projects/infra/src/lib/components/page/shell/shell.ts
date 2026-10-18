@@ -2,7 +2,7 @@ import { Component, effect, inject } from '@angular/core';
 import { Widgets } from '../../widgets/widgets';
 import { ProcessStore } from '../../../stores';
 import { Shared } from '../../../shared';
-import { Busy } from '../..';
+import { Busy } from '../busy/busy';
 
 @Component({
   selector: 'ims-shell',

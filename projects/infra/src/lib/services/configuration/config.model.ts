@@ -86,8 +86,8 @@ export type LookupRegistry<X extends Record<string, unknown>> = {
 //#endregion lookups
 
 export type ProcessStep<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
+  MAPPER extends Model.ProcessMapper = Model.ProcessMapper,
+  Key extends Model.ProcessTypeKeys<MAPPER> = string,
   Lookup extends Record<string, unknown> = Record<string, unknown>,
 > = {
   readonly name: string;
