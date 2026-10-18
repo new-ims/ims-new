@@ -1,7 +1,7 @@
-import { rxMutation } from "@angular-architects/ngrx-toolkit";
+import { Mutation, rxMutation } from "@angular-architects/ngrx-toolkit";
 import { Injector } from "@angular/core";
 import { MaybePromise } from "@common/utils";
-import { from } from "rxjs";
+import { from, of } from "rxjs";
 
 export interface MutationOptions<Parameter, Result> {
     operation: (param: Parameter) => MaybePromise<Result>;
@@ -11,7 +11,11 @@ export interface MutationOptions<Parameter, Result> {
 }
 
 
-export function mutation<Parameter, Result>(options: MutationOptions<Parameter, Result>) {
+export function mutation<Result>(options: MutationOptions<void, Result>): Mutation<void, Result>;
+export function mutation<Parameter, Result>(options: MutationOptions<Parameter, Result>): Mutation<Parameter, Result>;
+export function mutation<Parameter, Result>(
+    options: MutationOptions<Parameter, Result>,
+) {
     return rxMutation({
         operation: (param: Parameter) => {
             const res = options.operation(param);

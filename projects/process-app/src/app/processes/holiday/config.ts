@@ -35,12 +35,12 @@ export const holidayConfig = fakes.config('holiday', () => ({
             overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure'], 
             requiredLookups: ['days'], 
             onEnter: async (process) => {
-                const days = getLookup(holidayConfig, 'days');
+                const days = getLookup(holidayConfig, 'days')();
                 console.log('Days:',days);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 return {
                     ...process, 
-                    isInThePast: true
+                    isInThePast: false
                 }
             }
         },
@@ -50,13 +50,12 @@ export const holidayConfig = fakes.config('holiday', () => ({
             overrideReadonly: process => [process.vacationType === 'adventure', 'vacation type must be adventure'],
             requiredLookups: ['days', 'primes'],
             onEnter: async (process) => {
-                debugger;
-                const days = getLookup(holidayConfig, 'days');
+                const days = getLookup(holidayConfig, 'days')();
                 console.log('Days:',days);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 return {
                     ...process, 
-                    isInThePast: true
+                    isInThePast: false
                 }
             }
         },

@@ -66,14 +66,48 @@ export const ProcessStore = signalStore(
   }),
   withMutations((store) => ({
     _onEnterStep: mutation({
-      operation: (prm: { originalStep: string, nextStep: string }) => {
+      operation: async (prm: { originalStep: string, nextStep: string }) => {
         // Implement the logic for handling entering a step here
+        console.log('Entering step with params:', prm);
         const { originalStep, nextStep } = prm;
         const currentProcess = store.process();
-        if (!currentProcess) return;
-      },
-    })
+        if ((!currentProcess) || (!nextStep) || (originalStep === nextStep)) return currentProcess;
 
+        const currentStep = store.stepsVm().steps.find(step => step.name === nextStep);
+        if (!currentStep) return currentProcess;
+
+        const lookupKeys = currentStep.model.requiredLookups ?? [];
+        if (lookupKeys.length > 0) {
+          await store._runner(() => awaitLookups(store._config(), lookupKeys));
+        }
+
+        const onEnter = currentStep.onEnter;
+        if (!onEnter) return currentProcess;
+
+        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
+        return afterEnterProcess;
+      },
+      onSuccess(result, param) {
+        console.log('Step entered successfully:', result, 'with params:', param);
+        updateState(store, '[Process] Step Entered Successfully', { process: result });
+      },
+    }), 
+    _onEnterProcess: mutation({
+      operation: async () => {
+        const onEnter = store._configVm().onEnter ?? ((p) => p);
+        const currentProcess = store.process();
+        if (!currentProcess) return;
+        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
+        return afterEnterProcess;
+      }, 
+      onSuccess(result) {
+        console.log('Process entered successfully:', result);
+        updateState(store, '[Process] Enter Process - Success', { process: result });
+      }
+    }),
+  })),
+  withComputed((store) => ({
+    isBusy: computed(() => store._onEnterProcessIsPending() || store._onEnterStepIsPending()),
   })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
@@ -88,33 +122,10 @@ export const ProcessStore = signalStore(
     selectInfo: (infoId: string) => {
       updateState(store, '[Process] Select Info', selectInfo(infoId));
     },
-    selectStep: async (stepName: string) => {
-      const originalStep = store.stepsVm().selectedStep;
-      updateState(store, '[Process] Select Step', selectStep(stepName, store.stepsVm().steps), {
-        isBusy: true,
-      });
-      try {
-        const currentStep = store.stepsVm().selectedStep;
-        const currentProcess = store.process();
-        if (currentStep === null || originalStep === currentStep || currentProcess === null) return;
-
-        // take care of loading lookups for the current step
-        const lookupKeys = currentStep.model.requiredLookups ?? [];
-        if (lookupKeys.length > 0) {
-          await awaitLookups(store._config(), lookupKeys);
-        }
-
-        const onEnter = currentStep.onEnter;
-        if (!onEnter) return;
-
-        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
-        if (afterEnterProcess === currentProcess) return;
-        updateState(store, '[Process] Select Step - Update After Enter', {
-          process: afterEnterProcess,
-        });
-      } finally {
-        updateState(store, '[Process] Select Step - Completed', { isBusy: false });
-      }
+    selectStep: async (nextStep: string) => {
+      const originalStep = store.stepsVm().selectedStep?.name ?? '';
+      updateState(store, '[Process] Select Step', selectStep(nextStep, store.stepsVm().steps));
+      await store._onEnterStep({ originalStep, nextStep });
     },
     setCurrentStep: (stepName: string) => {
       updateState(
@@ -124,19 +135,9 @@ export const ProcessStore = signalStore(
       );
     },
     enterProcess: async () => {
-      try {
-        updateState(store, '[Process] Enter Process - Started', { isBusy: true });
-        const onEnter = store._configVm().onEnter ?? ((p) => p);
-        const currentProcess = store.process();
-        if (!currentProcess) return;
-        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
-        if (afterEnterProcess === currentProcess) return;
-        updateState(store, '[Process] Enter Process - Update After Enter', {
-          process: afterEnterProcess,
-        });
-      } finally {
-        updateState(store, '[Process] Enter Process - Completed', { isBusy: false });
-      }
+      await store._onEnterProcess();
+      const nextStep = store.stepsVm().selectedStepName;
+      await store._onEnterStep({ originalStep: '', nextStep });
     },
   })),
   withDevtools('ProcessStore'),
