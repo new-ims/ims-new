@@ -7,7 +7,12 @@ import {
   withState,
 } from '@ngrx/signals';
 import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
-import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
+import {
+  rxMutation,
+  updateState,
+  withDevtools,
+  withMutations,
+} from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';
 import { Override } from '@common/utils';
 import { computed, inject } from '@angular/core';
@@ -16,7 +21,7 @@ import { buildProcessStepsVm } from './view-models/steps/steps.helpers';
 import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
 import { selectInfo, selectStep, setCurrentStep } from './process.updaters';
-import { getContextRunner } from '../../utils';
+import { getContextRunner, mutation } from '../../utils';
 import { awaitLookups } from '../../services/lookups/get-lookup';
 
 export const ProcessStore = signalStore(
@@ -59,6 +64,17 @@ export const ProcessStore = signalStore(
       infosVm,
     };
   }),
+  withMutations((store) => ({
+    _onEnterStep: mutation({
+      operation: (prm: { originalStep: string, nextStep: string }) => {
+        // Implement the logic for handling entering a step here
+        const { originalStep, nextStep } = prm;
+        const currentProcess = store.process();
+        if (!currentProcess) return;
+      },
+    })
+
+  })),
   withMethods((store) => ({
     resetProcess: (process: Model.BaseProcess) => {
       updateState(store, '[Process] Reset Process', { process });
@@ -93,28 +109,35 @@ export const ProcessStore = signalStore(
 
         const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
         if (afterEnterProcess === currentProcess) return;
-        updateState(store, '[Process] Select Step - Update After Enter', { process: afterEnterProcess });
-        
+        updateState(store, '[Process] Select Step - Update After Enter', {
+          process: afterEnterProcess,
+        });
       } finally {
         updateState(store, '[Process] Select Step - Completed', { isBusy: false });
       }
     },
     setCurrentStep: (stepName: string) => {
-      updateState(store, '[Process] Set Current Step', setCurrentStep(stepName, store.stepsVm().steps));
+      updateState(
+        store,
+        '[Process] Set Current Step',
+        setCurrentStep(stepName, store.stepsVm().steps),
+      );
     },
     enterProcess: async () => {
       try {
         updateState(store, '[Process] Enter Process - Started', { isBusy: true });
-        const onEnter = store._configVm().onEnter ?? (p => p);
+        const onEnter = store._configVm().onEnter ?? ((p) => p);
         const currentProcess = store.process();
         if (!currentProcess) return;
         const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
         if (afterEnterProcess === currentProcess) return;
-        updateState(store, '[Process] Enter Process - Update After Enter', { process: afterEnterProcess });
+        updateState(store, '[Process] Enter Process - Update After Enter', {
+          process: afterEnterProcess,
+        });
       } finally {
         updateState(store, '[Process] Enter Process - Completed', { isBusy: false });
       }
-    }
+    },
   })),
   withDevtools('ProcessStore'),
 );
