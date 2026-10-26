@@ -8,7 +8,6 @@ import {
 } from '@ngrx/signals';
 import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
 import {
-  rxMutation,
   updateState,
   withDevtools,
   withMutations,
@@ -91,6 +90,9 @@ export const ProcessStore = signalStore(
         console.log('Step entered successfully:', result, 'with params:', param);
         updateState(store, '[Process] Step Entered Successfully', { process: result });
       },
+      onError(err) {
+        console.error('Error entering step:', err);
+      }
     }), 
     _onEnterProcess: mutation({
       operation: async () => {
@@ -103,6 +105,9 @@ export const ProcessStore = signalStore(
       onSuccess(result) {
         console.log('Process entered successfully:', result);
         updateState(store, '[Process] Enter Process - Success', { process: result });
+      }, 
+      onError(err) {
+        console.error('Error entering process:', err);
       }
     }),
   })),

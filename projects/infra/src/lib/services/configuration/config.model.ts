@@ -74,13 +74,16 @@ export interface ProcessInfo<
 //#endregion Info Tabs
 
 //#region lookups
-export type LookupConfig<T> = {
+export type LookupConfig<MAPPER extends Model.ProcessMapper = Model.ProcessMapper,
+  Key extends Model.ProcessTypeKeys<MAPPER> = string, T = unknown> = {
     default: NoInfer<T>;
-    getter: () => MaybePromise<T>;
+    getter: (process: Model.ProcessOf<MAPPER, Key>) => MaybePromise<T>;
 }
 
-export type LookupRegistry<X extends Record<string, unknown>> = {
-    [K in keyof X]: LookupConfig<X[K]>;
+export type LookupRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMapper,
+  Key extends Model.ProcessTypeKeys<MAPPER> = string,
+  X extends Record<string, unknown> = Record<string, unknown>> = {
+    [K in keyof X]: LookupConfig<MAPPER, Key, X[K]>;
 }
 
 //#endregion lookups
@@ -115,7 +118,7 @@ export interface ProcessConfig<
   readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;
   readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
   readonly onEnter?: OnEnterHook<MAPPER, Key>;
-  readonly lookups?: LookupRegistry<Lookup>;
+  readonly lookups?: LookupRegistry<MAPPER, Key, Lookup>;
 }
 
 export type ProcessConfigWithoutType<

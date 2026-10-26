@@ -4,15 +4,15 @@ import {
   Injector,
   resource,
   ResourceRef,
+  runInInjectionContext,
   Service,
   Signal,
   signal,
 } from '@angular/core';
 import { Model } from '@common/models';
 import { ProcessConfig } from '../configuration/config.model';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, take, firstValueFrom, map } from 'rxjs';
-import { waitFor } from '../../utils';
+import { waitForResources } from '../../utils';
+import { ProcessStore } from '../../stores/process/process.store';
 
 export type ResourceMap = Readonly<Record<PropertyKey, ResourceRef<unknown> | undefined>>;
 
@@ -20,6 +20,7 @@ export type ResourceMap = Readonly<Record<PropertyKey, ResourceRef<unknown> | un
 export class LookupsService {
   readonly #injector = inject(Injector);
   readonly #resources = signal<ResourceMap>({});
+  readonly #processStore = inject(ProcessStore);
 
   ensureResources<
     MAPPER extends Model.ProcessMapper,
@@ -43,8 +44,8 @@ export class LookupsService {
     config: ProcessConfig<MAPPER, Key, Lookup>,
     keys: readonly (keyof Lookup)[],
   ): Promise<void> {
-    const isReady = this.ensureResources(config, keys);
-    return waitFor(isReady, (ready) => ready);
+    const resources = keys.map((key) => this.getResource(config, key));
+    return waitForResources(resources);
   } 
 
   getResourcesStatus<
@@ -84,7 +85,8 @@ export class LookupsService {
         ...resources,
         [key]: resource({
           defaultValue: lookupConfig.default,
-          loader: async () => lookupConfig.getter(),
+          loader: async () => runInInjectionContext(this.#injector, 
+            () => lookupConfig.getter(this.#processStore.process() as Model.ProcessOf<MAPPER, Key>)), 
           injector: this.#injector,
         }),
       };

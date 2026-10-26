@@ -1,6 +1,8 @@
 import { getLookup } from "@infra";
 import { fakes } from "../../../processes-models";
 import { isRemoteUser } from "../../services/common-predicates";
+import { FakeService } from "../../services/fake.service";
+import { inject } from "@angular/core";
 
 export const holidayConfig = fakes.config('holiday', () => ({
     processName: 'Holiday Process',    
@@ -15,7 +17,7 @@ export const holidayConfig = fakes.config('holiday', () => ({
     lookups: {
         days: {
             default: [], 
-            getter: () => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            getter: () => inject(FakeService).getDays()                    
         }, 
         primes: {
             default: [],
@@ -40,7 +42,7 @@ export const holidayConfig = fakes.config('holiday', () => ({
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 return {
                     ...process, 
-                    isInThePast: false
+                    isInThePast: true
                 }
             }
         },

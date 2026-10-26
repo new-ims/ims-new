@@ -16,7 +16,7 @@ import { LoginStore } from '../stores/login/login.store';
 
     
   async start() {
-    const loginOutput = await this.login();
+    const loginOutput = await this.login();    
     console.log('loginOutput', loginOutput);
 
     const config = await this.loadConfig(loginOutput.processType);
