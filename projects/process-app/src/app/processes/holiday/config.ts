@@ -17,11 +17,15 @@ export const holidayConfig = fakes.config('holiday', () => ({
     lookups: {
         days: {
             default: [], 
-            getter: () => inject(FakeService).getDays()                    
+            getter: (process) => inject(FakeService).getDays(process)
         }, 
         primes: {
             default: [],
-            getter: () => [2, 3, 5, 7, 11, 13, 17]
+            getter: (process) => inject(FakeService).getPrimes(process)
+        }, 
+        culturalActivities: {
+            default: [],
+            getter: (process) => inject(FakeService).getCulturalActivities(process)
         }
     },
     steps: [
@@ -35,7 +39,8 @@ export const holidayConfig = fakes.config('holiday', () => ({
             name: 'SCHEDULE',
             label: 'לוח זמנים',
             overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure'], 
-            requiredLookups: ['days'], 
+            requiredLookups: ['days', 
+                { key: 'culturalActivities', timing: 'afterEnter' }], 
             onEnter: async (process) => {
                 const days = getLookup(holidayConfig, 'days')();
                 console.log('Days:',days);

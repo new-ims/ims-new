@@ -86,6 +86,9 @@ export type LookupRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMap
     [K in keyof X]: LookupConfig<MAPPER, Key, X[K]>;
 }
 
+export type RequiredLookups<Lookup extends Record<string, unknown> = Record<string, unknown>> 
+  = ((keyof Lookup) | { key: keyof Lookup, timing: 'afterEnter' })[]
+
 //#endregion lookups
 
 export type ProcessStep<
@@ -101,9 +104,8 @@ export type ProcessStep<
   readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
   readonly onEnter?: OnEnterHook<MAPPER, Key>;
   readonly onComplete?: OnCompleteHook<MAPPER, Key>;
-} & {
-  readonly requiredLookups?: (keyof Lookup)[];
-};
+  readonly requiredLookups?: RequiredLookups<Lookup>;
+} 
 
 export interface ProcessConfig<
   MAPPER extends Model.ProcessMapper = Model.ProcessMapper,

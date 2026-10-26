@@ -21,7 +21,7 @@ import { LoginStore } from '../login/login.store';
 import { buildProcessInfosVm } from './view-models/infos/infos.helpers';
 import { selectInfo, selectStep, setCurrentStep } from './process.updaters';
 import { getContextRunner, mutation } from '../../utils';
-import { awaitLookups } from '../../services/lookups/get-lookup';
+import { awaitLookups, getRequiredLookupKeyGroups } from '../../services/lookups/get-lookup';
 
 export const ProcessStore = signalStore(
   { providedIn: 'root' },
@@ -76,19 +76,29 @@ export const ProcessStore = signalStore(
         if (!currentStep) return currentProcess;
 
         const lookupKeys = currentStep.model.requiredLookups ?? [];
-        if (lookupKeys.length > 0) {
-          await store._runner(() => awaitLookups(store._config(), lookupKeys));
+        const lookupGroups = getRequiredLookupKeyGroups(lookupKeys);
+        if (lookupGroups.before.length > 0) {
+          await store._runner(() => awaitLookups(store._config(), lookupGroups.before));
         }
 
         const onEnter = currentStep.onEnter;
-        if (!onEnter) return currentProcess;
 
-        const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
-        return afterEnterProcess;
+        if (onEnter) {
+          const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
+          updateState(store, '[Process] Step Entered Successfully', { process: afterEnterProcess });
+        }
+
+
+        if (lookupGroups.afterEnter.length > 0) {
+          await store._runner(() => awaitLookups(store._config(), lookupGroups.afterEnter));
+        } 
+
+        return store.process();
       },
       onSuccess(result, param) {
         console.log('Step entered successfully:', result, 'with params:', param);
-        updateState(store, '[Process] Step Entered Successfully', { process: result });
+        return result;
+        
       },
       onError(err) {
         console.error('Error entering step:', err);
