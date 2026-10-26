@@ -4,7 +4,7 @@ import { isRemoteUser } from '../../services/common-predicates';
 import { FakeService } from '../../services/fake.service';
 import { inject } from '@angular/core';
 import { FakeModels } from '@fake-models';
-import { updateMany, updateManyIf } from '@common/utils';
+import { mutate, updateMany, updateManyIf } from '@common/utils';
 
 export const holidayConfig = fakes.config('holiday', () => ({
   processName: 'Holiday Process',
@@ -84,10 +84,9 @@ export const holidayConfig = fakes.config('holiday', () => ({
         const days = getLookup(holidayConfig, 'days')();
         console.log('Days:', days);
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        return {
-          ...process,
-          isInThePast: false,
-        };
+        return mutate(process, p => {
+            p.isInThePast = false;
+        });
       },
     },
     {
