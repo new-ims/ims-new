@@ -40,12 +40,12 @@ export function awaitLookups<
   return lookupService.awaitResources(config, keys);
 }
 
-export type RequiredLookupKeyGroup<Lookup extends Record<string, unknown>> = {
-  before: (keyof Lookup)[];
-  afterEnter: (keyof Lookup)[];
+export type RequiredLookupKeyGroup<Keys extends string> = {
+  before: Keys[];
+  afterEnter: Keys[];
 }
-export function getRequiredLookupKeyGroups<Lookup extends Record<string, unknown>>(config: RequiredLookups<Lookup>): RequiredLookupKeyGroup<Lookup> {
-  const before = config.filter(item => typeof item === 'string') as (keyof Lookup)[];
-  const afterEnter = config.filter(item => typeof item === 'object' && item.timing === 'afterEnter').map(item => (item as { key: keyof Lookup }).key);
+export function getRequiredLookupKeyGroups<Keys extends string>(config: RequiredLookups<Keys>): RequiredLookupKeyGroup<Keys> {
+  const before = config.filter(item => typeof item === 'string') as Keys[];
+  const afterEnter = config.filter(item => typeof item === 'object' && item.timing === 'afterEnter').map(item => (item as { key: Keys }).key);
   return { before, afterEnter };
 }

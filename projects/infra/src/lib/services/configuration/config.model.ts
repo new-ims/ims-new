@@ -86,15 +86,15 @@ export type LookupRegistry<MAPPER extends Model.ProcessMapper = Model.ProcessMap
     [K in keyof X]: LookupConfig<MAPPER, Key, X[K]>;
 }
 
-export type RequiredLookups<Lookup extends Record<string, unknown> = Record<string, unknown>> 
-  = ((keyof Lookup) | { key: keyof Lookup, timing: 'afterEnter' })[]
+export type RequiredLookups<Keys extends string = string> 
+  = (Keys | { key: Keys, timing: 'afterEnter' })[]
 
 //#endregion lookups
 
 export type ProcessStep<
   MAPPER extends Model.ProcessMapper = Model.ProcessMapper,
   Key extends Model.ProcessTypeKeys<MAPPER> = string,
-  Lookup extends Record<string, unknown> = Record<string, unknown>,
+  LookupKeys extends string = string,
 > = {
   readonly name: string;
   readonly label: string;
@@ -104,7 +104,7 @@ export type ProcessStep<
   readonly overrideReadonly?: ProcessPredicate<MAPPER, Key>;
   readonly onEnter?: OnEnterHook<MAPPER, Key>;
   readonly onComplete?: OnCompleteHook<MAPPER, Key>;
-  readonly requiredLookups?: RequiredLookups<Lookup>;
+  readonly requiredLookups?: RequiredLookups<LookupKeys>;
 } 
 
 export interface ProcessConfig<
@@ -114,7 +114,7 @@ export interface ProcessConfig<
 > {
   readonly processType: Key;
   readonly processName: string;
-  readonly steps: ProcessStep<MAPPER, Key, Lookup>[];
+  readonly steps: ProcessStep<MAPPER, Key, Extract<keyof Lookup, string>>[];
   readonly infos: ProcessInfo<MAPPER, Key>[];
   readonly verifyInsured: boolean;
   readonly overrideIsEnabled?: ProcessPredicate<MAPPER, Key>;

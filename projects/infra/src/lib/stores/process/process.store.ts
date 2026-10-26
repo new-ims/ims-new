@@ -7,11 +7,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { initialProcessSlice, isProcessClosedForEditing } from './process.slice';
-import {
-  updateState,
-  withDevtools,
-  withMutations,
-} from '@angular-architects/ngrx-toolkit';
+import { updateState, withDevtools, withMutations } from '@angular-architects/ngrx-toolkit';
 import { Model } from '@common/models';
 import { Override } from '@common/utils';
 import { computed, inject } from '@angular/core';
@@ -65,14 +61,14 @@ export const ProcessStore = signalStore(
   }),
   withMutations((store) => ({
     _onEnterStep: mutation({
-      operation: async (prm: { originalStep: string, nextStep: string }) => {
+      operation: async (prm: { originalStep: string; nextStep: string }) => {
         // Implement the logic for handling entering a step here
         console.log('Entering step with params:', prm);
         const { originalStep, nextStep } = prm;
         const currentProcess = store.process();
-        if ((!currentProcess) || (!nextStep) || (originalStep === nextStep)) return currentProcess;
+        if (!currentProcess || !nextStep || originalStep === nextStep) return currentProcess;
 
-        const currentStep = store.stepsVm().steps.find(step => step.name === nextStep);
+        const currentStep = store.stepsVm().steps.find((step) => step.name === nextStep);
         if (!currentStep) return currentProcess;
 
         const lookupKeys = currentStep.model.requiredLookups ?? [];
@@ -86,24 +82,19 @@ export const ProcessStore = signalStore(
         if (onEnter) {
           const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
           updateState(store, '[Process] Step Entered Successfully', { process: afterEnterProcess });
+          console.log('Step entered successfully:', afterEnterProcess, 'with params:', prm);
         }
-
 
         if (lookupGroups.afterEnter.length > 0) {
           await store._runner(() => awaitLookups(store._config(), lookupGroups.afterEnter));
-        } 
+        }
 
         return store.process();
       },
-      onSuccess(result, param) {
-        console.log('Step entered successfully:', result, 'with params:', param);
-        return result;
-        
-      },
       onError(err) {
         console.error('Error entering step:', err);
-      }
-    }), 
+      },
+    }),
     _onEnterProcess: mutation({
       operation: async () => {
         const onEnter = store._configVm().onEnter ?? ((p) => p);
@@ -111,14 +102,14 @@ export const ProcessStore = signalStore(
         if (!currentProcess) return;
         const afterEnterProcess = await store._runner(() => onEnter(currentProcess));
         return afterEnterProcess;
-      }, 
+      },
       onSuccess(result) {
         console.log('Process entered successfully:', result);
         updateState(store, '[Process] Enter Process - Success', { process: result });
-      }, 
+      },
       onError(err) {
         console.error('Error entering process:', err);
-      }
+      },
     }),
   })),
   withComputed((store) => ({
