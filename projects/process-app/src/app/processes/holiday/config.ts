@@ -1,98 +1,128 @@
-import { getLookup } from "@infra";
-import { fakes } from "../../../processes-models";
-import { isRemoteUser } from "../../services/common-predicates";
-import { FakeService } from "../../services/fake.service";
-import { inject } from "@angular/core";
+import { getLookup } from '@infra';
+import { fakes } from '../../../processes-models';
+import { isRemoteUser } from '../../services/common-predicates';
+import { FakeService } from '../../services/fake.service';
+import { inject } from '@angular/core';
+import { FakeModels } from '@fake-models';
+import { updateMany, updateManyIf } from '@common/utils';
 
 export const holidayConfig = fakes.config('holiday', () => ({
-    processName: 'Holiday Process',    
-    verifyInsured: true,
-    onEnter: async (process) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        return {
-            ...process, 
-            wasEntered: true,
+  processName: 'Holiday Process',
+  verifyInsured: true,
+  onEnter: async (process) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      ...process,
+      wasEntered: true,
+    };
+  },
+  lookups: {
+    days: {
+      default: [],
+      getter: (process) => inject(FakeService).getDays(process),
+    },
+    primes: {
+      default: [],
+      getter: (process) => inject(FakeService).getPrimes(process),
+    },
+    culturalActivities: {
+      default: [],
+      getter: (process) => inject(FakeService).getCulturalActivities(process),
+    },
+  },
+  steps: [
+    {
+      name: 'REQUEST',
+      label: 'טופס בקשה',
+      overrideIsEnabled: (process) => [
+        process.vacationType === 'business',
+        'vacation type must be business',
+      ],
+      requiredLookups: ['days'],
+    },
+    {
+      name: 'SCHEDULE',
+      label: 'לוח זמנים',
+      overrideReadonly: (process) => [
+        process.vacationType === 'leisure',
+        'vacation type must be leisure',
+      ],
+      requiredLookups: ['days', { key: 'culturalActivities', timing: 'afterEnter' }],
+      onEnter: async (process) => {
+        const days = getLookup(holidayConfig, 'days')();
+        console.log('Days:', days);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        let res: FakeModels.HolidayProcess = {
+          ...process,
+          isInThePast: true,
         };
+
+        res = {
+          ...res,
+          policies: updateMany(process.policies, (po) => ({
+            claims: updateManyIf(
+              po.claims,
+              (c) => Date.parse(c.startDate) > Date.parse('2024-08-01'),
+              (_) => ({ wasStarted: true }),
+            ),
+          })),
+        };
+
+        return res;
+      },
     },
-    lookups: {
-        days: {
-            default: [], 
-            getter: (process) => inject(FakeService).getDays(process)
-        }, 
-        primes: {
-            default: [],
-            getter: (process) => inject(FakeService).getPrimes(process)
-        }, 
-        culturalActivities: {
-            default: [],
-            getter: (process) => inject(FakeService).getCulturalActivities(process)
-        }
+    {
+      name: 'TASKS-SYNCHRONIZE',
+      label: 'סנכרון משימות',
+      overrideReadonly: (process) => [
+        process.vacationType === 'adventure',
+        'vacation type must be adventure',
+      ],
+      requiredLookups: ['days', 'primes'],
+      onEnter: async (process) => {
+        const days = getLookup(holidayConfig, 'days')();
+        console.log('Days:', days);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        return {
+          ...process,
+          isInThePast: false,
+        };
+      },
     },
-    steps: [
-        {
-            name: 'REQUEST',
-            label: 'טופס בקשה',
-            overrideIsEnabled: process => [process.vacationType === 'business', 'vacation type must be business'], 
-            requiredLookups: ['days']
-        },
-        {
-            name: 'SCHEDULE',
-            label: 'לוח זמנים',
-            overrideReadonly: (process) => [process.vacationType === 'leisure', 'vacation type must be leisure'], 
-            requiredLookups: ['days', 
-                { key: 'culturalActivities', timing: 'afterEnter' }], 
-            onEnter: async (process) => {
-                const days = getLookup(holidayConfig, 'days')();
-                console.log('Days:',days);
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                return {
-                    ...process, 
-                    isInThePast: true
-                }
-            }
-        },
-        {
-            name: 'TASKS-SYNCHRONIZE',
-            label: 'סנכרון משימות',
-            overrideReadonly: process => [process.vacationType === 'adventure', 'vacation type must be adventure'],
-            requiredLookups: ['days', 'primes'],
-            onEnter: async (process) => {
-                const days = getLookup(holidayConfig, 'days')();
-                console.log('Days:',days);
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                return {
-                    ...process, 
-                    isInThePast: false
-                }
-            }
-        },
-        {
-            name: 'APPROVAL_AUTHORITY',
-            label: 'אישור',
-        }
-    ],
-    infos: [
-        {
-            id: 'INFO-1',
-            label: 'מידע נוסף',
-            overrideIsEnabled: (process) => [process.vacationType !== 'adventure', 'vacation type must not be cultural'],
-            overrideIsVisible: (process) => [process.vacationType !== 'adventure', 'vacation type must not be cultural']
-        },
-        {
-            id: 'INFO-2',
-            label: 'מידע נוסף 2',
-            overrideIsEnabled: (p,l) => isRemoteUser(p,l)
-        }, 
-        {
-            id: 'INFO-3',
-            label: 'מידע נוסף 3',
-            overrideIsEnabled: (p,l) => isRemoteUser(p,l)
-        }
-    ],
-    overrideIsEnabled: (process) => [!process.isInThePast, 'Process must not be in the past'],
-    overrideReadonly: (process) => {
-        if (!process.isInThePast) return [true, 'Process must not be in the past'];
-        if (process.vacationType === 'cultural') return [true, 'Vacation type is cultural'];
-        return [false, 'Process must not be in the past or vacation type must be cultural'];
-    }
+    {
+      name: 'APPROVAL_AUTHORITY',
+      label: 'אישור',
+    },
+  ],
+  infos: [
+    {
+      id: 'INFO-1',
+      label: 'מידע נוסף',
+      overrideIsEnabled: (process) => [
+        process.vacationType !== 'adventure',
+        'vacation type must not be cultural',
+      ],
+      overrideIsVisible: (process) => [
+        process.vacationType !== 'adventure',
+        'vacation type must not be cultural',
+      ],
+    },
+    {
+      id: 'INFO-2',
+      label: 'מידע נוסף 2',
+      overrideIsEnabled: (p, l) => isRemoteUser(p, l),
+    },
+    {
+      id: 'INFO-3',
+      label: 'מידע נוסף 3',
+      overrideIsEnabled: (p, l) => isRemoteUser(p, l),
+    },
+  ],
+  overrideIsEnabled: (process) => [!process.isInThePast, 'Process must not be in the past'],
+  overrideReadonly: (process) => {
+    if (!process.isInThePast) return [true, 'Process must not be in the past'];
+    if (process.vacationType === 'cultural') return [true, 'Vacation type is cultural'];
+    return [false, 'Process must not be in the past or vacation type must be cultural'];
+  },
 }));
