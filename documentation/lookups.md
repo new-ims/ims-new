@@ -1,42 +1,55 @@
-## Ensuring the lookups are available and loaded
-Lookups are cached in a service. When working with lookups there two things we need to consider:
-1. Ensuring that the lookups are loaded and exist in the cache.
-2. Getting them and using them.
+## Loading lookups
 
-In this section, we will discuss how to ensure that lookups are available and loaded before using them.
-In the next section, we will talk about how to fetch their data and use it.
+Lookups are stored in a service cache. Before you use a lookup:
 
+1. Make sure the lookup is loaded into the cache.
+2. Get the lookup value from the cache.
 
-1. For step components, use the config file to define required lookups. 
+### Load lookups for a step component
+
+For a step component, define the required lookups in the configuration file:
 
 ```typescript
 requiredLookups: ['lookup1', 'lookup2'];
 ```
 
->The lookups are defined in the process lookup table - To be described in detail later.
+> The available lookups are defined in the process lookup table. More details will be added later.
 
+By default, the lookups are loaded before the enter step method runs.
 
-2. If the lookups should only be fetched **AFTER** the enter step method (for example, if the lookup getter depends on data that is calculated during the enter step), you should use the special way to request the lookup at after the enter step:
+### Load a lookup after the enter step method
+
+Sometimes, a lookup depends on data that is created during the enter step method. In this case, set its timing to `afterEnter`:
 
 ```typescript
-requiredLookups: ['lookup1', { key: 'lookup2', timing: 'afterEnter' }]
+requiredLookups: ['lookup1', { key: 'lookup2', timing: 'afterEnter' }];
 ```
 
-3. If you build a reusable component or page, or anything that does not have a configuration file, you will need to manually invoke the API to ensure the lookup is avilable and loaded. 
+In this example:
+
+- `lookup1` is loaded before the enter step method.
+- `lookup2` is loaded after the enter step method.
+
+### Load lookups without a configuration file
+
+Reusable components, pages, and other items may not have a configuration file. In this case, call `awaitLookups` directly:
+
 ```typescript
 async function doSomething() {
-    await awaitLookups(processConfig, ['lookup1', 'lookup2']);
+  await awaitLookups(processConfig, ['lookup1', 'lookup2']);
 }
 ```
 
-the `awaitLookups` function returns a promise that resolves only after all the required lookups are loaded and cached. Also, if the load process fails, it will reject and throw the error that occurred during the loading phase.
+The promise returned by `awaitLookups` resolves after all required lookups are loaded and stored in the cache.
 
-## Getting the lookup values
-In order to get a lookup value, use the `getLookup` function. This function returns a `Signal<T>`. 
+If a lookup cannot be loaded, the promise rejects with the loading error.
 
-You should always ensure that the lookup is available and loaded before attempting to read from this signal, otherwise the signal will temporarily return the default value defined for this lookup, but it will notify you when the data is loaded.
+## Getting lookup values
+
+Use the `getLookup` function to get a lookup value. The function returns a `Signal<T>`:
 
 ```typescript
 getLookup(config, 'lookup1'): Signal<Lookup1Type>
 ```
 
+Make sure the lookup is loaded before you read the signal. If it is not loaded, the signal returns the lookup's default value. The signal updates when the lookup data is available.
