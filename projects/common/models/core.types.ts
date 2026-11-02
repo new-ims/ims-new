@@ -8,11 +8,11 @@ export interface BaseProcess<T extends string = string> {
   readonly insuredVerified: boolean;
 }
 
-export type ProcessMapper = BaseProcess[];
-export type ProcessTypeKeys<MAPPER extends ProcessMapper> = MAPPER[number]['processType'];
+export type ProcessMapper = BaseProcess;
+export type ProcessTypeKeys<MAPPER extends ProcessMapper> = MAPPER['processType'];
 
 export type ProcessOf<MAPPER extends ProcessMapper, Key extends ProcessTypeKeys<MAPPER>> = Extract<
-  MAPPER[number],
+  MAPPER,
   { processType: Key }
 >;
 

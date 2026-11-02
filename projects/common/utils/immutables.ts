@@ -8,6 +8,10 @@ export function updateManyIf<T>(array: T[], predicate: (item: T, index: number) 
     return array.map((item, index) => predicate(item, index) ? ({ ...item, ...updater(item, index) }) : item);
 }
 
+export function updateAt<T>(array: T[], index: number, updater: (item: T, index: number) => Partial<T>): T[] {
+    return updateManyIf(array, (_, i) => i === index, updater);
+}
+
 export function mutate<T>(data: T, mutator: (item: Draft<T>) => void): T {
     return produce(data, mutator);
 }
