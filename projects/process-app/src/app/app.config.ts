@@ -8,9 +8,9 @@ export const appConfig: ApplicationConfig = {
     provideInfra(
       withAdapter(InfraAdapterService), 
       withConfigs({
-        'holiday': () => import('./processes/holiday/config').then(m => m.holiday),
+        'holiday': () => import('./processes/holiday/config').then(m => m.holidayConfig),
         'radiant-health': () => import('./processes/radiant-health/config').then(m => m.radiantHealthConfig), 
-        'holiday-cont': () => import('./processes/holiday/config').then(m => m.continuation)
+        'holiday-cont': () => import('./processes/holiday/config').then(m => m.holidayContConfig)
       })
     ),
   ],
