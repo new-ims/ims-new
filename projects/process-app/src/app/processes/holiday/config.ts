@@ -53,7 +53,7 @@ export const holidayConfig = fakes.config('holiday', () => ({
         console.log('Days:', days);
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        let res: FakeModels.HolidayProcess = {
+        let res: FakeModels.AnyHolidayProcess = {
           ...process,
           isInThePast: true,
         };
