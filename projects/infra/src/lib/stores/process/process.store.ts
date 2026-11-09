@@ -149,13 +149,10 @@ export const ProcessStore = signalStore(
   withDevtools('ProcessStore'),
 );
 
-export type KnownProcessStore<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
-> = Override<
+export type KnownProcessStore<P extends Model.BaseProcess> = Override<
   InstanceType<typeof ProcessStore>,
   {
-    process: DeepSignal<Model.ProcessOf<MAPPER, Key>>;
-    resetProcess: (process: Model.ProcessOf<MAPPER, Key>) => void;
+    process: DeepSignal<P>;
+    resetProcess: (process: P) => void;
   }
 >;

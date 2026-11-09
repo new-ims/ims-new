@@ -1,13 +1,11 @@
 import type { Model } from '@common/models';
-export interface ProcessSlice<MAPPER extends Model.ProcessMapper = Model.ProcessMapper, 
-                Key extends Model.ProcessTypeKeys<MAPPER> = string> {
-    readonly process: Model.ProcessOf<MAPPER, Key> | null;
+export interface ProcessSlice<P extends Model.BaseProcess = Model.BaseProcess> {
+    readonly process: P | null;
     readonly overrides: StepOverides;
     readonly selectedInfoId: string;
 }
 
-export function initialProcessSlice<MAPPER extends Model.ProcessMapper,
-                Key extends Model.ProcessTypeKeys<MAPPER>>(): ProcessSlice<MAPPER, Key> {
+export function initialProcessSlice<P extends Model.BaseProcess>(): ProcessSlice<P> {
     return {
         process: null,
         overrides: null,

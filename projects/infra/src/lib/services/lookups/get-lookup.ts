@@ -4,12 +4,11 @@ import { ProcessConfig, RequiredLookups } from '../configuration/config.model';
 import { LookupsService } from './lookups.service';
 
 export function getLookup<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
+  P extends Model.BaseProcess,
   Lookup extends Record<string, unknown>,
   LookupKey extends keyof Lookup,
 >(
-  config: ProcessConfig<MAPPER, Key, Lookup>,
+  config: ProcessConfig<P, Lookup>,
   lookupKey: LookupKey,
 ): Signal<Lookup[LookupKey]> {
   const lookupService = inject(LookupsService);
@@ -17,11 +16,10 @@ export function getLookup<
 }
 
 export function ensureLookups<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
+  P extends Model.BaseProcess,
   Lookup extends Record<string, unknown>,
 >(
-  config: ProcessConfig<MAPPER, Key, Lookup>,
+  config: ProcessConfig<P, Lookup>,
   keys: readonly (keyof Lookup)[],
 ): Signal<boolean> {
   const lookupService = inject(LookupsService);
@@ -29,11 +27,10 @@ export function ensureLookups<
 }
 
 export function awaitLookups<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
+  P extends Model.BaseProcess,
   Lookup extends Record<string, unknown>,
 >(
-  config: ProcessConfig<MAPPER, Key, Lookup>,
+  config: ProcessConfig<P, Lookup>,
   keys: readonly (keyof Lookup)[],
 ): Promise<void> {
   const lookupService = inject(LookupsService);

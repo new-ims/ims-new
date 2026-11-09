@@ -22,12 +22,8 @@ export class LookupsService {
   readonly #resources = signal<ResourceMap>({});
   readonly #processStore = inject(ProcessStore);
 
-  ensureResources<
-    MAPPER extends Model.ProcessMapper,
-    Key extends Model.ProcessTypeKeys<MAPPER>,
-    Lookup extends Record<string, unknown>,
-  >(
-    config: ProcessConfig<MAPPER, Key, Lookup>,
+  ensureResources<P extends Model.BaseProcess, Lookup extends Record<string, unknown>>(
+    config: ProcessConfig<P, Lookup>,
     keys: readonly (keyof Lookup)[],
   ): Signal<boolean> {
     for (const key of keys) {
@@ -36,24 +32,16 @@ export class LookupsService {
     return this.getResourcesStatus(config, keys);
   }
 
-  awaitResources<
-    MAPPER extends Model.ProcessMapper,
-    Key extends Model.ProcessTypeKeys<MAPPER>,
-    Lookup extends Record<string, unknown>,
-  >(
-    config: ProcessConfig<MAPPER, Key, Lookup>,
+  awaitResources<P extends Model.BaseProcess, Lookup extends Record<string, unknown>>(
+    config: ProcessConfig<P, Lookup>,
     keys: readonly (keyof Lookup)[],
   ): Promise<void> {
     const resources = keys.map((key) => this.getResource(config, key));
     return waitForResources(resources);
   } 
 
-  getResourcesStatus<
-    MAPPER extends Model.ProcessMapper,
-    Key extends Model.ProcessTypeKeys<MAPPER>,
-    Lookup extends Record<string, unknown>,
-  >(
-    config: ProcessConfig<MAPPER, Key, Lookup>,
+  getResourcesStatus<P extends Model.BaseProcess, Lookup extends Record<string, unknown>>(
+    config: ProcessConfig<P, Lookup>,
     keys: readonly (keyof Lookup)[],
   ): Signal<boolean> {
     const resources = keys.map((key) => this.getResource(config, key));
@@ -61,12 +49,11 @@ export class LookupsService {
   }
 
   getResource<
-    MAPPER extends Model.ProcessMapper,
-    Key extends Model.ProcessTypeKeys<MAPPER>,
+    P extends Model.BaseProcess,
     Lookup extends Record<string, unknown>,
     LookupKey extends keyof Lookup,
   >(
-    config: ProcessConfig<MAPPER, Key, Lookup>,
+    config: ProcessConfig<P, Lookup>,
     key: LookupKey,
   ): ResourceRef<Lookup[LookupKey]> {
     this.#resources.update((resources) => {
@@ -86,7 +73,7 @@ export class LookupsService {
         [key]: resource({
           defaultValue: lookupConfig.default,
           loader: async () => runInInjectionContext(this.#injector, 
-            () => lookupConfig.getter(this.#processStore.process() as Model.ProcessOf<MAPPER, Key>)), 
+            () => lookupConfig.getter(this.#processStore.process() as P)), 
           injector: this.#injector,
         }),
       };
@@ -97,12 +84,11 @@ export class LookupsService {
   }
 
   getValue<
-    MAPPER extends Model.ProcessMapper,
-    Key extends Model.ProcessTypeKeys<MAPPER>,
+    P extends Model.BaseProcess,
     Lookup extends Record<string, unknown>,
     LookupKey extends keyof Lookup,
   >(
-    config: ProcessConfig<MAPPER, Key, Lookup>,
+    config: ProcessConfig<P, Lookup>,
     key: LookupKey,
   ): Signal<Lookup[LookupKey]> {
     return this.getResource(config, key).value;
