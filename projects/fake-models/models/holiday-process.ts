@@ -13,9 +13,16 @@ export interface HolidayPolicy {
     readonly claims: HolidayClaim[];
 }
 
-export interface HolidayProcess extends Model.BaseProcess<'holiday'> {
+export interface HolidayProcessBase<T extends string> extends Model.BaseProcess<T> {
     readonly vacationType: 'leisure' | 'adventure' | 'cultural' | 'business';
     readonly isInThePast: boolean;
     readonly wasEntered: boolean;
     readonly policies: HolidayPolicy[];
 }
+
+export interface HolidayProcess extends HolidayProcessBase<'holiday'> {}
+
+export interface HolidayContProcess extends HolidayProcessBase<'holiday-cont'> {}
+
+export type AnyHolidayProcess = HolidayProcess | HolidayContProcess;
+export type AnyHolidayProcessKey = AnyHolidayProcess['processType'];

@@ -1,9 +1,9 @@
 import { Service } from "@angular/core";
-import { HolidayProcess } from "../../../../fake-models/models/holiday-process";
+import { FakeModels } from "@fake-models";
 
 @Service()
 export class FakeService {
-    async getDays(process: HolidayProcess) {
+    async getDays(process: FakeModels.AnyHolidayProcess) {
         console.log('fetching days...');
         await new Promise(resolve => setTimeout(resolve, 1000));
         return [
@@ -17,13 +17,13 @@ export class FakeService {
         ];
     }
 
-    async getPrimes(process: HolidayProcess) {
+    async getPrimes(process: FakeModels.AnyHolidayProcess) {
         console.log('fetching primes...');
         await new Promise(resolve => setTimeout(resolve, 1000));
         return [2, 3, 5, 7, 11, 13, 17];
     }
 
-    async getCulturalActivities(process: HolidayProcess) {
+    async getCulturalActivities(process: FakeModels.AnyHolidayProcess) {
         console.log('fetching cultural activities...');
         await new Promise(resolve => setTimeout(resolve, 1000));
         return ['Museum', 'Theater', 'Concert', 'Exhibition'];
