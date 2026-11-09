@@ -9,7 +9,8 @@ export const appConfig: ApplicationConfig = {
       withAdapter(InfraAdapterService), 
       withConfigs({
         'holiday': () => import('./processes/holiday/config').then(m => m.holidayConfig),
-        'radiant-health': () => import('./processes/radiant-health/config').then(m => m.radiantHealthConfig)
+        'radiant-health': () => import('./processes/radiant-health/config').then(m => m.radiantHealthConfig), 
+        'holiday-cont': () => import('./processes/holiday/config').then(m => m.holidayContConfig)
       })
     ),
   ],

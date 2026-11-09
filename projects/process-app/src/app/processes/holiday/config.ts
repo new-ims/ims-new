@@ -125,3 +125,10 @@ export const holidayConfig = fakes.config('holiday', () => ({
     return [false, 'Process must not be in the past or vacation type must be cultural'];
   },
 }));
+
+export const holidayContConfig = fakes.config('holiday-cont', () => ({
+  processName: 'Holiday Cont Process',
+  verifyInsured: false,
+  steps: [],
+  infos: []
+}));
