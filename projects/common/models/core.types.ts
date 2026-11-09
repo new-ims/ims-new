@@ -5,7 +5,10 @@ export interface BaseProcess<T extends string = string> {
   readonly selectedTab: string;
   readonly step: number;
   readonly taskName: TaskName;
-  readonly insuredVerified: boolean;
+  readonly insuredVerified: boolean; 
+  readonly module: Module; 
+  readonly company: Company;
+  readonly insured: Insured;
 }
 
 export type ProcessMapper = BaseProcess;
@@ -25,4 +28,11 @@ export type TaskName = typeof TASK_NAMES[number];
 
 export const KNOWN_TAB_NAMES = ['APPROVAL_AUTHORITY', 'DOCTOR_DECISION'] as const;
 export type KnownTabName = typeof KNOWN_TAB_NAMES[number];
-  
+
+
+export const MODULES = ['TOOLS', 'PENSION_CLAIMS', 'HEALTH_CLAIMS', 'LIFE_CLAIMS', 'LOANS', 'CLAIMS', 'BROADCAST', 'POWER_ATTORNEY', 'APARTMENT_CLAIMS'] as const;
+export type Module = typeof MODULES[number];
+
+export interface Insured {
+  readonly identity: number;
+}

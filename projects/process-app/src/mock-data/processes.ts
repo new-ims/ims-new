@@ -10,6 +10,11 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     step: 1,
     selectedTab: 'SCHEDULE',
     insuredVerified: true,
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 123456789
+    },
     isInThePast: false,
     wasEntered: false, 
     policies: [
@@ -87,6 +92,11 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     step: 2,
     selectedTab: 'APPROVAL_AUTHORITY',
     insuredVerified: false,
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 987654321
+    },
     isInThePast: true,
     wasEntered: false,
     policies: [
@@ -109,6 +119,11 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     vacationType: 'business',
     taskName: 'APPROVAL',
     stepName: 'APPROVAL_AUTHORITY',
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 123456789
+    },
     selectedTab: 'APPROVAL_AUTHORITY',
     step: 3,
     insuredVerified: false, 
@@ -141,7 +156,12 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     stepName: 'request',
     step: 1,
     selectedTab: 'request',
-    insuredVerified: false
+    insuredVerified: false, 
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 123456789
+    }
   },
   {
     processType: 'radiant-health',
@@ -151,7 +171,12 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     stepName: 'request',
     step: 1,
     selectedTab: 'request',
-    insuredVerified: false
+    insuredVerified: false,
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 123456789
+    }
   },
   {
     processType: 'radiant-health',
@@ -161,6 +186,11 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     stepName: 'tasks-synchronize',
     step: 1,
     selectedTab: 'tasks-synchronize',
-    insuredVerified: false
+    insuredVerified: false,
+    module: 'TOOLS',
+    company: 'MIGDAL',
+    insured: {
+      identity: 123456789
+    }
   },
 ];
