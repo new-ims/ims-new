@@ -3,6 +3,7 @@ import { FakeModels } from '@fake-models';
 export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
   {
     processType: 'holiday',
+    '@class': 'HolidayProcess',
     processKey: 'ho000001',
     vacationType: 'leisure',
     taskName: 'CLERK',
@@ -85,6 +86,7 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
   },
   {
     processType: 'holiday',
+    '@class': 'HolidayProcess',
     processKey: 'ho000002',
     vacationType: 'adventure',
     taskName: 'CANCELED',
@@ -115,6 +117,7 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
   },
   {
     processType: 'holiday',
+    '@class': 'HolidayProcess',
     processKey: 'ho000003',
     vacationType: 'business',
     taskName: 'APPROVAL',
@@ -150,6 +153,7 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
   },
   {
     processType: 'radiant-health',
+    '@class': 'RadiantHealthProcess',
     processKey: 'rh000010',
     degreeOfHealth: 92,
     taskName: 'APPROVAL',
@@ -165,6 +169,7 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
   },
   {
     processType: 'radiant-health',
+    '@class': 'RadiantHealthProcess',
     processKey: 'rh000002',
     degreeOfHealth: 76,
     taskName: 'APPROVAL',
@@ -179,6 +184,7 @@ export const MOCK_PROCESSES: FakeModels.FakeMapper[] = [
     }
   },
   {
+    '@class': 'RadiantHealthProcess',
     processType: 'radiant-health',
     processKey: 'rh000012',
     degreeOfHealth: 58,

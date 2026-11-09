@@ -20,9 +20,13 @@ export interface HolidayProcessBase<T extends string> extends Model.BaseProcess<
     readonly policies: HolidayPolicy[];
 }
 
-export interface HolidayProcess extends HolidayProcessBase<'holiday'> {}
+export interface HolidayProcess extends HolidayProcessBase<'holiday'> {
+    '@class': 'HolidayProcess'
+}
 
-export interface HolidayContProcess extends HolidayProcessBase<'holiday-cont'> {}
+export interface HolidayContProcess extends HolidayProcessBase<'holiday-cont'> {
+    '@class': 'HolidayContProcess'
+}
 
 export type AnyHolidayProcess = HolidayProcess | HolidayContProcess;
 export type AnyHolidayProcessKey = AnyHolidayProcess['processType'];

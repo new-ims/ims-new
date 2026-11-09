@@ -5,6 +5,7 @@ import { FakeService } from '../../services/fake.service';
 import { inject } from '@angular/core';
 import { FakeModels } from '@fake-models';
 import { updateMany, updateManyIf } from '@common/utils';
+import { onEnterHolidayStep, onEnterHolidayStep2 } from './services/entires';
 
 const holidayBuilder = fakes.builder<FakeModels.AnyHolidayProcess>()((define) =>
   define({
@@ -81,12 +82,7 @@ const holidayBuilder = fakes.builder<FakeModels.AnyHolidayProcess>()((define) =>
           'vacation type must be adventure',
         ],
         requiredLookups: ['days', 'primes'],
-        onEnter: async (process) => {
-          const days = getLookup(holidayConfig, 'days')();
-          console.log('Days:', days);
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-          return { ...process, isInThePast: false };
-        },
+        onEnter: async (process) => onEnterHolidayStep2(process),
       },
       {
         name: 'APPROVAL_AUTHORITY',
