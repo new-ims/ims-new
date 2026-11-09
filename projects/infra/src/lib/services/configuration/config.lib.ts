@@ -1,23 +1,32 @@
 import { Model } from '@common/models';
 import { ProcessConfig, ProcessConfigWithoutType } from './config.model';
 
-type DefineConfig<
-  MAPPER extends Model.ProcessMapper,
-  Key extends Model.ProcessTypeKeys<MAPPER>,
-> = <Lookup extends Record<string, unknown> = {}>(
-  config: ProcessConfigWithoutType<MAPPER, Key, Lookup>,
-) => ProcessConfigWithoutType<MAPPER, Key, Lookup>;
+/**
+ * Builds a shared config for a group of process types.
+ *
+ * Usage: `processes<M>().builder<GROUP>()(() => ({ ...config }))` returns a function
+ * `(processType) => ProcessConfig` restricted to the keys of `GROUP`.
+ *
+ * The call is curried because `GROUP` must be given explicitly while `Lookup` must be
+ * inferred from the config literal; TypeScript does not support partial inference.
+ */
+function builder<GROUP extends Model.ProcessMapper>() {
+  type Keys = Model.ProcessTypeKeys<GROUP>;
+  type GroupFactory<Lookup extends Record<string, unknown>> = () => ProcessConfigWithoutType<
+    GROUP,
+    Keys,
+    Lookup
+  >;
+  type KeyFactory<
+    Key extends Keys,
+    Lookup extends Record<string, unknown>,
+  > = () => ProcessConfigWithoutType<GROUP, Key, Lookup>;
 
-function builder<MAPPER extends Model.ProcessMapper>() {
-  return <Lookup extends Record<string, unknown> = {}>(
-    factory: <Key extends Model.ProcessTypeKeys<MAPPER>>(
-      define: DefineConfig<MAPPER, Key>,
-    ) => ProcessConfigWithoutType<MAPPER, Key, Lookup>,
-  ) =>
-    <Key extends Model.ProcessTypeKeys<MAPPER>>(
-      processType: Key,
-    ): ProcessConfig<MAPPER, Key, Lookup> =>
-      createConfig<MAPPER, Key, Lookup>(processType, () => factory<Key>(config => config));
+  return <Lookup extends Record<string, unknown> = {}>(factory: GroupFactory<Lookup>) =>
+    <Key extends Keys>(processType: Key): ProcessConfig<GROUP, Key, Lookup> =>
+      // The factory is written against the whole group; narrowing it to a single key is safe
+      // for callback parameters (contravariant) and reflects the author's intent for results.
+      createConfig<GROUP, Key, Lookup>(processType, factory as KeyFactory<Key, Lookup>);
 }
 
 export function processes<MAPPER extends Model.ProcessMapper>() {
