@@ -1,10 +1,156 @@
-import { getLookup } from '@infra';
+import { createConfig, getLookup, ProcessConfig, ProcessConfigWithoutType } from '@infra';
 import { fakes } from '../../../processes-models';
 import { isRemoteUser } from '../../services/common-predicates';
 import { FakeService } from '../../services/fake.service';
 import { inject } from '@angular/core';
 import { FakeModels } from '@fake-models';
 import { mutate, updateMany, updateManyIf } from '@common/utils';
+import { Model } from '@common/models';
+
+type DefineConfig<
+  MAPPER extends Model.ProcessMapper,
+  Key extends Model.ProcessTypeKeys<MAPPER>,
+> = <Lookup extends Record<string, unknown> = {}>(
+  config: ProcessConfigWithoutType<MAPPER, Key, Lookup>,
+) => ProcessConfigWithoutType<MAPPER, Key, Lookup>;
+
+function builder<MAPPER extends Model.ProcessMapper>() {
+  return <Lookup extends Record<string, unknown> = {}>(
+    factory: <Key extends Model.ProcessTypeKeys<MAPPER>>(
+      define: DefineConfig<MAPPER, Key>,
+    ) => ProcessConfigWithoutType<MAPPER, Key, Lookup>,
+  ) =>
+    <Key extends Model.ProcessTypeKeys<MAPPER>>(
+      processType: Key,
+    ): ProcessConfig<MAPPER, Key, Lookup> =>
+      createConfig<MAPPER, Key, Lookup>(processType, () => factory<Key>(config => config));
+}
+
+
+const holidayBuilder = builder<FakeModels.AnyHolidayProcess>()(
+define => define({
+  processName: 'Holiday Process',
+  verifyInsured: true,
+  onEnter: async (process) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      ...process,
+      wasEntered: true,
+    };
+  },
+  lookups: {
+    days: {
+      default: [],
+      getter: (process) => inject(FakeService).getDays(process),
+    },
+    primes: {
+      default: [],
+      getter: (process) => inject(FakeService).getPrimes(process),
+    },
+    culturalActivities: {
+      default: [],
+      getter: (process) => inject(FakeService).getCulturalActivities(process),
+    },
+  },
+  steps: [
+    {
+      name: 'REQUEST',
+      label: 'טופס בקשה',
+      overrideIsEnabled: (process) => [
+        process.vacationType === 'business',
+        'vacation type must be business',
+      ],
+      requiredLookups: ['days'],
+    },
+    {
+      name: 'SCHEDULE',
+      label: 'לוח זמנים',
+      overrideReadonly: (process) => [
+        process.vacationType === 'leisure',
+        'vacation type must be leisure',
+      ],
+      requiredLookups: ['days', { key: 'culturalActivities', timing: 'afterEnter' }],
+      onEnter: async (process) => {
+        const days = getLookup(holidayConfig, 'days')();
+        console.log('Days:', days);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        let res = {
+          ...process,
+          isInThePast: true,
+        };
+
+        res = {
+          ...res,
+          policies: updateMany(process.policies, (po) => ({
+            claims: updateManyIf(
+              po.claims,
+              (c) => Date.parse(c.startDate) > Date.parse('2024-08-01'),
+              (_) => ({ wasStarted: true }),
+            ),
+          })),
+        };
+
+        return res;
+      },
+    },
+    {
+      name: 'TASKS-SYNCHRONIZE',
+      label: 'סנכרון משימות',
+      overrideReadonly: (process) => [
+        process.vacationType === 'adventure',
+        'vacation type must be adventure',
+      ],
+      requiredLookups: ['days', 'primes'],
+      onEnter: async (process) => {
+        const days = getLookup(holidayConfig, 'days')();
+        console.log('Days:', days);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        return { ...process, isInThePast: false };
+      },
+    },
+    {
+      name: 'APPROVAL_AUTHORITY',
+      label: 'אישור',
+    },
+  ],
+  infos: [
+    {
+      id: 'INFO-1',
+      label: 'מידע נוסף',
+      overrideIsEnabled: (process) => [
+        process.vacationType !== 'adventure',
+        'vacation type must not be cultural',
+      ],
+      overrideIsVisible: (process) => [
+        process.vacationType !== 'adventure',
+        'vacation type must not be cultural',
+      ],
+    },
+    {
+      id: 'INFO-2',
+      label: 'מידע נוסף 2',
+      overrideIsEnabled: (p, l) => isRemoteUser(p, l),
+    },
+    {
+      id: 'INFO-3',
+      label: 'מידע נוסף 3',
+      overrideIsEnabled: (p, l) => isRemoteUser(p, l),
+    },
+  ],
+  overrideIsEnabled: (process) => [!process.isInThePast, 'Process must not be in the past'],
+  overrideReadonly: (process) => {
+    if (!process.isInThePast) return [true, 'Process must not be in the past'];
+    if (process.vacationType === 'cultural') return [true, 'Vacation type is cultural'];
+    return [false, 'Process must not be in the past or vacation type must be cultural'];
+  },
+}));
+
+export const holiday = holidayBuilder('holiday');
+const firstStep = holiday.steps[0];
+
+export const continuation = holidayBuilder('holiday-cont');
+
 
 export const holidayConfig = fakes.config('holiday', () => ({
   processName: 'Holiday Process',

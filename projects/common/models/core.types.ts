@@ -11,10 +11,9 @@ export interface BaseProcess<T extends string = string> {
 export type ProcessMapper = BaseProcess;
 export type ProcessTypeKeys<MAPPER extends ProcessMapper> = MAPPER['processType'];
 
-export type ProcessOf<MAPPER extends ProcessMapper, Key extends ProcessTypeKeys<MAPPER>> = Extract<
-  MAPPER,
-  { processType: Key }
->;
+export type ProcessOf<MAPPER extends ProcessMapper, Key extends ProcessTypeKeys<MAPPER>> = {
+  [P in MAPPER as P['processType']]: P;
+}[Key];
 
 export type ProcessType<T extends BaseProcess = BaseProcess> = T['processType'];
 
