@@ -4,29 +4,31 @@ import { ProcessConfig, ProcessConfigWithoutType } from './config.model';
 /**
  * Builds a shared config for a group of process types.
  *
- * Usage: `processes<M>().builder<GROUP>()(() => ({ ...config }))` returns a function
- * `(processType) => ProcessConfig` restricted to the keys of `GROUP`.
+ * Usage: `processes<M>().builder<GROUP>()((processType) => ({ ...config }))` returns a
+ * function `(processType) => ProcessConfig` restricted to the keys of `GROUP`. The factory
+ * receives the key it is being built for, so the config may vary per process type.
  *
  * The call is curried because `GROUP` must be given explicitly while `Lookup` must be
  * inferred from the config literal; TypeScript does not support partial inference.
  */
 function builder<GROUP extends Model.ProcessMapper>() {
   type Keys = Model.ProcessTypeKeys<GROUP>;
-  type GroupFactory<Lookup extends Record<string, unknown>> = () => ProcessConfigWithoutType<
-    GROUP,
-    Keys,
-    Lookup
-  >;
-  type KeyFactory<
+  type GroupFactory<Lookup extends Record<string, unknown>> = (
+    processType: Keys,
+  ) => ProcessConfigWithoutType<GROUP, Keys, Lookup>;
+  type KeyConfig<
     Key extends Keys,
     Lookup extends Record<string, unknown>,
-  > = () => ProcessConfigWithoutType<GROUP, Key, Lookup>;
+  > = ProcessConfigWithoutType<GROUP, Key, Lookup>;
 
   return <Lookup extends Record<string, unknown> = {}>(factory: GroupFactory<Lookup>) =>
     <Key extends Keys>(processType: Key): ProcessConfig<GROUP, Key, Lookup> =>
       // The factory is written against the whole group; narrowing it to a single key is safe
       // for callback parameters (contravariant) and reflects the author's intent for results.
-      createConfig<GROUP, Key, Lookup>(processType, factory as KeyFactory<Key, Lookup>);
+      createConfig<GROUP, Key, Lookup>(
+        processType,
+        () => factory(processType) as KeyConfig<Key, Lookup>,
+      );
 }
 
 export function processes<MAPPER extends Model.ProcessMapper>() {
