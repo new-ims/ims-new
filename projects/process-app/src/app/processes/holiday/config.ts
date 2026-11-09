@@ -5,7 +5,7 @@ import { FakeService } from '../../services/fake.service';
 import { inject } from '@angular/core';
 import { FakeModels } from '@fake-models';
 import { updateMany, updateManyIf } from '@common/utils';
-import { onEnterHolidayStep, onEnterHolidayStep2 } from './services/entires';
+import { onEnterHolidayStep } from './services/entires';
 
 const holidayBuilder = fakes.builder<FakeModels.AnyHolidayProcess>()((processType) => ({
   processName: processType === 'holiday' ? 'Holiday Process' : 'Holiday Continuation Process',
@@ -81,7 +81,7 @@ const holidayBuilder = fakes.builder<FakeModels.AnyHolidayProcess>()((processTyp
         'vacation type must be adventure',
       ],
       requiredLookups: ['days', 'primes'],
-      onEnter: async (process) => onEnterHolidayStep2(process),
+      onEnter: async (process) => onEnterHolidayStep(process),
     },
     {
       name: 'APPROVAL_AUTHORITY',
