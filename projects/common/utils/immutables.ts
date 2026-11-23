@@ -2,7 +2,6 @@ import { produce, Draft } from "immer";
 
 export type Maybe<T> = T | null | undefined;
 
-
 export type ArrayUpdater<T> = Partial<T> | ((item: T, index: number) => Partial<T>);
 export type CertainArrayUpdater<T> = (item: T, index: number) => Partial<T>;
 
@@ -78,6 +77,19 @@ function applyObjectPredicate<T>(item: T, maybePredicate: Maybe<ObjectPredicate<
     return predicate(item);
 }
 
+export function update<T>(item: T, maybeUpdater: Maybe<ObjectUpdater<T>>): T {
+    return applyObjectUpdater(item, maybeUpdater);
+}
+
+export function updateIf<T>(
+    item: T, predicate: Maybe<ObjectPredicate<T>>, 
+    updater: Maybe<ObjectUpdater<T>>,
+    elseUpdater?: Maybe<ObjectUpdater<T>>
+): T {
+    return applyObjectPredicate(item, predicate)
+        ? applyObjectUpdater(item, updater)
+        : (elseUpdater ? applyObjectUpdater(item, elseUpdater) : item);
+}
 
 export function updateMany<T>(array: T[], maybeUpdater: Maybe<ArrayUpdater<T>>): T[] {
     return array.map((item, index) => applyArrayUpdater(item, index, maybeUpdater));
