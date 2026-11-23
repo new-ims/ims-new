@@ -1,4 +1,4 @@
-import { updateManyIf } from '@common/utils';
+import { reduceArray, reduceObject, updateManyIf } from '@common/utils';
 import { FakeModels } from '@fake-models';
 import { PartialStateUpdater } from '@ngrx/signals';
 
@@ -12,6 +12,23 @@ export function setClaimStartEnd(maxDays: number, newStart: string, newEnd: stri
             })
         }))
     })
+}
+
+export function setClaimStatus(wasStarted: boolean): PartialStateUpdater<FakeModels.AnyHolidayProcess> {
+    return process => ({
+        policies: updateManyIf(process.policies, policy => policy.claims.some(claim => claim.wasStarted), policy => ({
+            claims: updateManyIf(policy.claims, claim => claim.wasStarted, {
+                wasStarted
+            })
+        }))
+    })
+}
+
+export function changeSomeFields(): PartialStateUpdater<FakeModels.AnyHolidayProcess> {
+    return reduceObject(
+        setClaimStartEnd(5, '2024-01-01', '2024-01-05'),
+        setClaimStatus(true)
+    );
 }
 
 
